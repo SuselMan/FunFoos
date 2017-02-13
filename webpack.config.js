@@ -6,12 +6,13 @@
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
-    entry: [
-        './front/main'
-    ],
+    entry: {
+        front: "./front/main",
+        back: "./back/app"
+    },
     output: {
-        path: path.join(__dirname, 'back/public'),
-        filename: 'app.js'
+        path: path.join(__dirname, 'build'),
+        filename: '[name].js'
     },
     module: {
         loaders: [

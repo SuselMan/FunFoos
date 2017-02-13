@@ -1,1 +1,1 @@
-# Node.js + SPA test
+# Webpack + Node.js + MongoDB + Backbone + Marionette

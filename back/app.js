@@ -2,49 +2,35 @@
  * Created by pavluhin on 10.11.2016.
  */
 
-var app = require('express')();
-var express =require('express');
-var http = require('http').Server(app);
-var io = require('socket.io').listen(8888);
+import express from 'express';
+import mongoose from "mongoose";
 
 
-
-app.use(express.static(__dirname + '/public'));
-app.listen(8080);
-
-var socketsArr=[];
-var idArr=[];
-var point={x:0,y:0}
-io.on('connection', function(socket){
-    console.log('a user connected');
-    socketsArr.push(socket);
-    var ID=socket.id;
-    idArr.push(ID);
-    point.x+=10;
-    for(var i=0;i<socketsArr.length;i++){
-        socketsArr[i].json.send({'event': 'connected', 'name': idArr,'point':point});
-    }
-    io.on('alive', function (name, fn) {
-
-    });
+const app = express();
+const Schema = mongoose.Schema;
+const NoteSchema = new Schema({
+    title     : { type: String },
+    text      : { type: String, required: true },
+    color     : { type: String },
+    createdAt : { type: Date }
 });
 
-io.on('disconnect', function (socket) {
-    io.emit('user disconnected');
+const Note = mongoose.model('Note', NoteSchema);
+
+mongoose.connect('mongodb://localhost/test');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+   console.log('Mongo is connected');
 });
 
 
-// var http = require("http");
-// var express = require('express');
-// var app = express();
-// var io = require('socket.io').listen(8888);
-//
-// app.use(express.static(__dirname + '/public'));
-// app.listen(8080);
-//
-//
-// io.sockets.on('connection', function (socket) {
-//     var ID = (socket.id).toString().substr(0, 5);
-//     var time = (new Date).toLocaleTimeString();
-//     socket.json.send({'event': 'connected', 'name': ID, 'time': time});
-// });
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+const server = app.listen(8080, () => {
+    console.log(`Server is up and running on port 8080`);
+});
+
