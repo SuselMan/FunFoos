@@ -3,34 +3,38 @@
  */
 
 import express from 'express';
-import mongoose from "mongoose";
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
+import { serverPort } from './etc/config.json';
 
+import * as db from './utils/DataBaseUtils';
+
+// Initialization of express application
 const app = express();
-const Schema = mongoose.Schema;
-const NoteSchema = new Schema({
-    title     : { type: String },
-    text      : { type: String, required: true },
-    color     : { type: String },
-    createdAt : { type: Date }
+
+// Set up connection of database
+db.setUpConnection();
+
+// Using bodyParser middleware
+app.use( bodyParser.json() );
+
+// Allow requests from any origin
+app.use(cors({ origin: '*' }));
+
+// RESTful api handlers
+app.get('/notes', (req, res) => {
+    db.listNotes().then(data => res.send(data));
 });
 
-const Note = mongoose.model('Note', NoteSchema);
-
-mongoose.connect('mongodb://localhost/test');
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-   console.log('Mongo is connected');
+app.post('/notes', (req, res) => {
+    db.createNote(req.body).then(data => res.send(data));
 });
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.delete('/notes/:id', (req, res) => {
+    db.deleteNote(req.params.id).then(data => res.send(data));
 });
 
-const server = app.listen(8080, () => {
-    console.log(`Server is up and running on port 8080`);
+const server = app.listen(serverPort, function() {
+    console.log(`Server is up and running on port ${serverPort}`);
 });
-
