@@ -11,4 +11,4 @@ const PlayerSchema = new Schema({
     team  : { type: Number}
 });
 
-const Player = mongoose.model('Note', PlayerSchema);
+const Player = mongoose.model('Player', PlayerSchema);

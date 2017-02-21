@@ -12,4 +12,4 @@ const MeetingSchema = new Schema({
     teams : [Number]
 });
 
-const Meeting = mongoose.model('Note', MeetingSchema);
+const Meeting = mongoose.model('Meeting', MeetingSchema);

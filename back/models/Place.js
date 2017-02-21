@@ -13,4 +13,4 @@ const PlaceSchema = new Schema({
     meetings : [Number]
 });
 
-const Place = mongoose.model('Note', PlaceSchema)
+const Place = mongoose.model('Place', PlaceSchema)
