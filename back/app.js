@@ -46,6 +46,25 @@ app.post('/login', (req, res) => {
         })
 });
 
+app.post('/adduser', (req, res) => {
+    db.createUser(req.body)
+        .then(function(result){
+            console.log("User created")
+        })
+        .catch(function(err){
+            if (err.toJSON().code == 11000){
+                res.status(500).send("This email already exist")
+            }
+        })
+});
+
+app.post('/logout', (req, res) => {
+    if (req.session.user) {
+        delete req.session.user;
+        res.redirect('/')
+    }
+});
+
 app.get('/teams', (req, res) => {
     db.listTeams().then(data => res.send(data));
 });
