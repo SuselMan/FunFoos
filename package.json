@@ -48,7 +48,7 @@
     "body-parser": "*",
     "bootstrap": "latest",
     "connect-mongo": "^1.3.2",
-    "cors": "*",
+    "cors": "^2.8.1",
     "crypto": "0.0.3",
     "express": "^4.14.0",
     "express-session": "^1.15.1",

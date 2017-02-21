@@ -7,12 +7,15 @@ import config from '../etc/config.json';
 import '../models/Team';
 import '../models/User'
 import crypto from 'crypto';
+import session from 'express-session';
+import connectMongo from 'connect-mongo';
+
 
 const Team = mongoose.model('Team');
 const User = mongoose.model('User');
+const MongoStore = connectMongo(session);
 
-
-export function setUpConnection() {
+export function setUpConnection(app) {
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 }
 
