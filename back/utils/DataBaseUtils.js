@@ -3,32 +3,27 @@
  */
 
 import mongoose from "mongoose";
-
 import config from '../etc/config.json';
+import '../models/Team';
 
-import '../models/Note';
-
-const Note = mongoose.model('Note');
+const Team = mongoose.model('Team');
 
 export function setUpConnection() {
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 }
 
-export function listNotes(id) {
-    return Note.find();
+export function listTeams(id) {
+    return Team.find();
 }
 
-export function createNote(data) {
-    const note = new Note({
-        title: data.title,
-        text: data.text,
-        color: data.color,
-        createdAt: new Date()
+export function createTeam(data) {
+    const team = new Team({
+        name: data.name
     });
 
-    return note.save();
+    return team.save();
 }
 
-export function deleteNote(id) {
-    return Note.findById(id).remove();
+export function deleteTeam(id) {
+    return Team.findById(id).remove();
 }
