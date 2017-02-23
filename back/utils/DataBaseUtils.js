@@ -4,19 +4,15 @@
 
 import mongoose from "mongoose";
 import config from '../etc/config.json';
+import crypto from 'crypto';
 import '../models/Team';
 import '../models/User'
-import crypto from 'crypto';
-import session from 'express-session';
-import connectMongo from 'connect-mongo';
-
 
 const Team = mongoose.model('Team');
 const User = mongoose.model('User');
-const MongoStore = connectMongo(session);
 
-export function setUpConnection(app) {
-    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+export function setUpConnection() {
+    return mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
 }
 
 export function listTeams(id) {
@@ -36,19 +32,16 @@ export function deleteTeam(id) {
 }
 
 export function createUser(userData){
-    const user = new Team({
+    console.log(userData);
+    var user = {
         name: userData.name,
         email: userData.email,
         password: hash(userData.password)
-    });
-    return user.save();
+    };
+    return new User(user).save()
 }
 
-export function getUser(id) {
-    return User.findOne(id)
-}
-
-export function checkUser(userData) {
+export function checkUser(userData){
     return User
         .findOne({email: userData.email})
         .then(function(doc){
@@ -61,7 +54,11 @@ export function checkUser(userData) {
         })
 }
 
-function hash(text) {
+export function getUser (userData){
+    return User.findOne(id)
+}
+
+function hash(text){
     return crypto.createHash('sha1')
         .update(text).digest('base64')
 }
