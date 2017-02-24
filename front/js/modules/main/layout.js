@@ -6,13 +6,14 @@
  */
 "use strict";
 
-import Marionette from 'backbone.marionette';
 import Backbone from 'backbone';
+import Marionette from 'backbone.marionette';
+
 import SignUp from './signup'
 
 
-const Layout = Marionette.LayoutView.extend({
-    template: require('templates/main/layout.hbs'),
+var Layout = Marionette.View.extend({
+    template: require('../../../templates/main/layout.hbs'),
 
     regions: {
         content: '.js-content',
@@ -29,5 +30,6 @@ const Layout = Marionette.LayoutView.extend({
     }
 
 });
+
 
 export default Layout;

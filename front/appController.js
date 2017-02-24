@@ -14,17 +14,14 @@ const channelGlobal = Radio.channel('global');
 const appController = {
 
     index: function() {
+        console.log('index');
         channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
     },
 
     mainWindow: function(id) {
         let module = MainModule;
-
-        if (!App.activeModule) {
-            App.activeModule = module;
-            App.activeModule.start();
-        }
-
+        module.start();
+        console.log('module.start');
         channelGlobal.request('select:nav:item', 'MainWindow');
         channelGlobal.request('hide:app:loader');
     },

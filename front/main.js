@@ -11,8 +11,9 @@ import _ from 'underscore';
 import App from './app';
 import AppRouter from './appRouter';
 import AppController from './appController';
+import Radio from 'backbone.radio';
 
-console.log('App',App);
+const channelGlobal = Radio.channel('global');
 
 App.on('start', function() {
 
@@ -23,7 +24,7 @@ App.on('start', function() {
     App.Router = new AppRouter({
         controller: AppController
     });
-
+    channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
 });
 
 App.start();
