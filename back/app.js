@@ -29,6 +29,8 @@ app.use(session({
         url: `mongodb://${config.db.host}:${config.db.port}/${config.db.sessions}`
     })
 }));
+console.log('__dirname',__dirname);
+app.use(express.static('./build'));
 
 app.get('/api/teams', (req, res) => {
     db.listTeams().then(data => res.send(data));
@@ -81,6 +83,13 @@ app.post('/api/logout', (req, res) => {
         res.redirect('/signup')
     }
 });
+
+
+app.get('*', function(req, res) {
+    res.sendfile('./build/index.html'); // load our public/index.html file
+});
+
+
 
 const server = app.listen(config.serverPort, function() {
     console.log(`Server is up and running on port ${config.serverPort}`);

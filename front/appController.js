@@ -7,12 +7,26 @@
 import App from './app';
 import Radio from 'backbone.radio';
 
-var channelGlobal = Radio.channel('global')
+import MainModule from './js/modules/main/module';
 
-var appController = {
+const channelGlobal = Radio.channel('global');
+
+const appController = {
 
     index: function() {
-        channelGlobal.request('navigate', 'teams', {trigger: true, replace: true});
+        channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
+    },
+
+    mainWindow: function(id) {
+        let module = MainModule;
+
+        if (!App.activeModule) {
+            App.activeModule = module;
+            App.activeModule.start();
+        }
+
+        channelGlobal.request('select:nav:item', 'MainWindow');
+        channelGlobal.request('hide:app:loader');
     },
 
     playersWindow: function(id) {

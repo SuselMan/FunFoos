@@ -34,10 +34,18 @@ module.exports = {
                 loader : 'style!css!sass'
             },
             {
+                test: /\.hbs$/,
+                exclude: /node_modules/,
+                loader: 'handlebars-loader'
+            },
+            {
                 test   : /\.(jpg|png|gif)$/,
                 include: /images/,
                 loader : 'url'
             }
         ]
+    },
+    node: {
+        fs: 'empty'
     }
 }

@@ -8,7 +8,6 @@ import Backbone from 'backbone';
 import Marionette  from 'backbone.marionette';
 import Radio from 'backbone.radio';
 
-var socket = io.connect('http://localhost:8888');
 var channelGlobal = Radio.channel('global');
 
 
