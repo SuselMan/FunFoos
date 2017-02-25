@@ -47,7 +47,7 @@ app.delete('/api/teams/:id', (req, res) => {
 
 app.post('/api/login', (req, res, next) => {
     if (req.session.user) {
-        return res.redirect('/');
+        //return res.redirect('/');
     }
     db.checkUser(req.body)
         .then((user) => {

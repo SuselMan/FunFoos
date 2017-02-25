@@ -11,23 +11,30 @@ body{
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: snow;
+  background: rgb(255, 251, 231);
+  background: -moz-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
+  background: -webkit-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
+  background: -o-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
+  background: -ms-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
+  background: linear-gradient(180deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
+
 }
 .sign-up{
-  color: white;
+  color: #fffbe7;
   background-color: black;
-  height:500px;
+  height:300px;
   background-image: url(../images/signup_bg.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: 50% bottom;
   position: relative;
   .text-block{
+    color: #fffbe7;
     width: 500px;
     text-align: center;
     position: relative;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-80%);
     top: 50%;
     font-size: 19px;
   }
@@ -39,11 +46,18 @@ body{
   transform: translateX(-50%);
   input{
     background-color:rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.6);
-    color:white;
+    border: 1px solid rgba(255,251,231,0.6);
+    color:#fffbe7;
   }
   button{
-    background-color: #73d8ff;
-    border-color: #73d8ff;
+    color: #fffbe7;
+    border-color: transparent;
+    border: 1px solid #687e62;
+    background: rgb(171,254,170);
+    background: -moz-linear-gradient(top,  rgba(171,254,170,1) 0%, rgba(150,254,173,1) 29%, rgba(117,254,176,1) 64%, rgba(80,254,180,1) 93%, rgba(65,254,181,1) 100%);
+    background: -webkit-linear-gradient(top,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
+    background: linear-gradient(to bottom,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#abfeaa', endColorstr='#41feb5',GradientType=0 );
+
   }
 }
