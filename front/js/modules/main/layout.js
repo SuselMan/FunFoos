@@ -1,9 +1,7 @@
 /**
  * Created by ilya on 24.02.2017.
  */
-/**
- * Created by ilya on 24.02.2017.
- */
+
 "use strict";
 
 import Backbone from 'backbone';
@@ -14,6 +12,8 @@ import SignUp from './signup'
 
 var Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
+    className: 'container-fluid sign-up',
+    tagName: 'div',
 
     regions: {
         content: '.js-content',
