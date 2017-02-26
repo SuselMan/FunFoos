@@ -3,7 +3,18 @@
 import Backbone from 'backbone';
 
 const User = Backbone.Model.extend({
-    urlRoot: '/api/signup',
+    urlRoot: function(){
+        console.log('options',this.options);
+        if(this.options.login){
+            return '/api/login'
+        }else{
+            return '/api/signup'
+        }
+    },
+    initialize: function(attrs,options){
+        console.log('model huyodel',options);
+        this.options = options;
+    },
     defaults: {
         "email": "",
         "password": "",

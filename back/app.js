@@ -52,8 +52,9 @@ app.post('/api/login', (req, res, next) => {
     db.checkUser(req.body)
         .then((user) => {
             if (user) {
-                req.session.user = {id: user._id, name: user.name}
-                res.redirect('/signup')
+                req.session.user = {id: user._id, name: user.name};
+                res.status(200).send(user);
+                //res.redirect('/signup')
             } else {
                 return next(error)
             }

@@ -8,22 +8,30 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import User from '../entities/user';
 import ModelBinder from 'backbone.modelbinder';
+import LoginView from './login';
+import Radio from 'backbone.radio';
 
-import SignUp from './signup'
+let channelGlobal = Radio.channel('global');
 
 
-var Layout = Marionette.View.extend({
+let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
     className: 'container-fluid sign-up',
     tagName: 'div',
     model: new User(),
 
+    regions: {
+        loginRegion: '.js-login-region'
+    },
 
     ui: {
-        saveBtn: ".js-save"
+        saveBtn: ".js-save",
+        loginBtn: ".js-login"
     },
+
     events: {
-        'click @ui.saveBtn': 'save'
+        'click @ui.saveBtn': 'save',
+        'click @ui.loginBtn': 'login'
     },
 
     initialize: function (options) {
@@ -34,11 +42,19 @@ var Layout = Marionette.View.extend({
         console.log('this',this);
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
+        channelGlobal.on("close:login", this.closeLogin.bind(this));
+    },
+
+    closeLogin: function(){
+        this.getRegion('loginRegion').empty();
+    },
+
+    login: function(){
+        this.showChildView('loginRegion', new LoginView());
     },
 
     save: function () {
-        this.model.save();
-        channelGlobal.trigger("saved:settings", this.model);
+        this.model.save()
     }
 
 

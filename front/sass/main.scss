@@ -12,17 +12,12 @@ body{
   width: 100%;
   height: 100%;
   background: rgb(255, 251, 231);
-  background: -moz-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
-  background: -webkit-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
-  background: -o-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
-  background: -ms-linear-gradient(90deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
-  background: linear-gradient(180deg, rgb(255, 251, 231) 30%, rgb(244, 253, 255) 100%);
 
 }
 .sign-up{
   color: #fffbe7;
   background-color: black;
-  height:300px;
+  height:500px;
   background-image: url(../images/signup_bg.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
@@ -38,7 +33,48 @@ body{
     top: 50%;
     font-size: 19px;
   }
+  .login-button{
+    color: #fffbe7;
+    background-color: transparent;
+    border: none;
+    right: 10px;
+    top: 10px;
+    position: absolute;
+    &:hover{
+      background-color: transparent;
+      border: none;
+    }
+  }
 }
+.login-form{
+  z-index: 10000;
+  width: 350px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  background: rgb(255, 251, 231);
+  input{
+    border-radius: 0;
+    background: rgb(255, 251, 231);
+    margin: 10px;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+
+  }
+  .login{
+    border: none;
+    margin: 10px;
+    color: #fffbe7;
+    border-color: transparent;
+    background: rgb(171,254,170);
+    background: -moz-linear-gradient(top,  rgba(171,254,170,1) 0%, rgba(150,254,173,1) 29%, rgba(117,254,176,1) 64%, rgba(80,254,180,1) 93%, rgba(65,254,181,1) 100%);
+    background: -webkit-linear-gradient(top,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
+    background: linear-gradient(to bottom,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#abfeaa', endColorstr='#41feb5',GradientType=0 );
+
+  }
+}
+
 .header-form{
   bottom: 20px;
   position: absolute;
