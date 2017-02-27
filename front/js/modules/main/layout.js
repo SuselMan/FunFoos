@@ -43,10 +43,16 @@ let Layout = Marionette.View.extend({
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
         channelGlobal.on("close:login", this.closeLogin.bind(this));
+        channelGlobal.on("done:login", this.doneLogin.bind(this));
     },
 
     closeLogin: function(){
         this.getRegion('loginRegion').empty();
+    },
+
+    doneLogin: function(){
+        this.closeLogin();
+        this.el.classList.add('done');
     },
 
     login: function(){

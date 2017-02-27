@@ -4,8 +4,7 @@ import Backbone from 'backbone';
 
 const User = Backbone.Model.extend({
     urlRoot: function(){
-        console.log('options',this.options);
-        if(this.options.login){
+        if(this.options && this.options.login){
             return '/api/login'
         }else{
             return '/api/signup'

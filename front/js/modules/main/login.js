@@ -40,11 +40,11 @@ let Login = Marionette.View.extend({
 
     save: function () {
         this.model.save()
-            .then(function(result){
-            console.log('it works');
-        })
-            .catch(function(e){
-                console.log('err',e);
+            .then(function (result) {
+                channelGlobal.trigger("done:login", this.model);
+            })
+            .catch(function (e) {
+                console.log('err', e);
             })
         console.log('save');
 
@@ -53,6 +53,7 @@ let Login = Marionette.View.extend({
         channelGlobal.trigger("close:login", this.model);
         console.log('close');
     }
+
 
 
 });
