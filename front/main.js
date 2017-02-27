@@ -16,15 +16,14 @@ import Radio from 'backbone.radio';
 const channelGlobal = Radio.channel('global');
 
 App.on('start', function() {
-
-    if (Backbone.history){
-        Backbone.history.start({pushState: true});
-    };
-
     App.Router = new AppRouter({
         controller: AppController
     });
-    channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
+    Backbone.history.start({ pushState:true });
+    App.navigate(App.getCurrentRoute(), {trigger: true, replace: true});
+
 });
 
-App.start();
+window.onload = function() {
+    App.start();
+};
