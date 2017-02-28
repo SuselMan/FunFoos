@@ -37,6 +37,36 @@ const TeamsView = Marionette.CollectionView.extend({
 
 const NewTeam = Marionette.View.extend({
     template: require('../../../templates/teams/newTeam.hbs'),
+    ui:{
+        saveBtn: ".js-addTeamBtn",
+    },
+
+    events: {
+        'click @ui.saveBtn': 'save'
+    },
+
+    initialize: function () {
+        this.model= new this.collection.model();
+        console.log('Model', this.model)
+    },
+
+    onRender:function(){
+        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+        new ModelBinder().bind(this.model, this.el, bindings);
+    },
+
+    save: function () {
+        this.collection.add(this.model);
+        this.model.save()
+            .then(function (result) {
+                console.log('Team Added!');
+            })
+            .catch(function (e) {
+                console.log('err', e);
+            })
+        console.log('save');
+
+    },
 });
 
 const TeamsLayout = Marionette.View.extend({
@@ -58,7 +88,7 @@ const TeamsLayout = Marionette.View.extend({
                     collection: this.collection
                 }));
                 this.showChildView('addTeamRegion', new NewTeam({
-
+                    collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
