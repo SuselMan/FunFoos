@@ -11,7 +11,7 @@ body{
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgb(255, 251, 231);
+  background: rgb(255, 255, 255);
 
 }
 
@@ -109,4 +109,12 @@ body{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#abfeaa', endColorstr='#41feb5',GradientType=0 );
 
   }
+}
+
+.preloader{
+  background-image: url(../images/preloader.gif);
+  width:32px;
+  height:32px;
+  background-size: 50%;
+  background-repeat: no-repeat;
 }

@@ -15,7 +15,8 @@ let channelGlobal = Radio.channel('global');
 
 const TeamView = Marionette.View.extend({
     template: require('../../../templates/teams/team.hbs'),
-    className: '',
+    tagName:'li',
+    className: 'list-group-item',
     onRender:function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
@@ -24,7 +25,8 @@ const TeamView = Marionette.View.extend({
 
 const EmptyView = Marionette.View.extend({
     template: require('../../../templates/teams/empty.hbs'),
-    className: ''
+    tagName:'li',
+    className: 'list-group-item',
 });
 
 const TeamsView = Marionette.CompositeView.extend({

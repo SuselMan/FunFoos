@@ -37,6 +37,7 @@ let Layout = Marionette.View.extend({
     },
 
     start:function(view){
+        this.minimizeHeader();
         if(view == "teams"){
             console.log('this',this);
             this.showChildView('contentRegion', new TeamsView());
@@ -50,13 +51,17 @@ let Layout = Marionette.View.extend({
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
     },
 
+    minimizeHeader:function () {
+        this.el.querySelector('.sign-up').classList.add('done');
+    },
+
     closeSignin: function(){
         this.getRegion('signinRegion').empty();
     },
 
     doneSignin: function(){
         this.closeSignin();
-        this.el.classList.add('done');
+        this.minimizeHeader();
     },
 
     showSignin: function(){
