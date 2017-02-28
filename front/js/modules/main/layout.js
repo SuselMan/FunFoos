@@ -8,7 +8,8 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import User from '../entities/user';
 import ModelBinder from 'backbone.modelbinder';
-import LoginView from './login';
+import SigninView from '../login/signin';
+import SignupView from '../login/signup';
 import Radio from 'backbone.radio';
 
 let channelGlobal = Radio.channel('global');
@@ -18,49 +19,43 @@ let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
     className: 'container-fluid sign-up',
     tagName: 'div',
-    model: new User(),
 
     regions: {
-        loginRegion: '.js-login-region'
+        signinRegion: '.js-signinRegion',
+        signupRegion: '.js-signupRegion'
     },
 
     ui: {
-        saveBtn: ".js-save",
         loginBtn: ".js-login"
     },
 
     events: {
-        'click @ui.saveBtn': 'save',
-        'click @ui.loginBtn': 'login'
-    },
-
-    initialize: function (options) {
-
+        'click @ui.loginBtn': 'showSignin'
     },
 
     onRender: function() {
-        console.log('this',this);
-        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
-        new ModelBinder().bind(this.model, this.el, bindings);
-        channelGlobal.on("close:login", this.closeLogin.bind(this));
-        channelGlobal.on("done:login", this.doneLogin.bind(this));
+        this.showChildView('signupRegion', new SignupView());
+        channelGlobal.on("close:signin", this.closeSignin.bind(this));
+        channelGlobal.on("done:signin", this.doneSignin.bind(this));
+        channelGlobal.on("done:signup", this.doneSignup.bind(this));
     },
 
-    closeLogin: function(){
-        this.getRegion('loginRegion').empty();
+    closeSignin: function(){
+        this.getRegion('signinRegion').empty();
     },
 
-    doneLogin: function(){
-        this.closeLogin();
+    doneSignin: function(){
+        this.closeSignin();
         this.el.classList.add('done');
     },
 
-    login: function(){
-        this.showChildView('loginRegion', new LoginView());
+    showSignin: function(){
+        this.showChildView('signinRegion', new SigninView());
     },
 
-    save: function () {
-        this.model.save()
+    doneSignup: function(){
+        this.closeSignin();
+        this.el.classList.add('done');
     }
 
 

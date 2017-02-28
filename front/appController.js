@@ -14,26 +14,24 @@ const channelGlobal = Radio.channel('global');
 const appController = {
 
     index: function() {
-        console.log('index');
-        channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
-    },
-
-    mainWindow: function(id) {
-        let module = MainModule;
-        module.start();
-        console.log('module.start');
-        channelGlobal.request('select:nav:item', 'MainWindow');
-        channelGlobal.request('hide:app:loader');
+        this.checkMainModule();
+        //channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
     },
 
     playersWindow: function(id) {
-      console.log('players in controller')
+        this.checkMainModule();
     },
 
     teamsWindow: function(id) {
-        console.log('teams in controller')
-    }
+        this.checkMainModule();
+    },
 
+    checkMainModule:function(){
+        if(!App.mainModule){
+            App.mainModule = MainModule;
+            App.mainModule.start();
+        }
+    }
 };
 
 export default appController;

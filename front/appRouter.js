@@ -8,7 +8,6 @@ import Marionette from 'backbone.marionette';
 
 var routes = {
     'players(/)': 'playersWindow',
-    'main(/)': 'mainWindow',
     'teams(/)': 'teamsWindow',
     '(/)': 'index'
 };
