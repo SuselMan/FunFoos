@@ -38,7 +38,7 @@ app.get('/api/teams', (req, res) => {
 
 app.post('/api/teams', (req, res) => {
     console.log('req',req.body);
-    db.createTeams(req.body).then(data => res.send(data));
+    db.createTeam(req.body).then(data => res.send(data));
 });
 
 app.delete('/api/teams/:id', (req, res) => {

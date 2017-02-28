@@ -24,6 +24,8 @@ const appController = {
 
     teamsWindow: function(id) {
         this.checkMainModule();
+        console.log('App.mainModule', App.mainModule);
+        App.mainModule.setView('teams');
     },
 
     checkMainModule:function(){

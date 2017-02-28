@@ -9,20 +9,28 @@ import App from '../../../app';
 
 import Layout from './layout';
 
+
 class MainWindow {
     constructor(name) {
         this.name = name;
+        this.layout = new Layout();
     }
 
     start() {
+        console.log('start module');
         try{
-        App.showView(new Layout());
+        App.showView(this.layout);
         }
         catch(e){
             console.log('e',e);
         }
        // console.log('layout', new Layout());
        // Region.show(Layout);
+    }
+
+    setView(view){
+        this.layout.start(view);
+        console.log('setView module');
     }
 }
 

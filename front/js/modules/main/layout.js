@@ -8,21 +8,24 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import User from '../entities/user';
 import ModelBinder from 'backbone.modelbinder';
+import Radio from 'backbone.radio';
+
 import SigninView from '../login/signin';
 import SignupView from '../login/signup';
-import Radio from 'backbone.radio';
+import TeamsView from '../teams/teams';
 
 let channelGlobal = Radio.channel('global');
 
 
 let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
-    className: 'container-fluid sign-up',
+    className: 'app',
     tagName: 'div',
 
     regions: {
         signinRegion: '.js-signinRegion',
-        signupRegion: '.js-signupRegion'
+        signupRegion: '.js-signupRegion',
+        contentRegion: '.js-contentRegion'
     },
 
     ui: {
@@ -31,6 +34,13 @@ let Layout = Marionette.View.extend({
 
     events: {
         'click @ui.loginBtn': 'showSignin'
+    },
+
+    start:function(view){
+        if(view == "teams"){
+            console.log('this',this);
+            this.showChildView('contentRegion', new TeamsView());
+        }
     },
 
     onRender: function() {
