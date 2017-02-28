@@ -9,6 +9,7 @@ import Marionette from 'backbone.marionette';
 import Teams from '../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Preloader from '../../behaviors/preloader';
 
 let channelGlobal = Radio.channel('global');
 
@@ -36,12 +37,14 @@ const TeamsView = Marionette.CompositeView.extend({
     childView: TeamView,
     emptyView: EmptyView,
     childViewContainer: ".js-teams",
+    behaviors: [Preloader],
 
     initialize:function(){
         this.collection.fetch()
             .then(function(){
                 console.log('done');
                 this.render();
+                this.trigger('load:comlete');
             }.bind(this))
             .catch(function(){
                 console.log('fuck');
