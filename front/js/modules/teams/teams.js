@@ -30,32 +30,42 @@ const EmptyView = Marionette.View.extend({
     className: 'list-group-item',
 });
 
-const TeamsView = Marionette.CompositeView.extend({
-    template: require('../../../templates/teams/teams.hbs'),
-    className: 'myclass',
-    collection: new Teams(),
+const TeamsView = Marionette.CollectionView.extend({
     childView: TeamView,
-    emptyView: EmptyView,
-    childViewContainer: ".js-teams",
-    behaviors: [Preloader],
+    emptyView: EmptyView
+});
 
-    initialize:function(){
+const NewTeam = Marionette.View.extend({
+    template: require('../../../templates/teams/newTeam.hbs'),
+});
+
+const TeamsLayout = Marionette.View.extend({
+    template: require('../../../templates/teams/teams.hbs'),
+    collection: new Teams(),
+    behaviors: [Preloader],
+    regions: {
+        listRegion: {
+            el: '.js-listRegion'
+        },
+        addTeamRegion: '.js-newTeamRegion'
+    },
+
+    onRender:function(){
         this.collection.fetch()
             .then(function(){
                 console.log('done');
-                this.render();
-                this.trigger('load:comlete');
-            }.bind(this))
-            .catch(function(){
-                console.log('fuck');
-            })
-    },
+                this.showChildView('listRegion', new TeamsView({
+                    collection: this.collection
+                }));
+                this.showChildView('addTeamRegion', new NewTeam({
 
-    onRender: function() {
-        console.log('render');
-        console.log('coll',this.collection);
+                }));
+                this.triggerMethod('fetch:complete');
+            }.bind(this))
+            .catch(function(e){
+                console.log('fuck',e);
+            })
     }
 });
 
-
-export default TeamsView;
+export default TeamsLayout;
