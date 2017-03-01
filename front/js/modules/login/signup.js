@@ -6,7 +6,7 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import User from '../entities/user';
+import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 

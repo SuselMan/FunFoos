@@ -20,11 +20,11 @@ const appController = {
 
     playersWindow: function(id) {
         this.checkMainModule();
+        App.mainModule.setView('players');
     },
 
     teamsWindow: function(id) {
         this.checkMainModule();
-        console.log('App.mainModule', App.mainModule);
         App.mainModule.setView('teams');
     },
 

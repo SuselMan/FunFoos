@@ -1,4 +1,8 @@
 /**
+ * Created by pavluhin on 01.03.2017.
+ */
+
+/**
  * Created by pavluhin on 28.02.2017.
  */
 
@@ -6,7 +10,7 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
+import Players from '../../entities/players';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
@@ -14,8 +18,8 @@ import Preloader from '../../behaviors/preloader';
 let channelGlobal = Radio.channel('global');
 
 
-const TeamView = Marionette.View.extend({
-    template: require('../../../templates/teams/team.hbs'),
+const PlayerView = Marionette.View.extend({
+    template: require('../../../templates/players/player.hbs'),
     tagName:'li',
     className: 'list-group-item',
     onRender:function () {
@@ -25,20 +29,20 @@ const TeamView = Marionette.View.extend({
 });
 
 const EmptyView = Marionette.View.extend({
-    template: require('../../../templates/teams/empty.hbs'),
+    template: require('../../../templates/players/empty.hbs'),
     tagName:'li',
     className: 'list-group-item',
 });
 
-const TeamsView = Marionette.CollectionView.extend({
-    childView: TeamView,
+const PlayersView = Marionette.CollectionView.extend({
+    childView: PlayerView,
     emptyView: EmptyView
 });
 
-const NewTeam = Marionette.View.extend({
-    template: require('../../../templates/teams/newTeam.hbs'),
+const NewPlayer = Marionette.View.extend({
+    template: require('../../../templates/players/newPlayer.hbs'),
     ui:{
-        saveBtn: ".js-addTeamBtn",
+        saveBtn: ".js-addPlayerBtn",
     },
 
     events: {
@@ -59,7 +63,7 @@ const NewTeam = Marionette.View.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.log('Team Added!');
+                console.log('Player Added!');
             })
             .catch(function (e) {
                 console.log('err', e);
@@ -69,25 +73,25 @@ const NewTeam = Marionette.View.extend({
     },
 });
 
-const TeamsLayout = Marionette.View.extend({
-    template: require('../../../templates/teams/teams.hbs'),
-    collection: new Teams(),
+const PlayersLayout = Marionette.View.extend({
+    template: require('../../../templates/players/players.hbs'),
+    collection: new Players(),
     behaviors: [Preloader],
     regions: {
         listRegion: {
             el: '.js-listRegion'
         },
-        addTeamRegion: '.js-newTeamRegion'
+        addPlayerRegion: '.js-newPlayerRegion'
     },
 
     onRender:function(){
         this.collection.fetch()
             .then(function(){
                 console.log('done');
-                this.showChildView('listRegion', new TeamsView({
+                this.showChildView('listRegion', new PlayersView({
                     collection: this.collection
                 }));
-                this.showChildView('addTeamRegion', new NewTeam({
+                this.showChildView('addPlayerRegion', new NewPlayer({
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
@@ -98,4 +102,4 @@ const TeamsLayout = Marionette.View.extend({
     }
 });
 
-export default TeamsLayout;
+export default PlayersLayout;

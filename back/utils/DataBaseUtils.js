@@ -6,9 +6,11 @@ import mongoose from "mongoose";
 import config from '../etc/config.json';
 import crypto from 'crypto';
 import '../models/Team';
-import '../models/User'
+import '../models/User';
+import '../models/Player';
 
 const Team = mongoose.model('Team');
+const Player = mongoose.model('Player');
 const User = mongoose.model('User');
 
 export function setUpConnection() {
@@ -23,6 +25,19 @@ export function createTeam(data) {
     const team = new Team({
         name: data.name,
         shortName: data.shortName
+    });
+
+    return team.save();
+}
+
+export function listPlayers(id) {
+    return Player.find();
+}
+
+export function createPlayer(data) {
+    const team = new Player({
+        firstName: data.firstName,
+        secondName: data.secondName
     });
 
     return team.save();

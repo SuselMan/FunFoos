@@ -45,6 +45,22 @@ app.delete('/api/teams/:id', (req, res) => {
     db.deleteTeam(req.params.id).then(data => res.send(data));
 });
 
+
+app.get('/api/players', (req, res) => {
+    db.listPlayers().then(data => res.send(data));
+});
+
+app.post('/api/players', (req, res) => {
+    console.log('req',req.body);
+    db.createPlayer(req.body).then(data => res.send(data));
+});
+
+app.delete('/api/players/:id', (req, res) => {
+    db.deletePlayer(req.params.id).then(data => res.send(data));
+});
+
+
+
 app.post('/api/login', (req, res, next) => {
     if (req.session.user) {
         //return res.redirect('/');

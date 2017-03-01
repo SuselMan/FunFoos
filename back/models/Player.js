@@ -7,7 +7,8 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const PlayerSchema = new Schema({
-    name     : { type: String,required: true },
+    firstName     : { type: String,required: true },
+    secondName     : { type: String,required: true },
     team  : { type: Number}
 });
 

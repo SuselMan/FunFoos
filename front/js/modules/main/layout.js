@@ -6,13 +6,14 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import User from '../entities/user';
+import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
 import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
+import PlayersView from '../players/players';
 
 let channelGlobal = Radio.channel('global');
 
@@ -41,6 +42,10 @@ let Layout = Marionette.View.extend({
         if(view == "teams"){
             console.log('this',this);
             this.showChildView('contentRegion', new TeamsView());
+        }
+        if(view == "players"){
+            console.log('this',this);
+            this.showChildView('contentRegion', new PlayersView());
         }
     },
 
