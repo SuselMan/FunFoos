@@ -21,7 +21,8 @@ export function listTeams(id) {
 
 export function createTeam(data) {
     const team = new Team({
-        name: data.name
+        name: data.name,
+        shortName: data.shortName
     });
 
     return team.save();
