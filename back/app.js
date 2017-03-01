@@ -60,6 +60,21 @@ app.delete('/api/players/:id', (req, res) => {
 });
 
 
+app.get('/api/seasons', (req, res) => {
+    db.listSeasons().then(data => res.send(data));
+});
+
+app.post('/api/seasons', (req, res) => {
+    console.log('req',req.body);
+    db.createSeason(req.body).then(data => res.send(data));
+});
+
+app.delete('/api/players/:id', (req, res) => {
+    db.deletePlayer(req.params.id).then(data => res.send(data));
+});
+
+
+
 
 app.post('/api/login', (req, res, next) => {
     if (req.session.user) {

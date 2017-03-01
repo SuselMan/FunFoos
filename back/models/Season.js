@@ -2,20 +2,19 @@
  * Created by pavluhin on 27.02.2017.
  */
 
-/**
- * Created by pavluhin on 21.02.2017.
- */
-
 import mongoose from "mongoose";
+import autoIncrement from 'mongoose-auto-increment';
 
 const Schema = mongoose.Schema;
 
 const SeasonSchema = new Schema({
-    startDate  : { type: Date, required: true },
-    endDate  : { type: Date, required: true },
+    number:[Number],
+    startDate  : { type: Date},
+    endDate  : { type: Date},
     teams  : [Number],
-    blockedTeams:[Number],
-    places:[Number]
+    places:[Number],
+    meetings:[Number],
+    isEnd:[Boolean]
 });
-
-const Season = mongoose.model('Team', SeasonSchema);
+SeasonSchema.plugin(autoIncrement.plugin, 'SeasonSchema');
+const Season = mongoose.model('Season', SeasonSchema);

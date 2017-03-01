@@ -14,6 +14,7 @@ import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import PlayersView from '../players/players';
+import SeasonsView from '../seasons/seasons';
 
 let channelGlobal = Radio.channel('global');
 
@@ -36,9 +37,10 @@ let Layout = Marionette.View.extend({
     events: {
         'click @ui.loginBtn': 'showSignin'
     },
-
+    //TODO: refactor this hell
     start:function(view){
         this.minimizeHeader();
+        this.getRegion('contentRegion').empty();
         if(view == "teams"){
             console.log('this',this);
             this.showChildView('contentRegion', new TeamsView());
@@ -46,6 +48,10 @@ let Layout = Marionette.View.extend({
         if(view == "players"){
             console.log('this',this);
             this.showChildView('contentRegion', new PlayersView());
+        }
+        if(view == "seasons"){
+            console.log('this',this);
+            this.showChildView('contentRegion', new SeasonsView());
         }
     },
 

@@ -2,11 +2,12 @@
  * Created by pavluhin on 01.03.2017.
  */
 
+
 "use strict";
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
+import Seasons from '../../entities/seasons';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
@@ -14,8 +15,8 @@ import Preloader from '../../behaviors/preloader';
 let channelGlobal = Radio.channel('global');
 
 
-const PlayerView = Marionette.View.extend({
-    template: require('../../../templates/players/player.hbs'),
+const SeasonView = Marionette.View.extend({
+    template: require('../../../templates/seasons/season.hbs'),
     tagName:'li',
     className: 'list-group-item',
     onRender:function () {
@@ -25,20 +26,20 @@ const PlayerView = Marionette.View.extend({
 });
 
 const EmptyView = Marionette.View.extend({
-    template: require('../../../templates/players/empty.hbs'),
+    template: require('../../../templates/seasons/empty.hbs'),
     tagName:'li',
     className: 'list-group-item',
 });
 
-const PlayersView = Marionette.CollectionView.extend({
-    childView: PlayerView,
+const SeasonsView = Marionette.CollectionView.extend({
+    childView: SeasonView,
     emptyView: EmptyView
 });
 
-const NewPlayer = Marionette.View.extend({
-    template: require('../../../templates/players/newPlayer.hbs'),
+const NewSeason = Marionette.View.extend({
+    template: require('../../../templates/seasons/newSeason.hbs'),
     ui:{
-        saveBtn: ".js-addPlayerBtn",
+        saveBtn: ".js-addSeasonBtn",
     },
 
     events: {
@@ -59,7 +60,7 @@ const NewPlayer = Marionette.View.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.log('Player Added!');
+                console.log('Season Added!');
             })
             .catch(function (e) {
                 console.log('err', e);
@@ -69,25 +70,25 @@ const NewPlayer = Marionette.View.extend({
     },
 });
 
-const PlayersLayout = Marionette.View.extend({
-    template: require('../../../templates/players/players.hbs'),
-    collection: new Players(),
+const SeasonsLayout = Marionette.View.extend({
+    template: require('../../../templates/seasons/seasons.hbs'),
+    collection: new Seasons(),
     behaviors: [Preloader],
     regions: {
         listRegion: {
             el: '.js-listRegion'
         },
-        addPlayerRegion: '.js-newPlayerRegion'
+        addSeasonRegion: '.js-newSeasonRegion'
     },
 
     onRender:function(){
         this.collection.fetch()
             .then(function(){
                 console.log('done');
-                this.showChildView('listRegion', new PlayersView({
+                this.showChildView('listRegion', new SeasonsView({
                     collection: this.collection
                 }));
-                this.showChildView('addPlayerRegion', new NewPlayer({
+                this.showChildView('addSeasonRegion', new NewSeason({
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
@@ -98,4 +99,4 @@ const PlayersLayout = Marionette.View.extend({
     }
 });
 
-export default PlayersLayout;
+export default SeasonsLayout;

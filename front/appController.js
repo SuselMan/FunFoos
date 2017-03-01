@@ -18,6 +18,11 @@ const appController = {
         //channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
     },
 
+    seasonsWindow: function(id) {
+        this.checkMainModule();
+        App.mainModule.setView('seasons');
+    },
+
     playersWindow: function(id) {
         this.checkMainModule();
         App.mainModule.setView('players');

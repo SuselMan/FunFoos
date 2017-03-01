@@ -8,11 +8,13 @@ import crypto from 'crypto';
 import '../models/Team';
 import '../models/User';
 import '../models/Player';
+import '../models/Season';
 
 const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
 const User = mongoose.model('User');
-
+const Season = mongoose.model('Season');
+//TODO:refactor
 export function setUpConnection() {
     return mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
 }
@@ -36,6 +38,19 @@ export function listPlayers(id) {
 
 export function createPlayer(data) {
     const team = new Player({
+        firstName: data.firstName,
+        secondName: data.secondName
+    });
+
+    return team.save();
+}
+
+export function listSeasons(id) {
+    return Season.find();
+}
+
+export function createSeason(data) {
+    const team = new Season({
         firstName: data.firstName,
         secondName: data.secondName
     });
