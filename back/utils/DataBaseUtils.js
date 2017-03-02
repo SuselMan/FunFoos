@@ -5,6 +5,9 @@
 import mongoose from "mongoose";
 import config from '../etc/config.json';
 import crypto from 'crypto';
+import autoIncrement from 'mongoose-autoincrement';
+mongoose.plugin(autoIncrement);
+
 import '../models/Team';
 import '../models/User';
 import '../models/Player';
@@ -14,9 +17,11 @@ const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
 const User = mongoose.model('User');
 const Season = mongoose.model('Season');
+
 //TODO:refactor
 export function setUpConnection() {
-    return mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
+    let connection= mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
+    return connection;
 }
 
 export function listTeams(id) {

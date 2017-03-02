@@ -3,7 +3,7 @@
  */
 
 import mongoose from "mongoose";
-
+import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const PlaceSchema = new Schema({
@@ -12,5 +12,6 @@ const PlaceSchema = new Schema({
     address  : { type: String},
     meetings : [Number]
 });
+PlaceSchema.plugin(autoIncrement, 'PlaceSchema');
 
 const Place = mongoose.model('Place', PlaceSchema)

@@ -3,7 +3,7 @@
  */
 
 import mongoose from "mongoose";
-
+import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const MeetingSchema = new Schema({
@@ -11,5 +11,6 @@ const MeetingSchema = new Schema({
     place  : { type: Number},
     teams : [Number]
 });
+MeetingSchema.plugin(autoIncrement, 'MeetingSchema');
 
 const Meeting = mongoose.model('Meeting', MeetingSchema);

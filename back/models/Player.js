@@ -3,6 +3,7 @@
  */
 
 import mongoose from "mongoose";
+import autoIncrement from 'mongoose-autoincrement';
 
 const Schema = mongoose.Schema;
 
@@ -11,5 +12,5 @@ const PlayerSchema = new Schema({
     secondName     : { type: String,required: true },
     team  : { type: Number}
 });
-
+PlayerSchema.plugin(autoIncrement, 'PlayerSchema');
 const Player = mongoose.model('Player', PlayerSchema);

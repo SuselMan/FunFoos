@@ -3,7 +3,7 @@
  */
 
 import mongoose from "mongoose";
-import autoIncrement from 'mongoose-auto-increment';
+import autoIncrement from 'mongoose-autoincrement';
 
 const Schema = mongoose.Schema;
 
@@ -16,5 +16,5 @@ const SeasonSchema = new Schema({
     meetings:[Number],
     isEnd:[Boolean]
 });
-SeasonSchema.plugin(autoIncrement.plugin, 'SeasonSchema');
+SeasonSchema.plugin(autoIncrement, 'SeasonSchema');
 const Season = mongoose.model('Season', SeasonSchema);

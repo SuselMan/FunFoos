@@ -3,7 +3,7 @@
  */
 
 import mongoose from "mongoose";
-
+import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -17,5 +17,5 @@ const UserSchema = new Schema({
         required: true
     },
 });
-
+UserSchema.plugin(autoIncrement, 'UserSchema');
 const User = mongoose.model('User', UserSchema);
