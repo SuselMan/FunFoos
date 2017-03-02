@@ -8,7 +8,7 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const SeasonSchema = new Schema({
-    number:[Number],
+    name:[String],
     startDate  : { type: Date},
     endDate  : { type: Date},
     teams  : [Number],

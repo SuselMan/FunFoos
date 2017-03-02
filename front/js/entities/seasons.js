@@ -13,6 +13,7 @@ const Season = Backbone.Model.extend({
         this.options = options;
     },
     defaults: {
+        name:"",
         meetings : [],
         teams  : [],
         isEnd  : false

@@ -56,8 +56,7 @@ export function listSeasons(id) {
 
 export function createSeason(data) {
     const team = new Season({
-        firstName: data.firstName,
-        secondName: data.secondName
+        name: data.name
     });
 
     return team.save();
