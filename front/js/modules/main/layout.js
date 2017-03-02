@@ -31,12 +31,28 @@ let Layout = Marionette.View.extend({
     },
 
     ui: {
-        loginBtn: ".js-login"
+        nav: "a"
     },
 
     events: {
-        'click @ui.loginBtn': 'showSignin'
+        'click @ui.nav': 'navigateTo'
     },
+
+    navigateTo: function (e) {
+        let url = e.currentTarget.dataset.url;
+        if(url){
+            let items = this.el.querySelectorAll('a');
+            for(let i = 0;i< items.length;i++){
+                items[i].classList.remove('active');
+            }
+            channelGlobal.request('navigate', url, {trigger: true, replace: true});
+            e.currentTarget.classList.add('active');
+        } else {
+            this.showSignin();
+        }
+
+    },
+
     //TODO: refactor this hell
     start:function(view){
         this.minimizeHeader();

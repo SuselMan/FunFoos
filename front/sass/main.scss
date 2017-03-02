@@ -21,7 +21,7 @@ body{
   &.sign-up{
     height:55px;
   }
-  .text-block, .login-form, .header-form{
+  .text-block, .header-form{
     opacity: 0;
     display: none;
   }
@@ -117,4 +117,22 @@ body{
   height:32px;
   background-size: 50%;
   background-repeat: no-repeat;
+}
+
+.nav-link{
+  color:rgb(255, 251, 231);
+  &:hover{
+    color:rgb(255, 231, 221);
+  }
+  &:visited{
+    color:rgb(255, 251, 231);
+  }
+  &.active{
+    color: rgb(255, 220, 88);
+  }
+}
+.nav{
+  right: 10px;
+  top: 5px;
+  position: absolute;
 }
