@@ -11,6 +11,12 @@ import config from './etc/config.json';
 import connectMongo from 'connect-mongo';
 import * as db from './utils/DataBaseUtils';
 
+//routes
+import players from './routes/players';
+import teams from './routes/teams';
+import sessions from './routes/sessions';
+import user from './routes/user';
+
 const app = express();
 let MongoStore= connectMongo(session);
 
@@ -29,92 +35,15 @@ app.use(session({
         url: `mongodb://${config.db.host}:${config.db.port}/${config.db.sessions}`
     })
 }));
+
 console.log('__dirname',__dirname);
 app.use(express.static('./build'));
 
-app.get('/api/teams', (req, res) => {
-    db.listTeams().then(data => res.send(data));
-});
-
-app.post('/api/teams', (req, res) => {
-    console.log('req',req.body);
-    db.createTeam(req.body).then(data => res.send(data));
-});
-
-app.delete('/api/teams/:id', (req, res) => {
-    db.deleteTeam(req.params.id).then(data => res.send(data));
-});
-
-
-app.get('/api/players', (req, res) => {
-    db.listPlayers().then(data => res.send(data));
-});
-
-app.post('/api/players', (req, res) => {
-    console.log('req',req.body);
-    db.createPlayer(req.body).then(data => res.send(data));
-});
-
-app.delete('/api/players/:id', (req, res) => {
-    db.deletePlayer(req.params.id).then(data => res.send(data));
-});
-
-
-app.get('/api/seasons', (req, res) => {
-    db.listSeasons().then(data => res.send(data));
-});
-
-app.post('/api/seasons', (req, res) => {
-    console.log('req',req.body);
-    db.createSeason(req.body).then(data => res.send(data));
-});
-
-app.delete('/api/players/:id', (req, res) => {
-    db.deletePlayer(req.params.id).then(data => res.send(data));
-});
-
-
-
-
-app.post('/api/login', (req, res, next) => {
-    if (req.session.user) {
-        //return res.redirect('/');
-    }
-    db.checkUser(req.body)
-        .then((user) => {
-            if (user) {
-                req.session.user = {id: user._id, name: user.name};
-                res.status(200).send(user);
-                //res.redirect('/signup')
-            } else {
-                return next(error)
-            }
-        })
-        .catch(function (error) {
-            return next(error)
-        })
-});
-
-app.post('/api/signup', (req, res) => {
-    console.log('req',req.body);
-    db.createUser(req.body)
-        .then(function(result){
-            console.log("User created")
-            res.status(200).send(result);
-        })
-        .catch(function(err){
-            if (err.toJSON().code == 11000){
-                res.status(500).send("This email already exist")
-            }
-        })
-});
-
-app.post('/api/logout', (req, res) => {
-    if (req.session.user) {
-        delete req.session.user;
-        res.redirect('/signup')
-    }
-});
+app.use('/api', user);
+app.use('/api/players', players);
+app.use('/api/teams', teams);
+app.use('/api/sessions', sessions);
+app.use('/api/players', players);
 
 
 app.get('*', function(req, res) {
