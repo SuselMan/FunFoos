@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/', imagesUpload(
     './build/files',
-    'http://localhost:8080/build/files'
+    'http://localhost:8080/files'
 ));
 
 export default router

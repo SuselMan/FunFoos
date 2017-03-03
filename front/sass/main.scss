@@ -137,15 +137,18 @@ body{
   position: absolute;
 }
 .upload-form{
-  border: 1px solid #687e62;
-  width: 300px;
-  height: 250px;
+  border: 2px dashed #ccc;
+  color: #BBB;
+  width: 500px;
+  height: 140px;
   position: relative;
   &.drop{
-    background: #cccccc;
+    background: #ccc;
+    color: #EEE;
   }
   span{
     position: absolute;
+    text-align: center;
     left: 50%;
     transform: translate(-50%,-80%);
     top: 50%;

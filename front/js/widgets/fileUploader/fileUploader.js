@@ -47,7 +47,8 @@ const UploaderView = Marionette.View.extend({
             };
             xhr.open("post", "/api/files", true);
             xhr.send(form);
-        }, false);
+            this.el.classList.remove('drop');
+        }.bind(this), false);
 
     }
 });

@@ -14,7 +14,7 @@ import * as db from './utils/DataBaseUtils';
 //routes
 import players from './routes/players';
 import teams from './routes/teams';
-import sessions from './routes/sessions';
+import seasons from './routes/seasons';
 import images from './routes/images';
 import user from './routes/user';
 
@@ -44,7 +44,7 @@ app.use(express.static('./build'));
 app.use('/api', user);
 app.use('/api/players', players);
 app.use('/api/teams', teams);
-app.use('/api/sessions', sessions);
+app.use('/api/seasons', seasons);
 app.use('/api/files', images);
 
 
