@@ -15,6 +15,7 @@ import * as db from './utils/DataBaseUtils';
 import players from './routes/players';
 import teams from './routes/teams';
 import sessions from './routes/sessions';
+import images from './routes/images';
 import user from './routes/user';
 
 const app = express();
@@ -39,11 +40,12 @@ app.use(session({
 console.log('__dirname',__dirname);
 app.use(express.static('./build'));
 
+
 app.use('/api', user);
 app.use('/api/players', players);
 app.use('/api/teams', teams);
 app.use('/api/sessions', sessions);
-app.use('/api/players', players);
+app.use('/api/files', images);
 
 
 app.get('*', function(req, res) {

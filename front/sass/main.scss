@@ -136,3 +136,18 @@ body{
   top: 5px;
   position: absolute;
 }
+.upload-form{
+  border: 1px solid #687e62;
+  width: 300px;
+  height: 250px;
+  position: relative;
+  &.drop{
+    background: #cccccc;
+  }
+  span{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-80%);
+    top: 50%;
+  }
+}

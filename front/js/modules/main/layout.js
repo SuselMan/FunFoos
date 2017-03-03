@@ -16,6 +16,8 @@ import TeamsView from '../teams/teams';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 
+import UploadView from '../../widgets/fileUploader/fileUploader';
+
 let channelGlobal = Radio.channel('global');
 
 
@@ -27,7 +29,9 @@ let Layout = Marionette.View.extend({
     regions: {
         signinRegion: '.js-signinRegion',
         signupRegion: '.js-signupRegion',
-        contentRegion: '.js-contentRegion'
+        contentRegion: '.js-contentRegion',
+        uploadRegion: '.js-uploadRegion'
+
     },
 
     ui: {
@@ -73,6 +77,7 @@ let Layout = Marionette.View.extend({
 
     onRender: function() {
         this.showChildView('signupRegion', new SignupView());
+        this.showChildView('uploadRegion', new UploadView());
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
