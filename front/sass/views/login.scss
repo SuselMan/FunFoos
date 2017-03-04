@@ -1,0 +1,83 @@
+
+.done{
+  transition-property: all;
+  transition-duration: .4s;
+  &.sign-up{
+    height:55px;
+  }
+  .text-block, .header-form{
+    opacity: 0;
+    display: none;
+  }
+}
+
+.sign-up{
+  color: $soft-white;
+  background-color: black;
+  height:500px;
+  background-image: url(../images/signup_bg.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 50% bottom;
+  position: relative;
+  .text-block{
+    width: 500px;
+    text-align: center;
+    position: relative;
+    @include strict-center(-50%,-80%);
+    font-size: 19px;
+  }
+  .login-button{
+    background-color: transparent;
+    border: none;
+    right: 10px;
+    top: 10px;
+    position: absolute;
+    &:hover{
+      background-color: transparent;
+      border: none;
+    }
+  }
+}
+.login-form{
+  z-index: 10000;
+  width: 350px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  background: $soft-white;
+  input{
+    border-radius: 0;
+    background: $soft-white;
+    margin: 10px;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+
+  }
+  .login{
+    border: none;
+    margin: 10px;
+    color: $soft-white;
+    border-color: transparent;
+    @include linear-gradienr();
+  }
+}
+
+.header-form{
+  bottom: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  input{
+    background-color:rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,251,231,0.6);
+    color:#fffbe7;
+  }
+  button{
+    color: #fffbe7;
+    border-color: transparent;
+    border: 1px solid #687e62;
+    @include linear-gradienr();
+
+  }
+}

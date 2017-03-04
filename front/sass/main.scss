@@ -1,4 +1,10 @@
 @import "~bootstrap/scss/bootstrap";
+@import "./settings.scss";
+@import "./mixins.scss";
+@import "./views/login.scss";
+@import "./widgets/uploadForm.scss";
+@import "./widgets/preloader.scss";
+
 body{
   background-color: #cccccc;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -15,117 +21,13 @@ body{
 
 }
 
-.done{
-  transition-property: all;
-  transition-duration: .4s;
-  &.sign-up{
-    height:55px;
-  }
-  .text-block, .header-form{
-    opacity: 0;
-    display: none;
-  }
-}
-
-.sign-up{
-  color: #fffbe7;
-  background-color: black;
-  height:500px;
-  background-image: url(../images/signup_bg.jpg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: 50% bottom;
-  position: relative;
-  .text-block{
-    color: #fffbe7;
-    width: 500px;
-    text-align: center;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%,-80%);
-    top: 50%;
-    font-size: 19px;
-  }
-  .login-button{
-    color: #fffbe7;
-    background-color: transparent;
-    border: none;
-    right: 10px;
-    top: 10px;
-    position: absolute;
-    &:hover{
-      background-color: transparent;
-      border: none;
-    }
-  }
-}
-.login-form{
-  z-index: 10000;
-  width: 350px;
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  background: rgb(255, 251, 231);
-  input{
-    border-radius: 0;
-    background: rgb(255, 251, 231);
-    margin: 10px;
-    border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.3);
-
-  }
-  .login{
-    border: none;
-    margin: 10px;
-    color: #fffbe7;
-    border-color: transparent;
-    background: rgb(171,254,170);
-    background: -moz-linear-gradient(top,  rgba(171,254,170,1) 0%, rgba(150,254,173,1) 29%, rgba(117,254,176,1) 64%, rgba(80,254,180,1) 93%, rgba(65,254,181,1) 100%);
-    background: -webkit-linear-gradient(top,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
-    background: linear-gradient(to bottom,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#abfeaa', endColorstr='#41feb5',GradientType=0 );
-
-  }
-}
-
-.header-form{
-  bottom: 20px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  input{
-    background-color:rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,251,231,0.6);
-    color:#fffbe7;
-  }
-  button{
-    color: #fffbe7;
-    border-color: transparent;
-    border: 1px solid #687e62;
-    background: rgb(171,254,170);
-    background: -moz-linear-gradient(top,  rgba(171,254,170,1) 0%, rgba(150,254,173,1) 29%, rgba(117,254,176,1) 64%, rgba(80,254,180,1) 93%, rgba(65,254,181,1) 100%);
-    background: -webkit-linear-gradient(top,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
-    background: linear-gradient(to bottom,  rgba(171,254,170,1) 0%,rgba(150,254,173,1) 29%,rgba(117,254,176,1) 64%,rgba(80,254,180,1) 93%,rgba(65,254,181,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#abfeaa', endColorstr='#41feb5',GradientType=0 );
-
-  }
-}
-
-.preloader{
-  background-image: url(../images/preloader.gif);
-  width:32px;
-  height:32px;
-  background-size: 50%;
-  background-repeat: no-repeat;
-}
-
 .nav-link{
-  color:rgb(255, 251, 231);
+  color:$soft-white;
   &:hover{
     color:rgb(255, 231, 221);
   }
   &:visited{
-    color:rgb(255, 251, 231);
+    color:$soft-white;
   }
   &.active{
     color: rgb(255, 220, 88);
@@ -135,22 +37,4 @@ body{
   right: 10px;
   top: 5px;
   position: absolute;
-}
-.upload-form{
-  border: 2px dashed #ccc;
-  color: #BBB;
-  width: 500px;
-  height: 140px;
-  position: relative;
-  &.drop{
-    background: #ccc;
-    color: #EEE;
-  }
-  span{
-    position: absolute;
-    text-align: center;
-    left: 50%;
-    transform: translate(-50%,-80%);
-    top: 50%;
-  }
 }
