@@ -33,6 +33,11 @@ const appController = {
         App.mainModule.setView('teams');
     },
 
+    teamWindow: function(id) {
+        this.checkMainModule();
+        App.mainModule.setView('team');
+    },
+
     checkMainModule:function(){
         if(!App.mainModule){
             App.mainModule = MainModule;

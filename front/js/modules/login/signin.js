@@ -41,11 +41,10 @@ let Login = Marionette.View.extend({
         this.model.save()
             .then(function (result) {
                 channelGlobal.trigger("done:signin", this.model);
-            })
+            }.bind(this))
             .catch(function (e) {
                 console.log('err', e);
             })
-        console.log('save');
 
     },
     close: function(){

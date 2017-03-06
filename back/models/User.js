@@ -16,6 +16,9 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    team     : {
+        type: Number
+    }
 });
 UserSchema.plugin(autoIncrement, 'UserSchema');
 const User = mongoose.model('User', UserSchema);

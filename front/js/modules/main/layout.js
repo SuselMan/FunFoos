@@ -13,6 +13,7 @@ import Radio from 'backbone.radio';
 import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
+import TeamView from '../team/team';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 
@@ -65,6 +66,10 @@ let Layout = Marionette.View.extend({
             console.log('this',this);
             this.showChildView('contentRegion', new TeamsView());
         }
+        if(view == "team"){
+            console.log('this',this);
+            this.showChildView('contentRegion', new TeamView());
+        }
         if(view == "players"){
             console.log('this',this);
             this.showChildView('contentRegion', new PlayersView());
@@ -91,9 +96,13 @@ let Layout = Marionette.View.extend({
         this.getRegion('signinRegion').empty();
     },
 
-    doneSignin: function(){
+    doneSignin: function(user){
         this.closeSignin();
         this.minimizeHeader();
+        this.user = user;
+        console.log('Sihned in', user);
+        channelGlobal.reply('get:user', this.getUser.bind(this));
+        channelGlobal.request('navigate', 'team', {trigger: true, replace: true});
     },
 
     showSignin: function(){
@@ -103,6 +112,10 @@ let Layout = Marionette.View.extend({
     doneSignup: function(){
         this.closeSignin();
         this.el.classList.add('done');
+    },
+
+    getUser:function(){
+        return this.user;
     }
 
 

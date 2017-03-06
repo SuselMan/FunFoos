@@ -23,6 +23,8 @@ let MongoStore= connectMongo(session);
 
 db.setUpConnection(app);
 
+
+app.use(express.favicon());
 app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({
     extended: true
@@ -36,6 +38,8 @@ app.use(session({
         url: `mongodb://${config.db.host}:${config.db.port}/${config.db.sessions}`
     })
 }));
+app.use(express.methodOverride());
+
 
 console.log('__dirname',__dirname);
 app.use(express.static('./build'));

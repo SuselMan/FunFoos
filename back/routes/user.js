@@ -47,5 +47,17 @@ router.post('/logout', (req, res) => {
     }
 });
 
+router.put('/user/:id', (req, res) => {
+    db.changeUser(req.body)
+        .then(function(result){
+            console.log("User created")
+            res.status(200).send(result);
+        })
+        .catch(function(err){
+            if (err.toJSON().code == 11000){
+                res.status(500).send("This email already exist")
+            }
+        })
+});
 
 export default router
