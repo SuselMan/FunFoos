@@ -7,7 +7,7 @@ import config from '../etc/config.json';
 import crypto from 'crypto';
 import autoIncrement from 'mongoose-autoincrement';
 mongoose.plugin(autoIncrement);
-
+mongoose.Promise = global.Promise;
 import '../models/Team';
 import '../models/User';
 import '../models/Player';
@@ -50,6 +50,33 @@ export function createPlayer(data) {
     return team.save();
 }
 
+
+export function changeUser(req) {
+    return new Promise(function(resolve, reject) {
+        User.findById(req.params.id,function(err,user){
+
+            if(user){
+                user.team = req.body.team;
+                user.email = req.body.team || user.email;
+                user.password = req.body.team || user.password;
+                console.log('aaa', user);
+                User.update({_id:req.params.id},{team:req.body.team})
+                    .then(function (user) {
+                        console.log('a3');
+                        resolve(user);
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject(err);
+                    })
+            } else {
+                reject(err);
+            }
+        });
+    });
+
+}
+
 export function listSeasons(id) {
     return Season.find();
 }
@@ -69,7 +96,7 @@ export function deleteTeam(id) {
 export function createUser(userData){
     console.log(userData);
     var user = {
-        name: userData.name,
+        team: userData.team,
         email: userData.email,
         password: hash(userData.password)
     };

@@ -17,7 +17,7 @@ const User = Backbone.Model.extend({
     defaults: {
         "email": "",
         "password": "",
-        "team": ""
+        "team": null
     },
     validate:(attrs, options)=>{
         if(!attrs.email || !attrs.password){

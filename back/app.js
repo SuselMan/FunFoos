@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import session from 'express-session';
 import config from './etc/config.json';
 import connectMongo from 'connect-mongo';
+import methodOverride from 'method-override';
 import * as db from './utils/DataBaseUtils';
 
 //routes
@@ -24,11 +25,12 @@ let MongoStore= connectMongo(session);
 db.setUpConnection(app);
 
 
-app.use(express.favicon());
+// app.use(express.favicon());
 app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(methodOverride());
 app.use(cors({ origin: '*' }));
 app.use(session({
     secret: 'i need more beers',
@@ -38,7 +40,6 @@ app.use(session({
         url: `mongodb://${config.db.host}:${config.db.port}/${config.db.sessions}`
     })
 }));
-app.use(express.methodOverride());
 
 
 console.log('__dirname',__dirname);

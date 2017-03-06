@@ -48,15 +48,16 @@ router.post('/logout', (req, res) => {
 });
 
 router.put('/user/:id', (req, res) => {
-    db.changeUser(req.body)
+    db.changeUser(req)
         .then(function(result){
-            console.log("User created")
-            res.status(200).send(result);
+            console.log("qwe",result);
+            //res.status(200).send(result);
         })
         .catch(function(err){
-            if (err.toJSON().code == 11000){
-                res.status(500).send("This email already exist")
-            }
+            console.log('BAABABA',err);
+            // if (err.toJSON().code == 11000){
+            //     res.status(500).send("Something Wrong")
+            // }
         })
 });
 
