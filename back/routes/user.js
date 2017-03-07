@@ -50,14 +50,10 @@ router.post('/logout', (req, res) => {
 router.put('/user/:id', (req, res) => {
     db.changeUser(req)
         .then(function(result){
-            console.log("qwe",result);
-            //res.status(200).send(result);
+            res.status(200).send(result);
         })
         .catch(function(err){
-            console.log('BAABABA',err);
-            // if (err.toJSON().code == 11000){
-            //     res.status(500).send("Something Wrong")
-            // }
+                res.status(err.status).send(err)
         })
 });
 

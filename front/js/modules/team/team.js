@@ -19,12 +19,34 @@ let channelGlobal = Radio.channel('global');
 
 const NewTeamView = Marionette.View.extend({
     template: require('../../../templates/team/newTeam.hbs'),
+    ui:{
+        saveBtn: ".js-addTeamBtn",
+    },
+
+    events: {
+        'click @ui.saveBtn': 'save'
+    },
 
     initialize: function(){
-
+        this.collection = new Teams();
+        this.model= new this.collection.model();
     },
 
     onRender:function(){
+        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+        new ModelBinder().bind(this.model, this.el, bindings);
+    },
+
+    save: function () {
+        this.collection.add(this.model);
+        this.model.save()
+            .then(function (result) {
+                console.log('Team Added!', result);
+            })
+            .catch(function (e) {
+                console.log('err', e);
+            })
+        console.log('save');
 
     }
 });
@@ -39,14 +61,13 @@ const TeamLayout = Marionette.View.extend({
     },
 
     initialize: function(){
-
     },
 
     onRender:function(){
         this.user = channelGlobal.request('get:user');
-        console.log('USER',this.user);
         if(!this.user.get('team')){
             this.showChildView('newTeamRegion', new NewTeamView());
+            
         }
     }
 });

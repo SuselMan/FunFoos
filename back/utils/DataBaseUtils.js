@@ -54,23 +54,19 @@ export function createPlayer(data) {
 export function changeUser(req) {
     return new Promise(function(resolve, reject) {
         User.findById(req.params.id,function(err,user){
-
             if(user){
-                user.team = req.body.team;
-                user.email = req.body.team || user.email;
-                user.password = req.body.team || user.password;
-                console.log('aaa', user);
                 User.update({_id:req.params.id},{team:req.body.team})
-                    .then(function (user) {
-                        console.log('a3');
-                        resolve(user);
+                    .then(function (isOk) {
+                        User.findById(req.params.id)
+                            .then(function(user){
+                                resolve(user);
+                            });
                     })
                     .catch(function (err) {
-                        console.log(err);
                         reject(err);
                     })
             } else {
-                reject(err);
+                reject({status:500,message:'User not found'});
             }
         });
     });
