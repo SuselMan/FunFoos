@@ -27,7 +27,8 @@ const NewTeamView = Marionette.View.extend({
         'click @ui.saveBtn': 'save'
     },
 
-    initialize: function(){
+    initialize: function(options){
+        this.options = options;
         this.collection = new Teams();
         this.model= new this.collection.model();
     },
@@ -42,7 +43,9 @@ const NewTeamView = Marionette.View.extend({
         this.model.save()
             .then(function (result) {
                 console.log('Team Added!', result);
-            })
+                this.options.user.set('team',result.id);
+                this.options.user.update();
+            }.bind(this))
             .catch(function (e) {
                 console.log('err', e);
             })
@@ -66,8 +69,8 @@ const TeamLayout = Marionette.View.extend({
     onRender:function(){
         this.user = channelGlobal.request('get:user');
         if(!this.user.get('team')){
-            this.showChildView('newTeamRegion', new NewTeamView());
-            
+            this.showChildView('newTeamRegion', new NewTeamView({user:this.user}));
+
         }
     }
 });

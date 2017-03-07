@@ -8,7 +8,7 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
 const Team = Backbone.Model.extend({
-
+    idAttribute: "_id",
     initialize: function(attrs,options){
         this.options = options;
     },

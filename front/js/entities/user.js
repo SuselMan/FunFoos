@@ -3,6 +3,12 @@
 import Backbone from 'backbone';
 
 const User = Backbone.Model.extend({
+    idAttribute: "_id",
+    defaults: {
+        "email": "",
+        "password": "",
+        "team": null
+    },
     urlRoot: function(){
         if(this.options && this.options.login){
             return '/api/login'
@@ -14,10 +20,12 @@ const User = Backbone.Model.extend({
         console.log('model huyodel',options);
         this.options = options;
     },
-    defaults: {
-        "email": "",
-        "password": "",
-        "team": null
+    update:function(){
+        let team ="team="+this.get('team');
+        return fetch('/api/user/'+this.id,{
+            method:'put',
+            body:team
+        });
     },
     validate:(attrs, options)=>{
         if(!attrs.email || !attrs.password){
