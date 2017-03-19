@@ -17,7 +17,6 @@ const User = Backbone.Model.extend({
         }
     },
     initialize: function(attrs,options){
-        console.log('model huyodel',options);
         this.options = options;
     },
     update:function(){

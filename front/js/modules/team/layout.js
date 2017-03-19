@@ -22,25 +22,27 @@ const TeamLayout = Marionette.View.extend({
         // logoRegion: '.js-logoRegion',
         // playersRegion: '.js-logoRegion',
         // meetingsRegion: '.js-meetingsRegion',
-        newTeamRegion:'.js-newTeamRegion'
+        newTeamRegion: '.js-newTeamRegion'
     },
 
-    initialize: function(){
+    initialize: function (options) {
+        this.options = options;
         console.log('TeamLayout');
-        channelGlobal.on('user:updated',this.showTeam.bind(this));
+        channelGlobal.on('user:updated', this.showTeam.bind(this));
     },
 
-    showTeam:function(team){
-        this.showChildView('newTeamRegion', new TeamView({model:team}));
+    showTeam: function (team) {
+        this.showChildView('newTeamRegion', new TeamView({model: team}));
     },
 
-    onRender:function(){
-        console.log('TeamRender');
+    onRender: function () {
         this.user = channelGlobal.request('get:user');
-        if(!this.user.get('team')){
-            this.showChildView('newTeamRegion', new NewTeamView({user:this.user}));
-
-        }
+        let collection = new Teams();
+        let model = new collection.model({_id: this.options.id});
+        // collection.add(model);
+        model.fetch().then(function (team) {
+            this.showTeam(model);
+        }.bind(this))
     }
 });
 

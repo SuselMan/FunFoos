@@ -18,6 +18,7 @@ const UploaderView = Marionette.View.extend({
     template: require('./fileUploader.hbs'),
     className: 'upload-form',
     onRender: function () {
+
         this.el.addEventListener("dragover", function (event) {
             this.el.classList.add('drop');
             event.preventDefault();
@@ -29,27 +30,21 @@ const UploaderView = Marionette.View.extend({
         }.bind(this), false);
 
         this.el.addEventListener("drop", function (event) {
-            // отменяем действие по умолчанию
             event.preventDefault();
-            var i = 0,
-                files = event.dataTransfer.files,
-                len = files.length;
-            for (; i < len; i++) {
-                console.log("Filename: " + files[i].name);
-                console.log("Type: " + files[i].type);
-                console.log("Size: " + files[i].size + " bytes");
-            }
-            var form = new FormData();
+            let files = event.dataTransfer.files;
+            let form = new FormData();
             form.append("imageFiles", files[0]);
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-                console.log("Отправка завершена");
-            };
-            xhr.open("post", "/api/files", true);
-            xhr.send(form);
+            fetch('/api/files', {
+                method: 'POST',
+                body: form
+            }).then(function (res) {
+                return res.json()
+            }.bind(this)).then(function (imageUrl) {
+                console.log('imageUrl', imageUrl);
+                this.trigger('load:complete',imageUrl)
+            }.bind(this));
             this.el.classList.remove('drop');
         }.bind(this), false);
-
     }
 });
 

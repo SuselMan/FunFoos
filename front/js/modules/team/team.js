@@ -8,10 +8,24 @@
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import NewTeamView from './newTeam';
-
+import UploadView from '../../widgets/fileUploader/fileUploader';
 
 let channelGlobal = Radio.channel('global');
+
+const LogoView = Marionette.View.extend({
+    template: require('../../../templates/team/logo.hbs'),
+
+    initialize: function(options){
+        console.log('MODEL',this.model);
+    },
+
+    showTeam:function(){
+
+    },
+
+    onRender:function(){
+    }
+});
 
 const TeamLayout = Marionette.View.extend({
     template: require('../../../templates/team/team.hbs'),
@@ -28,6 +42,19 @@ const TeamLayout = Marionette.View.extend({
     },
 
     onRender:function(){
+        if(this.model.get('image')){
+            this.showChildView('logoRegion', new LogoView({model:this.model}));
+        } else {
+            this.uploadView = new UploadView();
+            this.showChildView('logoRegion', this.uploadView);
+            this.uploadView.on('load:complete',this.showLogo.bind(this))
+        }
+    },
+
+    showLogo: function(url) {
+        this.model.set('image',url);
+        this.model.update();
+        this.showChildView('logoRegion', new LogoView({model:this.model}));
     }
 });
 

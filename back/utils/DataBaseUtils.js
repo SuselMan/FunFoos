@@ -28,6 +28,18 @@ export function listTeams(id) {
     return Team.find();
 }
 
+export function getTeam(req) {
+    return new Promise(function(resolve, reject) {
+        Team.findById(req.params.id,function(err,team){
+            if(team){
+               resolve(team);
+            } else {
+                reject({status:500,message:'User not found'});
+            }
+        });
+    });
+}
+
 export function createTeam(data) {
     const team = new Team({
         name: data.name,
@@ -36,6 +48,29 @@ export function createTeam(data) {
 
     return team.save();
 }
+
+export function changeTeam(req) {
+    return new Promise(function(resolve, reject) {
+        Team.findById(req.params.id,function(err,team){
+            if(team){
+                Team.update({_id:req.params.id},{image:req.body.image})
+                    .then(function (isOk) {
+                        User.findById(req.params.id)
+                            .then(function(team){
+                                resolve(team);
+                            });
+                    })
+                    .catch(function (err) {
+                        reject(err);
+                    })
+            } else {
+                reject({status:500,message:'Team not found'});
+            }
+        });
+    });
+
+}
+
 
 export function listPlayers(id) {
     return Player.find();
