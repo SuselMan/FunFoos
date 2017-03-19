@@ -21,10 +21,10 @@ const User = Backbone.Model.extend({
         this.options = options;
     },
     update:function(){
-        let team ="team="+this.get('team');
         return fetch('/api/user/'+this.id,{
+            headers: { 'Content-Type': 'application/json' },
             method:'put',
-            body:team
+            body:JSON.stringify(this.toJSON())
         });
     },
     validate:(attrs, options)=>{

@@ -13,7 +13,7 @@ import Radio from 'backbone.radio';
 import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
-import TeamView from '../team/team';
+import TeamView from '../team/layout';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 

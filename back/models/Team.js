@@ -10,6 +10,7 @@ const TeamSchema = new Schema({
     name     : { type: String,required: true },
     shortName     : { type: String,required: true },
     owner  : { type: Number},
+    image  : { type: String},
     players  : [Number],
     meetings  : [Number]
 });
