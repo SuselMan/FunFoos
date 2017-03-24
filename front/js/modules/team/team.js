@@ -9,6 +9,7 @@ import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import UploadView from '../../widgets/fileUploader/fileUploader';
+import Players from './players';
 
 let channelGlobal = Radio.channel('global');
 
@@ -24,13 +25,15 @@ const LogoView = Marionette.View.extend({
     },
 
     onRender:function(){
+
     }
 });
 
 const TeamLayout = Marionette.View.extend({
     template: require('../../../templates/team/team.hbs'),
     regions: {
-         logoRegion: '.js-logoRegion'
+         logoRegion: '.js-logoRegion',
+         playersRegion: '.js-playersRegion'
     },
 
     initialize: function(options){
@@ -49,6 +52,8 @@ const TeamLayout = Marionette.View.extend({
             this.showChildView('logoRegion', this.uploadView);
             this.uploadView.on('load:complete',this.showLogo.bind(this))
         }
+        this.players = new Players();
+        this.showChildView('playersRegion',new Players({team: this.model}));
     },
 
     showLogo: function(url) {

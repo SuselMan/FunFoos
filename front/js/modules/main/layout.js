@@ -82,7 +82,7 @@ let Layout = Marionette.View.extend({
 
     onRender: function() {
         this.showChildView('signupRegion', new SignupView());
-        this.showChildView('uploadRegion', new UploadView());
+        //this.showChildView('uploadRegion', new UploadView());
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));

@@ -55,7 +55,7 @@ export function changeTeam(req) {
             if(team){
                 Team.update({_id:req.params.id},{image:req.body.image})
                     .then(function (isOk) {
-                        User.findById(req.params.id)
+                        Team.findById(req.params.id)
                             .then(function(team){
                                 resolve(team);
                             });
@@ -71,8 +71,37 @@ export function changeTeam(req) {
 
 }
 
+export function changePlayer(req) {
+    return new Promise(function(resolve, reject) {
+        Player.findById(req.params.id,function(err,player){
+            if(player){
+                Player.update({_id:req.params.id},{team:req.body.team})
+                    .then(function (isOk) {
+                        Player.findById(req.params.id)
+                            .then(function(player){
+                                resolve(player);
+                            })
+                            .catch(function(err){
+                                console.log(err);
+                                reject(err);
+                            })
+                    })
+                    .catch(function (err) {
+                        reject(err);
+                    })
+            } else {
+                reject({status:500,message:'Player not found'});
+            }
+        });
+    });
 
-export function listPlayers(id) {
+}
+
+
+export function listPlayers(req) {
+    if(req.param('team')){
+    return Player.find({ team: req.param('team') })
+    }
     return Player.find();
 }
 
