@@ -1,5 +1,3 @@
-# Webpack + Node.js + MongoDB + Backbone + Marionette
-
 # FunFoos
 
 SPB foosball league project.
