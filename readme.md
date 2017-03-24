@@ -24,7 +24,7 @@ webpack
 
 ## Authors
 
-* **Ilya Pavlukhin** - *Initial work* - [PurpleBooth](https://github.com/SuselMan)
+* **Ilya Pavlukhin** - *Initial work* - [SuselMan](https://github.com/SuselMan)
 
 ## License
 
