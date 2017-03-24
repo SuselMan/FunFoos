@@ -1,0 +1,26 @@
+
+.team-layout{
+  padding: 50px 10px 10px 10px;
+}
+
+.team-logo{
+  width:200px;
+  height: 200px;
+  img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.team-header{
+  border-bottom: 1px solid $light-gray;
+  width:100%;
+  padding-bottom: 10px;
+  display: inline-block;
+  div {
+    float:left;
+  }
+  .team-name{
+    padding-left: 20px;
+  }
+}

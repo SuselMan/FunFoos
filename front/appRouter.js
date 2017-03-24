@@ -9,6 +9,7 @@ import Marionette from 'backbone.marionette';
 var routes = {
     'players(/)': 'playersWindow',
     'teams(/)': 'teamsWindow',
+    'team(/:id)': 'teamWindow',
     'seasons(/)': 'seasonsWindow',
     '(/)': 'index'
 };

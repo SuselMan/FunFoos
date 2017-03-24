@@ -1,0 +1,17 @@
+.upload-form{
+  border: 2px dashed $medium-gray;
+  color: $dark-gray;
+  width: 500px;
+  height: 140px;
+  position: relative;
+  margin: 10px;
+  &.drop{
+    background: $medium-gray;
+    color: #EEE;
+  }
+  span{
+    position: absolute;
+    text-align: center;
+    @include strict-center();
+  }
+}

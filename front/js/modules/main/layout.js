@@ -13,8 +13,11 @@ import Radio from 'backbone.radio';
 import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
+import TeamView from '../team/layout';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
+
+import UploadView from '../../widgets/fileUploader/fileUploader';
 
 let channelGlobal = Radio.channel('global');
 
@@ -27,7 +30,9 @@ let Layout = Marionette.View.extend({
     regions: {
         signinRegion: '.js-signinRegion',
         signupRegion: '.js-signupRegion',
-        contentRegion: '.js-contentRegion'
+        contentRegion: '.js-contentRegion',
+        uploadRegion: '.js-uploadRegion'
+
     },
 
     ui: {
@@ -54,12 +59,16 @@ let Layout = Marionette.View.extend({
     },
 
     //TODO: refactor this hell
-    start:function(view){
+    start:function(view,option){
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
         if(view == "teams"){
             console.log('this',this);
             this.showChildView('contentRegion', new TeamsView());
+        }
+        if(view == "team"){
+            console.log('this',this);
+            this.showChildView('contentRegion', new TeamView({id:option}));
         }
         if(view == "players"){
             console.log('this',this);
@@ -73,6 +82,7 @@ let Layout = Marionette.View.extend({
 
     onRender: function() {
         this.showChildView('signupRegion', new SignupView());
+        //this.showChildView('uploadRegion', new UploadView());
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
@@ -86,9 +96,15 @@ let Layout = Marionette.View.extend({
         this.getRegion('signinRegion').empty();
     },
 
-    doneSignin: function(){
+    doneSignin: function(user){
         this.closeSignin();
         this.minimizeHeader();
+        this.user = user;
+        console.log('Sihned in', user);
+        channelGlobal.reply('get:user', this.getUser.bind(this));
+        if(this.user.get('team')){
+            channelGlobal.request('navigate', 'team/'+ this.user.get('team'), {trigger: true, replace: true});
+        }
     },
 
     showSignin: function(){
@@ -98,6 +114,10 @@ let Layout = Marionette.View.extend({
     doneSignup: function(){
         this.closeSignin();
         this.el.classList.add('done');
+    },
+
+    getUser:function(){
+        return this.user;
     }
 
 

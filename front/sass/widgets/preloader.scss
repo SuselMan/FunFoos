@@ -1,0 +1,15 @@
+.preloader{
+  background-image: url(../images/preloader.gif);
+  width:32px;
+  height:32px;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  &.big{
+    width:64px;
+    height:64px;
+  }
+  &.small{
+    width:16px;
+    height:16px;
+  }
+}

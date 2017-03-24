@@ -7,7 +7,7 @@ import config from '../etc/config.json';
 import crypto from 'crypto';
 import autoIncrement from 'mongoose-autoincrement';
 mongoose.plugin(autoIncrement);
-
+mongoose.Promise = global.Promise;
 import '../models/Team';
 import '../models/User';
 import '../models/Player';
@@ -28,6 +28,18 @@ export function listTeams(id) {
     return Team.find();
 }
 
+export function getTeam(req) {
+    return new Promise(function(resolve, reject) {
+        Team.findById(req.params.id,function(err,team){
+            if(team){
+               resolve(team);
+            } else {
+                reject({status:500,message:'User not found'});
+            }
+        });
+    });
+}
+
 export function createTeam(data) {
     const team = new Team({
         name: data.name,
@@ -37,7 +49,59 @@ export function createTeam(data) {
     return team.save();
 }
 
-export function listPlayers(id) {
+export function changeTeam(req) {
+    return new Promise(function(resolve, reject) {
+        Team.findById(req.params.id,function(err,team){
+            if(team){
+                Team.update({_id:req.params.id},{image:req.body.image})
+                    .then(function (isOk) {
+                        Team.findById(req.params.id)
+                            .then(function(team){
+                                resolve(team);
+                            });
+                    })
+                    .catch(function (err) {
+                        reject(err);
+                    })
+            } else {
+                reject({status:500,message:'Team not found'});
+            }
+        });
+    });
+
+}
+
+export function changePlayer(req) {
+    return new Promise(function(resolve, reject) {
+        Player.findById(req.params.id,function(err,player){
+            if(player){
+                Player.update({_id:req.params.id},{team:req.body.team})
+                    .then(function (isOk) {
+                        Player.findById(req.params.id)
+                            .then(function(player){
+                                resolve(player);
+                            })
+                            .catch(function(err){
+                                console.log(err);
+                                reject(err);
+                            })
+                    })
+                    .catch(function (err) {
+                        reject(err);
+                    })
+            } else {
+                reject({status:500,message:'Player not found'});
+            }
+        });
+    });
+
+}
+
+
+export function listPlayers(req) {
+    if(req.param('team')){
+    return Player.find({ team: req.param('team') })
+    }
     return Player.find();
 }
 
@@ -48,6 +112,29 @@ export function createPlayer(data) {
     });
 
     return team.save();
+}
+
+
+export function changeUser(req) {
+    return new Promise(function(resolve, reject) {
+        User.findById(req.params.id,function(err,user){
+            if(user){
+                User.update({_id:req.params.id},{team:req.body.team})
+                    .then(function (isOk) {
+                        User.findById(req.params.id)
+                            .then(function(user){
+                                resolve(user);
+                            });
+                    })
+                    .catch(function (err) {
+                        reject(err);
+                    })
+            } else {
+                reject({status:500,message:'User not found'});
+            }
+        });
+    });
+
 }
 
 export function listSeasons(id) {
@@ -69,7 +156,7 @@ export function deleteTeam(id) {
 export function createUser(userData){
     console.log(userData);
     var user = {
-        name: userData.name,
+        team: userData.team,
         email: userData.email,
         password: hash(userData.password)
     };

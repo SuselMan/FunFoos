@@ -28,8 +28,8 @@ class MainWindow {
        // Region.show(Layout);
     }
 
-    setView(view){
-        this.layout.start(view);
+    setView(view,option){
+        this.layout.start(view,option);
         console.log('setView module');
     }
 }
