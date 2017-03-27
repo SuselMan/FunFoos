@@ -14,7 +14,8 @@ const SeasonSchema = new Schema({
     teams  : [Number],
     places:[Number],
     meetings:[Number],
-    isEnd:[Boolean]
+    isEnd:[Boolean],
+    devisions:{type: Number}
 });
 SeasonSchema.plugin(autoIncrement, 'SeasonSchema');
 const Season = mongoose.model('Season', SeasonSchema);
