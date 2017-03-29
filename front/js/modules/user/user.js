@@ -16,7 +16,7 @@ import Radio from 'backbone.radio';
 let channelGlobal = Radio.channel('global');
 
 const UserLayout = Marionette.View.extend({
-    template: require('../../../templates/team/team.hbs'),
+    template: require('../../../templates/user/layout.hbs'),
     regions: {
 
     },
