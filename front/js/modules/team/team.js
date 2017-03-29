@@ -14,19 +14,7 @@ import Players from './players';
 let channelGlobal = Radio.channel('global');
 
 const LogoView = Marionette.View.extend({
-    template: require('../../../templates/team/logo.hbs'),
-
-    initialize: function(options){
-        console.log('MODEL',this.model);
-    },
-
-    showTeam:function(){
-
-    },
-
-    onRender:function(){
-
-    }
+    template: require('../../../templates/team/logo.hbs')
 });
 
 const TeamLayout = Marionette.View.extend({
@@ -35,11 +23,7 @@ const TeamLayout = Marionette.View.extend({
          logoRegion: '.js-logoRegion',
          playersRegion: '.js-playersRegion'
     },
-
-    initialize: function(options){
-        console.log('MODEL',this.model);
-    },
-
+    
     showTeam:function(){
 
     },

@@ -27,10 +27,8 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res) => {
-    console.log('req',req.body);
     db.createUser(req.body)
         .then(function(result){
-            console.log("User created")
             res.status(200).send(result);
         })
         .catch(function(err){

@@ -8,12 +8,10 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    console.log('hey players');
     db.listPlayers(req).then(data => res.send(data));
 });
 
 router.post('/', (req, res) => {
-    console.log('req',req.body);
     db.createPlayer(req.body).then(data => res.send(data));
 });
 

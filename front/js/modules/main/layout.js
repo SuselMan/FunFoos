@@ -63,19 +63,15 @@ let Layout = Marionette.View.extend({
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
         if(view == "teams"){
-            console.log('this',this);
             this.showChildView('contentRegion', new TeamsView());
         }
         if(view == "team"){
-            console.log('this',this);
             this.showChildView('contentRegion', new TeamView({id:option}));
         }
         if(view == "players"){
-            console.log('this',this);
             this.showChildView('contentRegion', new PlayersView());
         }
         if(view == "seasons"){
-            console.log('this',this);
             this.showChildView('contentRegion', new SeasonsView());
         }
     },
@@ -100,7 +96,6 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
-        console.log('Sihned in', user);
         channelGlobal.reply('get:user', this.getUser.bind(this));
         if(this.user.get('team')){
             channelGlobal.request('navigate', 'team/'+ this.user.get('team'), {trigger: true, replace: true});

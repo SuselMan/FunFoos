@@ -52,7 +52,6 @@ const NewPlayer = Marionette.View.extend({
     initialize: function (options) {
         this.options = options;
         this.model = new this.collection.model();
-        console.log('Model', this.model)
     },
 
     onRender: function () {
@@ -64,12 +63,10 @@ const NewPlayer = Marionette.View.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.log('Player Added!');
             })
-            .catch(function (e) {
-                console.log('err', e);
+            .catch(function (err) {
+                console.error(err);
             })
-        console.log('save');
 
     },
 });
@@ -91,7 +88,6 @@ const PlayersLayout = Marionette.View.extend({
     onRender: function () {
         this.collection.fetch({data: {team: this.options.team.id}})
             .then(function () {
-                console.log('done');
                 this.showChildView('listRegion', new PlayersView({
                     collection: this.collection
                 }));
@@ -101,8 +97,8 @@ const PlayersLayout = Marionette.View.extend({
                 }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
-            .catch(function (e) {
-                console.log('fuck', e);
+            .catch(function (err) {
+                console.error(err);
             })
     }
 });

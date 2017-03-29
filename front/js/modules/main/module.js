@@ -17,20 +17,16 @@ class MainWindow {
     }
 
     start() {
-        console.log('start module');
         try{
         App.showView(this.layout);
         }
         catch(e){
-            console.log('e',e);
+            console.error('e',e);
         }
-       // console.log('layout', new Layout());
-       // Region.show(Layout);
     }
 
     setView(view,option){
         this.layout.start(view,option);
-        console.log('setView module');
     }
 }
 

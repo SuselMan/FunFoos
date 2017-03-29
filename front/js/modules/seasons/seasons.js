@@ -48,7 +48,6 @@ const NewSeason = Marionette.View.extend({
 
     initialize: function () {
         this.model= new this.collection.model();
-        console.log('Model', this.model)
     },
 
     onRender:function(){
@@ -60,12 +59,11 @@ const NewSeason = Marionette.View.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.log('Season Added!');
+
             })
-            .catch(function (e) {
-                console.log('err', e);
+            .catch(function (err) {
+                console.error(err);
             })
-        console.log('save');
 
     },
 });
@@ -84,7 +82,6 @@ const SeasonsLayout = Marionette.View.extend({
     onRender:function(){
         this.collection.fetch()
             .then(function(){
-                console.log('done');
                 this.showChildView('listRegion', new SeasonsView({
                     collection: this.collection
                 }));
@@ -94,7 +91,7 @@ const SeasonsLayout = Marionette.View.extend({
                 this.triggerMethod('fetch:complete');
             }.bind(this))
             .catch(function(e){
-                console.log('fuck',e);
+                console.error(e);
             })
     }
 });

@@ -37,7 +37,7 @@ let Login = Marionette.View.extend({
                 channelGlobal.trigger("done:signup", this.model);
             })
             .catch(function (e) {
-                console.log('err', e);
+
             })
     }
 

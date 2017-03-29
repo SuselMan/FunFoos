@@ -22,7 +22,6 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    console.log('req',req.body);
     db.createTeam(req.body).then(data => res.send(data));
 });
 

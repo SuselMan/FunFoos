@@ -43,13 +43,13 @@ let Login = Marionette.View.extend({
                 channelGlobal.trigger("done:signin", this.model);
             }.bind(this))
             .catch(function (e) {
-                console.log('err', e);
+
             })
 
     },
     close: function(){
         channelGlobal.trigger("close:signin", this.model);
-        console.log('close');
+
     }
 
 

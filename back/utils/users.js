@@ -11,7 +11,6 @@ const User = mongoose.model('User');
 
 
 export function createUser(userData){
-    console.log(userData);
     var user = {
         team: userData.team,
         email: userData.email,
@@ -25,10 +24,9 @@ export function checkUser(userData){
         .findOne({email: userData.email})
         .then(function(doc){
             if ( doc.password == hash(userData.password) ){
-                console.log("User password is ok");
-                return Promise.resolve(doc)
+                return Promise.resolve(doc);
             } else {
-                return Promise.reject("Error wrong")
+                return Promise.reject("Error wrong");
             }
         })
 }

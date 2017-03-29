@@ -42,7 +42,6 @@ app.use(session({
 }));
 
 
-console.log('__dirname',__dirname);
 app.use(express.static('./build'));
 
 
@@ -60,5 +59,5 @@ app.get('*', function(req, res) {
 
 
 const server = app.listen(config.serverPort, function() {
-    console.log(`Server is up and running on port ${config.serverPort}`);
+    console.info(`Server is up and running on port ${config.serverPort}`);
 });

@@ -27,11 +27,9 @@ const NewTeamView = Marionette.View.extend({
         this.options = options;
         this.collection = new Teams();
         this.model= new this.collection.model();
-        console.log('NEWTRAM');
     },
 
     onRender:function(){
-        console.log('asd',this,this.el);
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     },
@@ -40,16 +38,14 @@ const NewTeamView = Marionette.View.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.log('Team Added!', result);
                 this.options.user.set('team',result._id);
                 this.options.user.update().then(function(result){
                     channelGlobal.trigger('user:updated',this.model);
                 }.bind(this));
             }.bind(this))
-            .catch(function (e) {
-                console.log('err', e);
+            .catch(function (err) {
+                console.error(err);
             })
-        console.log('save');
 
     }
 });

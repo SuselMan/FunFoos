@@ -18,7 +18,7 @@ export function changePlayer(req) {
                                 resolve(player);
                             })
                             .catch(function(err){
-                                console.log(err);
+                                console.error(err);
                                 reject(err);
                             })
                     })
