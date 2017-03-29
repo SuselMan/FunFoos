@@ -16,6 +16,7 @@ import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
+import UserView from '../user/user';
 
 import UploadView from '../../widgets/fileUploader/fileUploader';
 
@@ -58,6 +59,7 @@ let Layout = Marionette.View.extend({
 
     },
 
+    //TODO: refactor this hell
     start:function(view,option){
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
@@ -74,6 +76,9 @@ let Layout = Marionette.View.extend({
                 break;
             case 'seasons':
                 this.showChildView('contentRegion', new SeasonsView());
+                break;
+            case 'user':
+                this.showChildView('contentRegion', new UserView({model:this.user}));
                 break;
         }
     },
@@ -98,10 +103,9 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
+        console.log('Sihned in', user);
         channelGlobal.reply('get:user', this.getUser.bind(this));
-        if(this.user.get('team')){
-            channelGlobal.request('navigate', 'team/'+ this.user.get('team'), {trigger: true, replace: true});
-        }
+        channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
 
     showSignin: function(){
