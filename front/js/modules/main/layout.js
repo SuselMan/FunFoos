@@ -18,8 +18,6 @@ import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
 
-import UploadView from '../../widgets/fileUploader/fileUploader';
-
 let channelGlobal = Radio.channel('global');
 
 
@@ -59,7 +57,6 @@ let Layout = Marionette.View.extend({
 
     },
 
-    //TODO: refactor this hell
     start:function(view,option){
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
@@ -85,7 +82,6 @@ let Layout = Marionette.View.extend({
 
     onRender: function() {
         this.showChildView('signupRegion', new SignupView());
-        //this.showChildView('uploadRegion', new UploadView());
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
@@ -103,7 +99,6 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
-        console.log('Sihned in', user);
         channelGlobal.reply('get:user', this.getUser.bind(this));
         channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
