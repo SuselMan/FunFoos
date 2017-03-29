@@ -58,21 +58,23 @@ let Layout = Marionette.View.extend({
 
     },
 
-    //TODO: refactor this hell
     start:function(view,option){
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
-        if(view == "teams"){
-            this.showChildView('contentRegion', new TeamsView());
-        }
-        if(view == "team"){
-            this.showChildView('contentRegion', new TeamView({id:option}));
-        }
-        if(view == "players"){
-            this.showChildView('contentRegion', new PlayersView());
-        }
-        if(view == "seasons"){
-            this.showChildView('contentRegion', new SeasonsView());
+
+        switch (view){
+            case 'teams':
+                this.showChildView('contentRegion', new TeamsView());
+                break;
+            case 'team':
+                this.showChildView('contentRegion', new TeamView({id:option}));
+                break;
+            case 'players':
+                this.showChildView('contentRegion', new PlayersView());
+                break;
+            case 'seasons':
+                this.showChildView('contentRegion', new SeasonsView());
+                break;
         }
     },
 
