@@ -37,13 +37,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
-        url: `mongodb://${config.db.host}:${config.db.port}/${config.db.sessions}`
+        url: `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`
     })
 }));
 
-
 app.use(express.static('./build'));
-
 
 app.use('/api', user);
 app.use('/api/players', players);

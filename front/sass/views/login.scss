@@ -72,6 +72,9 @@
     background-color:rgba(0,0,0,0.3);
     border: 1px solid rgba(255,251,231,0.6);
     color:#fffbe7;
+    ::-webkit-input-placeholder {color:#fffbe7;}
+    ::-moz-placeholder          {color:#fffbe7;}
+    :-ms-input-placeholder      {color:#fffbe7;}
   }
   button{
     color: #fffbe7;

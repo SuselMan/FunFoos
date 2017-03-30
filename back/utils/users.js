@@ -31,6 +31,10 @@ export function checkUser(userData){
         })
 }
 
+export function checkSession(id){
+    return User.findById(id)
+}
+
 export function getUser (userData){
     return User.findOne(id)
 }

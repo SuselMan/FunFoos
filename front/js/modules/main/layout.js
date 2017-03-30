@@ -24,7 +24,6 @@ let channelGlobal = Radio.channel('global');
 let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
     className: 'app',
-    tagName: 'div',
 
     regions: {
         signinRegion: '.js-signinRegion',
@@ -99,6 +98,8 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
+        debugger;
+        this.el.querySelector('.js-login').innerText = "Выйти";
         channelGlobal.reply('get:user', this.getUser.bind(this));
         channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
