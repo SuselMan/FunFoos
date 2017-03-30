@@ -27,7 +27,6 @@ const TeamLayout = Marionette.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        console.log('TeamLayout');
         channelGlobal.on('user:updated', this.showTeam.bind(this));
     },
 

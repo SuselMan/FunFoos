@@ -40,7 +40,6 @@ const UploaderView = Marionette.View.extend({
             }).then(function (res) {
                 return res.json()
             }.bind(this)).then(function (imageUrl) {
-                console.log('imageUrl', imageUrl);
                 this.trigger('load:complete',imageUrl)
             }.bind(this));
             this.el.classList.remove('drop');

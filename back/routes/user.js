@@ -7,10 +7,26 @@ import * as db from '../utils/DataBaseUtils';
 
 const router = express.Router();
 
+
 router.post('/login', (req, res, next) => {
-    if (req.session.user) {
-        //return res.redirect('/');
+    if (req.session.user && req.session.user.id) {
+        db.checkSession(req.session.user.id)
+            .then(function(user){
+                console.log('already is auth');
+                res.status(200).send(user);
+            })
+            .catch(function(e){
+                console.error(e);
+                login(req, res, next);
+            })
     }
+    else {
+        login(req, res, next);
+    }
+});
+
+function login (req, res, next){
+    console.log('try to is auth');
     db.checkUser(req.body)
         .then((user) => {
             if (user) {
@@ -24,13 +40,11 @@ router.post('/login', (req, res, next) => {
         .catch(function (error) {
             return next(error)
         })
-});
+}
 
 router.post('/signup', (req, res) => {
-    console.log('req',req.body);
     db.createUser(req.body)
         .then(function(result){
-            console.log("User created")
             res.status(200).send(result);
         })
         .catch(function(err){

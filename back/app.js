@@ -37,14 +37,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
-        url: `mongodb://${config.db.host}:${config.db.port}/${config.db.sessions}`
+        url: `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`
     })
 }));
 
-
-console.log('__dirname',__dirname);
 app.use(express.static('./build'));
-
 
 app.use('/api', user);
 app.use('/api/players', players);
@@ -60,5 +57,5 @@ app.get('*', function(req, res) {
 
 
 const server = app.listen(config.serverPort, function() {
-    console.log(`Server is up and running on port ${config.serverPort}`);
+    console.info(`Server is up and running on port ${config.serverPort}`);
 });

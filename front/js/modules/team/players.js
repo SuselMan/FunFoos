@@ -20,9 +20,9 @@ let channelGlobal = Radio.channel('global');
 
 const PlayerView = Marionette.View.extend({
     template: require('../../../templates/players/player.hbs'),
-    tagName:'li',
+    tagName: 'li',
     className: 'list-group-item',
-    onRender:function () {
+    onRender: function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     }
@@ -30,7 +30,7 @@ const PlayerView = Marionette.View.extend({
 
 const EmptyView = Marionette.View.extend({
     template: require('../../../templates/players/empty.hbs'),
-    tagName:'li',
+    tagName: 'li',
     className: 'list-group-item',
 });
 
@@ -41,7 +41,7 @@ const PlayersView = Marionette.CollectionView.extend({
 
 const NewPlayer = Marionette.View.extend({
     template: require('../../../templates/players/newPlayer.hbs'),
-    ui:{
+    ui: {
         saveBtn: ".js-addPlayerBtn",
     },
 
@@ -49,12 +49,12 @@ const NewPlayer = Marionette.View.extend({
         'click @ui.saveBtn': 'save'
     },
 
-    initialize: function () {
-        this.model= new this.collection.model();
-        console.log('Model', this.model)
+    initialize: function (options) {
+        this.options = options;
+        this.model = new this.collection.model();
     },
 
-    onRender:function(){
+    onRender: function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     },
@@ -63,12 +63,10 @@ const NewPlayer = Marionette.View.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.log('Player Added!');
             })
-            .catch(function (e) {
-                console.log('err', e);
+            .catch(function (err) {
+                console.error(err);
             })
-        console.log('save');
 
     },
 });
@@ -87,20 +85,20 @@ const PlayersLayout = Marionette.View.extend({
         this.options = options;
     },
 
-    onRender: function(){
-        this.collection.fetch({ data: { team: this.options.team.id} })
-            .then(function(){
-                console.log('done');
+    onRender: function () {
+        this.collection.fetch({data: {team: this.options.team.id}})
+            .then(function () {
                 this.showChildView('listRegion', new PlayersView({
                     collection: this.collection
                 }));
                 this.showChildView('addPlayerRegion', new NewPlayer({
-                    collection: this.collection
+                    collection: this.collection,
+                    team: this.options.team.id
                 }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
-            .catch(function(e){
-                console.log('fuck',e);
+            .catch(function (err) {
+                console.error(err);
             })
     }
 });

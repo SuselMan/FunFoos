@@ -12,7 +12,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    console.log('req',req.body);
     db.createSeason(req.body).then(data => res.send(data));
 });
 
