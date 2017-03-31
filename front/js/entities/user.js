@@ -7,7 +7,7 @@ const User = Backbone.Model.extend({
     defaults: {
         "email": "",
         "password": "",
-        "team": null
+        "team": []
     },
     urlRoot: function(){
         if(this.options && this.options.login){

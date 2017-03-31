@@ -8,7 +8,7 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    db.listTeams().then(data => res.send(data));
+    db.listTeams(req).then(data => res.send(data));
 });
 
 router.get('/:id', (req, res) => {

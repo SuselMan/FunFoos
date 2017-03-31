@@ -9,15 +9,19 @@ const router = express.Router();
 
 
 router.post('/login', (req, res, next) => {
-        db.checkSession(req.session.user.id)
-            .then(function(user){
-                console.log('already is auth');
+    db.checkUser(req.body)
+        .then((user) => {
+            if (user) {
+                req.session.user = {id: user._id, name: user.name};
                 res.status(200).send(user);
-            })
-            .catch(function(e){
-                console.error(e);
-                login(req, res, next);
-            })
+                //res.redirect('/signup')
+            } else {
+                return next(error)
+            }
+        })
+        .catch(function (error) {
+            return next(error)
+        })
 });
 
 router.get('/login', (req, res, next) => {

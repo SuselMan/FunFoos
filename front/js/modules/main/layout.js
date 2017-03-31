@@ -14,12 +14,15 @@ import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
+import NewTeamView from '../modals/newTeam';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
 
 let channelGlobal = Radio.channel('global');
 
+
+//TODO: separate it at few files
 
 let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
@@ -29,7 +32,7 @@ let Layout = Marionette.View.extend({
         signinRegion: '.js-signinRegion',
         signupRegion: '.js-signupRegion',
         contentRegion: '.js-contentRegion',
-        uploadRegion: '.js-uploadRegion'
+        modalRegion: '.js-ModalRegion'
 
     },
 
@@ -54,6 +57,17 @@ let Layout = Marionette.View.extend({
             this.showSignin();
         }
 
+    },
+
+    startModal(options){
+        this.getRegion('modalRegion').empty();
+        this.el.querySelector('.js-ModalRegion').classList.remove('hide');
+
+        switch (options.view){
+            case 'newTeam':
+                this.showChildView('modalRegion', new NewTeamView(options));
+                break;
+        }
     },
 
     start:function(view,option){
@@ -84,6 +98,7 @@ let Layout = Marionette.View.extend({
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
+        channelGlobal.on("modal:show", this.startModal.bind(this));
         this.signin = new SigninView();
         this.signin.fetch();
     },

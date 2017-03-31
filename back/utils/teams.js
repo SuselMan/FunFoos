@@ -6,7 +6,10 @@ import mongoose from "mongoose";
 import '../models/Team';
 const Team = mongoose.model('Team');
 
-export function listTeams(id) {
+export function listTeams(req) {
+    if(req.param('owner')){
+        return Team.find({ owner: req.param('owner') })
+    }
     return Team.find();
 }
 
@@ -25,7 +28,8 @@ export function getTeam(req) {
 export function createTeam(data) {
     const team = new Team({
         name: data.name,
-        shortName: data.shortName
+        shortName: data.shortName,
+        owner: data.owner
     });
 
     return team.save();
