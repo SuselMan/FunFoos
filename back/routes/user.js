@@ -9,6 +9,18 @@ const router = express.Router();
 
 
 router.post('/login', (req, res, next) => {
+        db.checkSession(req.session.user.id)
+            .then(function(user){
+                console.log('already is auth');
+                res.status(200).send(user);
+            })
+            .catch(function(e){
+                console.error(e);
+                login(req, res, next);
+            })
+});
+
+router.get('/login', (req, res, next) => {
     if (req.session.user && req.session.user.id) {
         db.checkSession(req.session.user.id)
             .then(function(user){
@@ -21,7 +33,7 @@ router.post('/login', (req, res, next) => {
             })
     }
     else {
-        login(req, res, next);
+        res.status(500).send("Has no session")
     }
 });
 

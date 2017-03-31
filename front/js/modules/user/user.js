@@ -23,6 +23,8 @@ const UserLayout = Marionette.View.extend({
 
     initialize: function(options){
         this.options = options;
+        this.mocdel = options.model;
+        console.info(this.model);
     },
 
     onRender:function(){

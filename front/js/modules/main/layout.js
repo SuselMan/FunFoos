@@ -84,6 +84,8 @@ let Layout = Marionette.View.extend({
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
+        this.signin = new SigninView();
+        this.signin.fetch();
     },
 
     minimizeHeader:function () {
@@ -98,14 +100,13 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
-        debugger;
         this.el.querySelector('.js-login').innerText = "Выйти";
         channelGlobal.reply('get:user', this.getUser.bind(this));
         channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
 
     showSignin: function(){
-        this.showChildView('signinRegion', new SigninView());
+        this.showChildView('signinRegion', this.signin);
     },
 
     doneSignup: function(){
@@ -116,8 +117,6 @@ let Layout = Marionette.View.extend({
     getUser:function(){
         return this.user;
     }
-
-
 });
 
 
