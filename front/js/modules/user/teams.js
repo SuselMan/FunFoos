@@ -56,10 +56,15 @@ const TeamsLayout = Marionette.View.extend({
 
     initialize: function(options){
         this.options = options;
+        channelGlobal.on('team:created',this.fetchTeams.bind(this));
+    },
+
+    fetchTeams: function(){
+        return this.collection.fetch({data: {owner: this.options.owner}});
     },
 
     onRender: function(){
-        this.collection.fetch({data: {owner: this.options.owner}})
+        this.fetchTeams()
             .then(function(){
                 this.showChildView('listRegion', new TeamsView({
                     collection: this.collection

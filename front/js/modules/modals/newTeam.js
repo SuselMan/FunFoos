@@ -8,19 +8,12 @@ import Marionette from 'backbone.marionette';
 import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import BaseModalView from './baseModal'
 
 let channelGlobal = Radio.channel('global');
 
-const NewTeamView = Marionette.View.extend({
+const NewTeamView = BaseModalView.extend({
     template: require('../../../templates/modals/newTeam.hbs'),
-
-    ui:{
-        saveBtn: ".js-createNewTeam"
-    },
-
-    events: {
-        'click @ui.saveBtn': 'save'
-    },
 
     initialize: function(options){
         this.options = options;
@@ -34,17 +27,17 @@ const NewTeamView = Marionette.View.extend({
         new ModelBinder().bind(this.model, this.el, bindings);
     },
 
-    save: function () {
+    submit: function () {
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
                 console.info('new team was created with owner', this.options.user.id);
-                channelGlobal.trigger('teamCreated');
+                channelGlobal.trigger('team:created');
+                channelGlobal.trigger('modal:close');
             }.bind(this))
             .catch(function (err) {
                 console.error(err);
             })
-
     }
 });
 

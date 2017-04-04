@@ -93,12 +93,18 @@ let Layout = Marionette.View.extend({
         }
     },
 
+    closeModal: function () {
+        this.getRegion('modalRegion').empty();
+        this.el.querySelector('.js-ModalRegion').classList.add('hide');
+    },
+
     onRender: function() {
         this.showChildView('signupRegion', new SignupView());
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
         channelGlobal.on("modal:show", this.startModal.bind(this));
+        channelGlobal.on("modal:close", this.closeModal.bind(this));
         this.signin = new SigninView();
         this.signin.fetch();
     },

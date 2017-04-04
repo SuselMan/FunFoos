@@ -7,8 +7,9 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const PlaceSchema = new Schema({
-    workFrom     : { type: Date,required: true },
-    workTo     : { type: Date,required: true },
+    name:{type:String},
+    days: [Boolean],
+    work:[Date],
     address  : { type: String},
     meetings : [Number]
 });
