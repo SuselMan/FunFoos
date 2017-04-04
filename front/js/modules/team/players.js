@@ -1,10 +1,7 @@
 /**
- * Created by pavluhin on 24.03.2017.
+ * Created by pavluhin on 31.03.2017.
  */
 
-/**
- * Created by pavluhin on 01.03.2017.
- */
 
 "use strict";
 
@@ -19,18 +16,26 @@ let channelGlobal = Radio.channel('global');
 
 
 const PlayerView = Marionette.View.extend({
-    template: require('../../../templates/players/player.hbs'),
-    tagName: 'li',
+    template: require('../../../templates/team/player.hbs'),
+    tagName:'li',
     className: 'list-group-item',
-    onRender: function () {
+
+    events:{
+        'click': 'navigate'
+    },
+    navigate:function(){
+        channelGlobal.request('navigate', 'player/'+this.model.id, {trigger: true, replace: true});
+    },
+
+    onRender:function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     }
 });
 
 const EmptyView = Marionette.View.extend({
-    template: require('../../../templates/players/empty.hbs'),
-    tagName: 'li',
+    template: require('../../../templates/team/empty.hbs'),
+    tagName:'li',
     className: 'list-group-item',
 });
 
@@ -39,65 +44,47 @@ const PlayersView = Marionette.CollectionView.extend({
     emptyView: EmptyView
 });
 
-const NewPlayer = Marionette.View.extend({
-    template: require('../../../templates/players/newPlayer.hbs'),
-    ui: {
-        saveBtn: ".js-addPlayerBtn",
+const PlayersLayout = Marionette.View.extend({
+    template: require('../../../templates/team/players.hbs'),
+    collection: new Players(),
+    behaviors: [Preloader],
+
+    ui:{
+        createPlayerBtn: ".js-createPlayer"
     },
 
     events: {
-        'click @ui.saveBtn': 'save'
+        'click @ui.createPlayerBtn': 'createPlayer'
     },
 
-    initialize: function (options) {
-        this.options = options;
-        this.model = new this.collection.model();
-    },
-
-    onRender: function () {
-        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
-        new ModelBinder().bind(this.model, this.el, bindings);
-    },
-
-    save: function () {
-        this.collection.add(this.model);
-        this.model.save()
-            .then(function (result) {
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-
-    },
-});
-
-const PlayersLayout = Marionette.View.extend({
-    template: require('../../../templates/players/players.hbs'),
-    collection: new Players(),
-    behaviors: [Preloader],
     regions: {
         listRegion: {
             el: '.js-listRegion'
-        },
-        addPlayerRegion: '.js-newPlayerRegion'
-    },
-    initialize: function (options) {
-        this.options = options;
+        }
     },
 
-    onRender: function () {
-        this.collection.fetch({data: {team: this.options.team.id}})
-            .then(function () {
+    initialize: function(options){
+        this.options = options;
+        channelGlobal.on('player:created',this.fetchPlayers.bind(this));
+    },
+
+    fetchPlayers: function(){
+        return this.collection.fetch({data: {owner: this.options.owner}});
+    },
+
+    createPlayer :function() {
+        channelGlobal.trigger('modal:show',{view:'newPlayer',user: this.model})
+    },
+
+    onRender: function(){
+        this.fetchPlayers()
+            .then(function(){
                 this.showChildView('listRegion', new PlayersView({
                     collection: this.collection
                 }));
-                this.showChildView('addPlayerRegion', new NewPlayer({
-                    collection: this.collection,
-                    team: this.options.team.id
-                }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
-            .catch(function (err) {
+            .catch(function(err){
                 console.error(err);
             })
     }

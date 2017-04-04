@@ -44,7 +44,8 @@ export function listPlayers(req) {
 export function createPlayer(data) {
     const team = new Player({
         firstName: data.firstName,
-        secondName: data.secondName
+        secondName: data.secondName,
+        owner: data.owner
     });
 
     return team.save();

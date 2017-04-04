@@ -15,6 +15,7 @@ import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
 import NewTeamView from '../modals/newTeam';
+import NewPlayerView from '../modals/newPlayer';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
@@ -22,7 +23,7 @@ import UserView from '../user/user';
 let channelGlobal = Radio.channel('global');
 
 
-//TODO: separate it at few files
+//TODO: separate it to few files
 
 let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
@@ -66,6 +67,9 @@ let Layout = Marionette.View.extend({
         switch (options.view){
             case 'newTeam':
                 this.showChildView('modalRegion', new NewTeamView(options));
+                break;
+            case 'newPlayer':
+                this.showChildView('modalRegion', new NewPlayerView(options));
                 break;
         }
     },

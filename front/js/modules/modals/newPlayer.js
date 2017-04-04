@@ -13,7 +13,7 @@ import BaseModalView from './baseModal'
 let channelGlobal = Radio.channel('global');
 
 const NewTeamView = BaseModalView.extend({
-    template: require('../../../templates/modals/newTeam.hbs'),
+    template: require('../../../templates/modals/newPlayer.hbs'),
 
     initialize: function(options){
         this.options = options;
