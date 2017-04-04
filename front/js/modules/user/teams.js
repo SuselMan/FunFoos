@@ -7,7 +7,7 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
+import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
@@ -15,8 +15,8 @@ import Preloader from '../../behaviors/preloader';
 let channelGlobal = Radio.channel('global');
 
 
-const PlayerView = Marionette.View.extend({
-    template: require('../../../templates/team/player.hbs'),
+const TeamView = Marionette.View.extend({
+    template: require('../../../templates/user/team.hbs'),
     tagName:'li',
     className: 'list-group-item',
 
@@ -24,7 +24,7 @@ const PlayerView = Marionette.View.extend({
         'click': 'navigate'
     },
     navigate:function(){
-        channelGlobal.request('navigate', 'player/'+this.model.id, {trigger: true, replace: true});
+        channelGlobal.request('navigate', 'team/'+this.model.id, {trigger: true, replace: true});
     },
 
     onRender:function () {
@@ -34,29 +34,20 @@ const PlayerView = Marionette.View.extend({
 });
 
 const EmptyView = Marionette.View.extend({
-    template: require('../../../templates/team/empty.hbs'),
+    template: require('../../../templates/user/empty.hbs'),
     tagName:'li',
     className: 'list-group-item',
 });
 
-const PlayersView = Marionette.CollectionView.extend({
-    childView: PlayerView,
+const TeamsView = Marionette.CollectionView.extend({
+    childView: TeamView,
     emptyView: EmptyView
 });
 
-const PlayersLayout = Marionette.View.extend({
-    template: require('../../../templates/team/players.hbs'),
-    collection: new Players(),
+const TeamsLayout = Marionette.View.extend({
+    template: require('../../../templates/teams/teams.hbs'),
+    collection: new Teams(),
     behaviors: [Preloader],
-
-    ui:{
-        createPlayerBtn: ".js-createPlayer"
-    },
-
-    events: {
-        'click @ui.createPlayerBtn': 'createPlayer'
-    },
-
     regions: {
         listRegion: {
             el: '.js-listRegion'
@@ -65,21 +56,17 @@ const PlayersLayout = Marionette.View.extend({
 
     initialize: function(options){
         this.options = options;
-        channelGlobal.on('player:created',this.fetchPlayers.bind(this));
+        channelGlobal.on('team:created',this.fetchTeams.bind(this));
     },
 
-    fetchPlayers: function(){
+    fetchTeams: function(){
         return this.collection.fetch({data: {owner: this.options.owner}});
     },
 
-    createPlayer :function() {
-        channelGlobal.trigger('modal:show',{view:'newPlayer',user: this.model})
-    },
-
     onRender: function(){
-        this.fetchPlayers()
+        this.fetchTeams()
             .then(function(){
-                this.showChildView('listRegion', new PlayersView({
+                this.showChildView('listRegion', new TeamsView({
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
@@ -90,4 +77,4 @@ const PlayersLayout = Marionette.View.extend({
     }
 });
 
-export default PlayersLayout;
+export default TeamsLayout;

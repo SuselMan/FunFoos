@@ -5,6 +5,7 @@
 @import "./mixins.scss";
 @import "./views/login.scss";
 @import "./views/team.scss";
+@import "./views/user.scss";
 
 @import "./widgets/uploadForm.scss";
 @import "./widgets/preloader.scss";
@@ -37,6 +38,14 @@ body{
   &.hide {
     display: none;
     opacity: 0;
+  }
+  .modal-block{
+    background-color: $soft-white;
+    width:600px;
+    height: 800px;
+    @include strict-center();
+    position: absolute;
+    padding: 40px;
   }
 }
 

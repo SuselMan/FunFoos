@@ -37,7 +37,7 @@ const TeamLayout = Marionette.View.extend({
             this.uploadView.on('load:complete',this.showLogo.bind(this))
         }
         this.players = new Players();
-        this.showChildView('playersRegion',new Players({team: this.model}));
+        this.showChildView('playersRegion',new Players({model:this.model, owner: this.model.id}));
     },
 
     showLogo: function(url) {

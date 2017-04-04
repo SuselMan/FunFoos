@@ -11,7 +11,7 @@ export function changePlayer(req) {
     return new Promise(function(resolve, reject) {
         Player.findById(req.params.id,function(err,player){
             if(player){
-                Player.update({_id:req.params.id},{team:req.body.team})
+                Player.update({_id:req.params.id},{owner:req.body.owner})
                     .then(function (isOk) {
                         Player.findById(req.params.id)
                             .then(function(player){
@@ -35,8 +35,8 @@ export function changePlayer(req) {
 
 
 export function listPlayers(req) {
-    if(req.param('team')){
-        return Player.find({ team: req.param('team') })
+    if(req.param('owner')){
+        return Player.find({ owner: req.param('owner') })
     }
     return Player.find();
 }
@@ -44,7 +44,8 @@ export function listPlayers(req) {
 export function createPlayer(data) {
     const team = new Player({
         firstName: data.firstName,
-        secondName: data.secondName
+        secondName: data.secondName,
+        owner: data.owner
     });
 
     return team.save();

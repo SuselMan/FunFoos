@@ -15,7 +15,7 @@ const Player = Backbone.Model.extend({
     defaults: {
         firstName     : "",
         secondName  : [],
-        team  : null
+        owner  : null
     }
 });
 

@@ -47,6 +47,15 @@ let Login = Marionette.View.extend({
             })
 
     },
+    fetch: function () {
+        this.model.fetch()
+            .then(function (result) {
+                channelGlobal.trigger("done:signin", this.model);
+            }.bind(this))
+            .catch(function (e) {
+
+            })
+    },
     close: function(){
         channelGlobal.trigger("close:signin", this.model);
 

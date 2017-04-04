@@ -14,12 +14,16 @@ import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
+import NewTeamView from '../modals/newTeam';
+import NewPlayerView from '../modals/newPlayer';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
 
 let channelGlobal = Radio.channel('global');
 
+
+//TODO: separate it to few files
 
 let Layout = Marionette.View.extend({
     template: require('../../../templates/main/layout.hbs'),
@@ -29,7 +33,7 @@ let Layout = Marionette.View.extend({
         signinRegion: '.js-signinRegion',
         signupRegion: '.js-signupRegion',
         contentRegion: '.js-contentRegion',
-        uploadRegion: '.js-uploadRegion'
+        modalRegion: '.js-ModalRegion'
 
     },
 
@@ -56,6 +60,20 @@ let Layout = Marionette.View.extend({
 
     },
 
+    startModal(options){
+        this.getRegion('modalRegion').empty();
+        this.el.querySelector('.js-ModalRegion').classList.remove('hide');
+
+        switch (options.view){
+            case 'newTeam':
+                this.showChildView('modalRegion', new NewTeamView(options));
+                break;
+            case 'newPlayer':
+                this.showChildView('modalRegion', new NewPlayerView(options));
+                break;
+        }
+    },
+
     start:function(view,option){
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
@@ -79,11 +97,20 @@ let Layout = Marionette.View.extend({
         }
     },
 
+    closeModal: function () {
+        this.getRegion('modalRegion').empty();
+        this.el.querySelector('.js-ModalRegion').classList.add('hide');
+    },
+
     onRender: function() {
         this.showChildView('signupRegion', new SignupView());
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
+        channelGlobal.on("modal:show", this.startModal.bind(this));
+        channelGlobal.on("modal:close", this.closeModal.bind(this));
+        this.signin = new SigninView();
+        this.signin.fetch();
     },
 
     minimizeHeader:function () {
@@ -98,14 +125,13 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
-        debugger;
         this.el.querySelector('.js-login').innerText = "Выйти";
         channelGlobal.reply('get:user', this.getUser.bind(this));
         channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
 
     showSignin: function(){
-        this.showChildView('signinRegion', new SigninView());
+        this.showChildView('signinRegion', this.signin);
     },
 
     doneSignup: function(){
@@ -116,8 +142,6 @@ let Layout = Marionette.View.extend({
     getUser:function(){
         return this.user;
     }
-
-
 });
 
 

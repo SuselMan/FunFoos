@@ -11,6 +11,15 @@
     height: 200px;
   }
 }
+.team-logo-small{
+  width:100px;
+  height: 100px;
+  float: left;
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}
 
 .team-header{
   border-bottom: 1px solid $light-gray;

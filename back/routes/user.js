@@ -9,6 +9,22 @@ const router = express.Router();
 
 
 router.post('/login', (req, res, next) => {
+    db.checkUser(req.body)
+        .then((user) => {
+            if (user) {
+                req.session.user = {id: user._id, name: user.name};
+                res.status(200).send(user);
+                //res.redirect('/signup')
+            } else {
+                return next(error)
+            }
+        })
+        .catch(function (error) {
+            return next(error)
+        })
+});
+
+router.get('/login', (req, res, next) => {
     if (req.session.user && req.session.user.id) {
         db.checkSession(req.session.user.id)
             .then(function(user){
@@ -21,7 +37,7 @@ router.post('/login', (req, res, next) => {
             })
     }
     else {
-        login(req, res, next);
+        res.status(500).send("Has no session")
     }
 });
 

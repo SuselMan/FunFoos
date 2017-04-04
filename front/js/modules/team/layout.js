@@ -11,7 +11,6 @@ import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
-import NewTeamView from './newTeam';
 import TeamView from './team';
 
 let channelGlobal = Radio.channel('global');
@@ -31,7 +30,7 @@ const TeamLayout = Marionette.View.extend({
     },
 
     showTeam: function (team) {
-        this.showChildView('newTeamRegion', new TeamView({model: team}));
+        this.showChildView('newTeamRegion', new TeamView({model: team, owner: team.id}));
     },
 
     onRender: function () {

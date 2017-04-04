@@ -9,7 +9,8 @@ const Schema = mongoose.Schema;
 const TeamSchema = new Schema({
     name     : { type: String,required: true },
     shortName     : { type: String,required: true },
-    owner  : { type: Number},
+    owner  : { type: Number, required: true},
+    devision  : { type: Number},
     image  : { type: String},
     players  : [Number],
     meetings  : [Number]
