@@ -125,7 +125,7 @@ let Layout = Marionette.View.extend({
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
-        this.el.querySelector('.js-login').innerText = "Выйти";
+        this.el.querySelector('.js-login').innerText = user.get('email');
         channelGlobal.reply('get:user', this.getUser.bind(this));
         channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
