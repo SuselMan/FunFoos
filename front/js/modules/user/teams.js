@@ -20,9 +20,20 @@ const TeamView = Marionette.View.extend({
     tagName:'li',
     className: 'list-group-item',
 
+    ui:{
+      deleteBtn: '.js-deleteBtn'
+    },
+
     events:{
+        'click @ui.deleteBtn': 'deleteTeam',
         'click': 'navigate'
     },
+
+    deleteTeam: function(e){
+        e.stopPropagation();
+        this.model.destroy();
+    },
+
     navigate:function(){
         channelGlobal.request('navigate', 'team/'+this.model.id, {trigger: true, replace: true});
     },

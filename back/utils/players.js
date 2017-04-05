@@ -51,3 +51,7 @@ export function createPlayer(data) {
     return team.save();
 }
 
+export function deletePlayer(id) {
+    return Player.findById(id).remove();
+}
+
