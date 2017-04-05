@@ -1,7 +1,18 @@
-<div>
-    <div class="team-logo-small"><img src="{{image}}"></div>
-    <h3 style="float:left">{{name}}
-        <span class="badge badge-default" name="firstName"></span>
-        <span class="badge badge-default" name="secondName"></span>
-    </h3>
+<div class="form-inline col-12">
+    <div class="col-2">
+        <div class="player-photo-small"><img src="{{image}}"></div>
+    </div>
+
+    <div class="col-9">
+        <h4 style="float:left">{{name}}
+            <span class="" name="firstName"></span>
+            <span class="" name="secondName"></span>
+        </h4>
+    </div>
+
+    <div class="col-1">
+        <button type="button" class="close js-deleteBtn float-right " data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>

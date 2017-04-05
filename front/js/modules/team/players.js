@@ -18,11 +18,22 @@ let channelGlobal = Radio.channel('global');
 const PlayerView = Marionette.View.extend({
     template: require('../../../templates/team/player.hbs'),
     tagName:'li',
-    className: 'list-group-item',
+    className: 'list-group-item small-padding',
+
+    ui:{
+        deleteBtn: '.js-deleteBtn'
+    },
 
     events:{
+        'click @ui.deleteBtn': 'deletePlayer',
         'click': 'navigate'
     },
+
+    deletePlayer: function(e){
+        e.stopPropagation();
+        this.model.destroy();
+    },
+
     navigate:function(){
         channelGlobal.request('navigate', 'player/'+this.model.id, {trigger: true, replace: true});
     },

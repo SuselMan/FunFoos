@@ -21,6 +21,20 @@
   }
 }
 
+.player-photo-small{
+  width:40px;
+  height: 40px;
+  float: left;
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.small-padding{
+  padding: 5px;
+}
+
 .team-header{
   border-bottom: 1px solid $light-gray;
   width:100%;
