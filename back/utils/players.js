@@ -11,7 +11,7 @@ export function changePlayer(req) {
     return new Promise(function(resolve, reject) {
         Player.findById(req.params.id,function(err,player){
             if(player){
-                Player.update({_id:req.params.id},{owner:req.body.owner})
+                Player.update({_id:req.params.id},{image:req.body.image})
                     .then(function (isOk) {
                         Player.findById(req.params.id)
                             .then(function(player){
@@ -45,7 +45,9 @@ export function createPlayer(data) {
     const team = new Player({
         firstName: data.firstName,
         secondName: data.secondName,
-        owner: data.owner
+        owner: data.owner,
+        image: data.image
+
     });
 
     return team.save();
