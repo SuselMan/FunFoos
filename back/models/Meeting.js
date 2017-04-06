@@ -9,8 +9,9 @@ const Schema = mongoose.Schema;
 const MeetingSchema = new Schema({
     date     : { type: Date,required: true },
     place  : { type: Number},
-    teams : [Number]
+    host : {type:Number},
+    guest : {type:Number}
 });
-MeetingSchema.plugin(autoIncrement, 'MeetingSchema');
 
+MeetingSchema.plugin(autoIncrement, 'MeetingSchema');
 const Meeting = mongoose.model('Meeting', MeetingSchema);
