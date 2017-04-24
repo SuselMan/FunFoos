@@ -10,7 +10,8 @@ const MeetingSchema = new Schema({
     date     : { type: Date,required: true },
     place  : { type: Number},
     host : {type:Number},
-    guest : {type:Number}
+    guest : {type:Number},
+    season:{type:Number}
 });
 
 MeetingSchema.plugin(autoIncrement, 'MeetingSchema');

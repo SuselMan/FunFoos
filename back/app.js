@@ -18,6 +18,7 @@ import teams from './routes/teams';
 import seasons from './routes/seasons';
 import images from './routes/images';
 import user from './routes/user';
+import meetings from './routes/meetings';
 
 const app = express();
 let MongoStore= connectMongo(session);
@@ -48,6 +49,7 @@ app.use('/api/players', players);
 app.use('/api/teams', teams);
 app.use('/api/seasons', seasons);
 app.use('/api/files', images);
+app.use('/api/meetings', meetings);
 
 
 app.get('*', function(req, res) {

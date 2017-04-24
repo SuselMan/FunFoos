@@ -14,3 +14,4 @@ export * from './teams';
 export * from './players';
 export * from './users';
 export * from './seasons';
+export * from './meetings';
