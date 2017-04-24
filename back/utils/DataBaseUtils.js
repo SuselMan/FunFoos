@@ -15,3 +15,8 @@ export * from './players';
 export * from './users';
 export * from './seasons';
 export * from './meetings';
+export * from './places';
+
+export function startSeason(id) {
+    var teams = listTeams(req);
+}

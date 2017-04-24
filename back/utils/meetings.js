@@ -56,4 +56,3 @@ export function createMeeting(data) {
 export function deleteMeeting(id) {
   return Meeting.findById(id).remove();
 }
-

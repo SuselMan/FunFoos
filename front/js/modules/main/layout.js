@@ -19,6 +19,8 @@ import NewPlayerView from '../modals/newPlayer';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
+import MeetingsView from '../meetings/meetings';
+import PlacesView from '../places/places';
 
 let channelGlobal = Radio.channel('global');
 
@@ -93,6 +95,12 @@ let Layout = Marionette.View.extend({
                 break;
             case 'user':
                 this.showChildView('contentRegion', new UserView({model:this.user}));
+                break;
+            case 'meetings':
+                this.showChildView('contentRegion', new MeetingsView());
+                break;
+            case 'places':
+                this.showChildView('contentRegion', new PlacesView());
                 break;
         }
     },
