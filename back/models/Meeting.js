@@ -7,7 +7,7 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const MeetingSchema = new Schema({
-    date     : { type: Date,required: true },
+    date     : { type: Number,required: true },
     place  : { type: Number},
     host : {type:Number},
     guest : {type:Number},
