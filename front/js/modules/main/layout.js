@@ -16,6 +16,7 @@ import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
+import NewPlaceView from '../modals/newPlace';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
@@ -72,6 +73,9 @@ let Layout = Marionette.View.extend({
                 break;
             case 'newPlayer':
                 this.showChildView('modalRegion', new NewPlayerView(options));
+                break;
+            case 'newPlace':
+                this.showChildView('modalRegion', new NewPlaceView(options));
                 break;
         }
     },

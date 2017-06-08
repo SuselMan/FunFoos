@@ -18,6 +18,9 @@ export * from './seasons';
 export * from './meetings';
 export * from './places';
 
+
+//TODO thinking about baseUtil class and just extend it
+
 function createMeetingsForTeam(team, teams, index) {
     //TODO: add normal date calculating
     var meetings = [];
@@ -41,15 +44,13 @@ function createMeetingsForTeam(team, teams, index) {
 }
 
 function saveMeetingsInDB(meetings, i) {
-    console.log('lol',i);
     if (i < meetings.length) {
-        console.log('hey');
         this.createMeeting(meetings[i])
           .then(function () {
             saveMeetingsInDB.call(this,meetings, i+1);
         }.bind(this))
           .catch(function(e){
-              console.log("error",e);
+              console.error("error",e);
           })
     }
 }

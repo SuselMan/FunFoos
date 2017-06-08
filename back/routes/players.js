@@ -4,7 +4,6 @@
 
 import express from 'express';
 import * as db from '../utils/DataBaseUtils';
-db.startSeason('');
 
 const router = express.Router();
 

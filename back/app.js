@@ -14,6 +14,7 @@ import * as db from './utils/DataBaseUtils';
 
 //routes
 import players from './routes/players';
+import places from './routes/places';
 import teams from './routes/teams';
 import seasons from './routes/seasons';
 import images from './routes/images';
@@ -24,7 +25,6 @@ const app = express();
 let MongoStore= connectMongo(session);
 
 db.setUpConnection(app);
-
 
 // app.use(express.favicon());
 app.use( bodyParser.json() );
@@ -46,6 +46,7 @@ app.use(express.static('./build'));
 
 app.use('/api', user);
 app.use('/api/players', players);
+app.use('/api/places', places);
 app.use('/api/teams', teams);
 app.use('/api/seasons', seasons);
 app.use('/api/files', images);

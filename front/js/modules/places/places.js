@@ -6,7 +6,7 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
+import Places from '../../entities/places';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
@@ -14,8 +14,8 @@ import Preloader from '../../behaviors/preloader';
 let channelGlobal = Radio.channel('global');
 
 
-const PlayerView = Marionette.View.extend({
-    template: require('../../../templates/players/player.hbs'),
+const PlaceView = Marionette.View.extend({
+    template: require('../../../templates/places/place.hbs'),
     tagName:'li',
     className: 'list-group-item',
     onRender:function () {
@@ -25,75 +25,47 @@ const PlayerView = Marionette.View.extend({
 });
 
 const EmptyView = Marionette.View.extend({
-    template: require('../../../templates/players/empty.hbs'),
+    template: require('../../../templates/places/empty.hbs'),
     tagName:'li',
     className: 'list-group-item',
 });
 
-const PlayersView = Marionette.CollectionView.extend({
-    childView: PlayerView,
+const PlacesView = Marionette.CollectionView.extend({
+    childView: PlaceView,
     emptyView: EmptyView
 });
 
-const NewPlayer = Marionette.View.extend({
-    template: require('../../../templates/players/newPlayer.hbs'),
-    ui:{
-        saveBtn: ".js-addPlayerBtn",
-    },
-
-    events: {
-        'click @ui.saveBtn': 'save'
-    },
-
-    initialize: function () {
-        this.model= new this.collection.model();
-    },
-
-    onRender:function(){
-        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
-        new ModelBinder().bind(this.model, this.el, bindings);
-    },
-
-    save: function () {
-        this.collection.add(this.model);
-        this.model.save()
-            .then(function (result) {
-
-            })
-            .catch(function (e) {
-
-            })
-
-
-    },
-});
-
-const PlayersLayout = Marionette.View.extend({
-    template: require('../../../templates/players/players.hbs'),
-    collection: new Players(),
+const PlacesLayout = Marionette.View.extend({
+    template: require('../../../templates/places/places.hbs'),
+    collection: new Places(),
     behaviors: [Preloader],
+    ui:{
+        createPlaceBtn: ".js-createPlaceBtn"
+    },
+    events: {
+        'click @ui.createPlaceBtn': 'createPlace'
+    },
     regions: {
         listRegion: {
             el: '.js-listRegion'
-        },
-        addPlayerRegion: '.js-newPlayerRegion'
+        }
     },
 
     onRender:function(){
         this.collection.fetch()
             .then(function(){
-                this.showChildView('listRegion', new PlayersView({
-                    collection: this.collection
-                }));
-                this.showChildView('addPlayerRegion', new NewPlayer({
+                this.showChildView('listRegion', new PlacesView({
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
             .catch(function(e){
-                
+                console.log('Something wrong',e);
             })
-    }
+    },
+    createPlace :function() {
+        channelGlobal.trigger('modal:show',{view:'newPlace'});
+    },
 });
 
-export default PlayersLayout;
+export default PlacesLayout;
