@@ -37,7 +37,7 @@ export function changeMeeting(req) {
 
 export function listMeetings(req) {
   if(req.param('owner')){
-    return Meeting.find({ owner: req.param('owner') })
+    return Meeting.find({}).or([{ guest:  req.param('owner')  }, { host:  req.param('owner')  }])
   }
   return Meeting.find();
 }

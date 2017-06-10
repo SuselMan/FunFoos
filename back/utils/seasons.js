@@ -4,6 +4,7 @@
 
 import mongoose from "mongoose";
 import '../models/Season';
+import moment from 'moment';
 
 const Season = mongoose.model('Season');
 
@@ -44,7 +45,23 @@ function createMeetingsForTeam(team, teams, index) {
     return meetings;
 }
 
+function saveMeetingsInDB(meetings, i) {
+    if (i < meetings.length) {
+        this.createMeeting(meetings[i])
+            .then(function () {
+                saveMeetingsInDB.call(this,meetings, i+1);
+            }.bind(this))
+            .catch(function(e){
+                console.error("error",e);
+            })
+    }
+}
+
+
 export function changeSeason(req) {
+    if(req.body.state && req.body.state === 2){
+        this.startSeason(req.params.id);
+    }
     return new Promise(function(resolve, reject) {
         Season.findById(req.params.id,function(err,season){
             if(season){
@@ -70,23 +87,14 @@ export function changeSeason(req) {
 
 }
 
-function saveMeetingsInDB(meetings, i) {
-    if (i < meetings.length) {
-        this.createMeeting(meetings[i])
-            .then(function () {
-                saveMeetingsInDB.call(this,meetings, i+1);
-            }.bind(this))
-            .catch(function(e){
-                console.error("error",e);
-            })
-    }
-}
-
 export function startSeason(id) {
+    console.log('StartSeason');
     var meetings = [];
     this.listTeams(null).then(function (teams) {
+        console.log('teams',teams.length);
         if (teams && teams.length) {
             for (var i = 0; i < teams.length - 1; i++) {
+                console.log('team');
                 meetings = meetings.concat(createMeetingsForTeam(teams[i], teams.slice(i + 1), i));
             }
             console.log(meetings);

@@ -17,28 +17,41 @@ let channelGlobal = Radio.channel('global');
 
 const MeetingView = Marionette.View.extend({
     template: require('../../../templates/team/meeting.hbs'),
-    tagName:'div',
-    className: 'team-meeting',
+    tagName: 'div',
+    className: 'team-player',
 
-    ui:{
+    ui: {
         deleteBtn: '.js-deleteBtn'
     },
 
-    events:{
+    events: {
         'click @ui.deleteBtn': 'deleteMeeting',
         'click': 'navigate'
     },
 
-    deleteMeeting: function(e){
+    initialize: function (options) {
+        this.options = options;
+        let id;
+        console.log('owner', options);
+        id = options.owner === this.model.get('host') ? this.model.get('guest') : this.model.get('host');
+        console.log('team', this.options.teamsCollection.get(id));
+        let name = this.options.teamsCollection.get(id).get('name');
+        let image = this.options.teamsCollection.get(id).get('image');
+        this.model.set('name',name);
+        this.model.set('image',image);
+        console.log('id', id);
+    },
+
+    deleteMeeting: function (e) {
         e.stopPropagation();
         this.model.destroy();
     },
 
-    navigate:function(){
-        channelGlobal.request('navigate', 'meeting/'+this.model.id, {trigger: true, replace: true});
+    navigate: function () {
+        channelGlobal.request('navigate', 'meeting/' + this.model.id, {trigger: true, replace: true});
     },
 
-    onRender:function () {
+    onRender: function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     }
@@ -46,14 +59,20 @@ const MeetingView = Marionette.View.extend({
 
 const EmptyView = Marionette.View.extend({
     template: require('../../../templates/team/emptyMeetings.hbs'),
-    tagName:'div'
+    tagName: 'div'
+
     // className: 'list-group-item',
 });
 
 const MeetingsView = Marionette.CollectionView.extend({
     childView: MeetingView,
     emptyView: EmptyView,
-    className:'col-12 team-meetings-container'
+    className: 'col-12 team-players-container',
+
+    initialize: function (options) {
+        this.options = options;
+        this.childViewOptions = options;
+    }
 });
 
 const MeetingsLayout = Marionette.View.extend({
@@ -61,7 +80,7 @@ const MeetingsLayout = Marionette.View.extend({
     collection: new Meetings(),
     behaviors: [Preloader],
 
-    ui:{
+    ui: {
         //createMeetingBtn: ".js-createMeeting"
     },
 
@@ -75,24 +94,25 @@ const MeetingsLayout = Marionette.View.extend({
         }
     },
 
-    initialize: function(options){
+    initialize: function (options) {
         this.options = options;
-        channelGlobal.on('meeting:created',this.fetchMeetings.bind(this));
     },
 
-    fetchMeetings: function(){
+    fetchMeetings: function () {
         return this.collection.fetch({data: {owner: this.options.owner}});
     },
 
-    onRender: function(){
+    onRender: function () {
         this.fetchMeetings()
-            .then(function(){
+            .then(function () {
                 this.showChildView('listRegion', new MeetingsView({
-                    collection: this.collection
+                    collection: this.collection,
+                    teamsCollection: this.options.teamsCollection,
+                    owner: this.options.owner
                 }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
-            .catch(function(err){
+            .catch(function (err) {
                 console.error(err);
             })
     }

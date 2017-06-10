@@ -36,8 +36,8 @@ const TeamLayout = Marionette.View.extend({
         meetingsRegion: '.js-meetingsRegion'
     },
 
-    showTeam: function () {
-
+    initialize: function (options) {
+        this.options = options;
     },
 
     onRender: function () {
@@ -51,7 +51,10 @@ const TeamLayout = Marionette.View.extend({
         this.players = new Players();
         this.meetings = new Meetings();
         this.showChildView('playersRegion', new Players({model: this.model, owner: this.model.id}));
-        this.showChildView('meetingsRegion', new Meetings({model: this.model, owner: this.model.id}));
+        this.showChildView('meetingsRegion', new Meetings({
+            owner: this.model.id,
+            teamsCollection: this.options.collection
+        }));
 
         this.seasons = new Seasons();
         this.seasons.fetch({data: {state: 1}})
@@ -65,15 +68,15 @@ const TeamLayout = Marionette.View.extend({
         for (var i = 0; i < options.length; i++) {
             let option = document.createElement('option');
             option.innerText = options[i].get('name');
-            option.setAttribute('value',options[i].id);
+            option.setAttribute('value', options[i].id);
             document.querySelector('#js-seasonSelector').appendChild(option);
             console.log(options[i]);
         }
         document.querySelector('#js-seasonSelector').onchange = this.selectSeason.bind(this);
     },
 
-    selectSeason: function(e){
-        this.model.save({season:e.target.value});
+    selectSeason: function (e) {
+        this.model.save({season: e.target.value});
     },
 
     showLogo: function (url) {

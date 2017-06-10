@@ -4,7 +4,6 @@
 
 import mongoose from 'mongoose';
 import config from '../etc/config.json';
-import moment from 'moment';
 
 export function setUpConnection() {
     let connection= mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
@@ -19,4 +18,4 @@ export * from './meetings';
 export * from './places';
 
 
-//TODO thinking about baseUtil class and just extend it
+//TODO think about baseUtil class and just extend it
