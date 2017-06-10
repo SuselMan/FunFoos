@@ -45,7 +45,7 @@ export function changeSeason(req) {
     return new Promise(function(resolve, reject) {
         Season.findById(req.params.id,function(err,season){
             if(season){
-                Season.update({_id:req.params.id},{isBegan:req.body.isBegan})
+                Season.update({_id:req.params.id},req.body)
                     .then(function (isOk) {
                         Season.findById(req.params.id)
                             .then(function(season){

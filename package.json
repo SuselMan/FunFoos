@@ -67,6 +67,7 @@
     "mongoose-autoincrement": "^1.0.0",
     "npm-install-webpack-plugin": "^4.0.4",
     "precss": "^1.4.0",
+    "select2": "^4.0.3",
     "socket.io": "^1.5.1"
   }
 }

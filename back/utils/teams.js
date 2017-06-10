@@ -39,7 +39,7 @@ export function changeTeam(req) {
     return new Promise(function(resolve, reject) {
         Team.findById(req.params.id,function(err,team){
             if(team){
-                Team.update({_id:req.params.id},{image:req.body.image})
+                Team.update({_id:req.params.id},req.body)
                     .then(function (isOk) {
                         Team.findById(req.params.id)
                             .then(function(team){

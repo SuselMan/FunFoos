@@ -8,10 +8,10 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const SeasonSchema = new Schema({
-    name:[String],
-    startDate  : { type: Date},
-    endDate  : { type: Date},
-    isBegan:{type:Boolean}
+    name: {type: String},
+    startDate: {type: Date},
+    endDate: {type: Date},
+    isBegan: {type: Boolean}
 });
 SeasonSchema.plugin(autoIncrement, 'SeasonSchema');
 const Season = mongoose.model('Season', SeasonSchema);
