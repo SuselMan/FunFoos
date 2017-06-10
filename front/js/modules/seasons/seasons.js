@@ -20,11 +20,13 @@ const SeasonView = Marionette.View.extend({
     tagName: 'li',
     className: 'list-group-item',
     ui: {
-        startSeasonBtn: '.js-startSeasonBtn'
+        openSeasonBtn: '.js-openSeasonBtn',
+        startSeasonBtn: '.js-startSeasonBtn',
     },
 
     events: {
-        'click @ui.startSeasonBtn': 'startSeason'
+        'click @ui.startSeasonBtn': 'startSeason',
+        'click @ui.openSeasonBtn': 'openSeason'
     },
 
     onRender: function () {
@@ -32,9 +34,12 @@ const SeasonView = Marionette.View.extend({
         new ModelBinder().bind(this.model, this.el, bindings);
     },
 
+    openSeason: function () {
+        this.model.save({state:1});
+    },
+
     startSeason: function () {
-        console.log('startSeason');
-        this.model.save({isBegan:true});
+        this.model.save({state:2});
     }
 
 });

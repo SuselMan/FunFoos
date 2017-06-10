@@ -8,7 +8,7 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    db.listSeasons().then(data => res.send(data));
+    db.listSeasons(req).then(data => res.send(data));
 });
 
 router.post('/startSeason/:id', (req, res) => {

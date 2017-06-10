@@ -14,7 +14,7 @@ const Season = Backbone.Model.extend({
     },
     defaults: {
         name:"",
-        isBegan  : false
+        state  : 0
     }
 });
 

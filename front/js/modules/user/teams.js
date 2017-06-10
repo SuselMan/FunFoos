@@ -72,7 +72,6 @@ const TeamsLayout = Marionette.View.extend({
     },
 
     fetchTeams: function(){
-        debugger;
         return this.collection.fetch({data: {owner: this.options.owner}});
     },
 

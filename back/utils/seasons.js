@@ -7,7 +7,10 @@ import '../models/Season';
 
 const Season = mongoose.model('Season');
 
-export function listSeasons(id) {
+export function listSeasons(req) {
+    if(req && req.param('state')){
+        return Season.find({ state: req.param('state') })
+    }
     return Season.find();
 }
 

@@ -54,7 +54,7 @@ const TeamLayout = Marionette.View.extend({
         this.showChildView('meetingsRegion', new Meetings({model: this.model, owner: this.model.id}));
 
         this.seasons = new Seasons();
-        this.seasons.fetch()
+        this.seasons.fetch({data: {state: 1}})
             .then(function (result) {
                 this.createSeasonSelector();
             }.bind(this))
