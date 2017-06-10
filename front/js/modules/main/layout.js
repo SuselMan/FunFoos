@@ -16,9 +16,12 @@ import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
+import NewPlaceView from '../modals/newPlace';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
+import MeetingsView from '../meetings/meetings';
+import PlacesView from '../places/places';
 
 let channelGlobal = Radio.channel('global');
 
@@ -45,11 +48,15 @@ let Layout = Marionette.View.extend({
         'click @ui.nav': 'navigateTo'
     },
 
+    initialize: function () {
+        this.user = new User();
+    },
+
     navigateTo: function (e) {
         let url = e.currentTarget.dataset.url;
-        if(url){
+        if (url) {
             let items = this.el.querySelectorAll('a');
-            for(let i = 0;i< items.length;i++){
+            for (let i = 0; i < items.length; i++) {
                 items[i].classList.remove('active');
             }
             channelGlobal.request('navigate', url, {trigger: true, replace: true});
@@ -64,26 +71,31 @@ let Layout = Marionette.View.extend({
         this.getRegion('modalRegion').empty();
         this.el.querySelector('.js-ModalRegion').classList.remove('hide');
 
-        switch (options.view){
+        switch (options.view) {
             case 'newTeam':
                 this.showChildView('modalRegion', new NewTeamView(options));
                 break;
             case 'newPlayer':
                 this.showChildView('modalRegion', new NewPlayerView(options));
                 break;
+            case 'newPlace':
+                this.showChildView('modalRegion', new NewPlaceView(options));
+                break;
         }
     },
 
-    start:function(view,option){
+    start: function (view, option) {
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
+        this.el.querySelector('.sign-up').classList.toggle('team', false);
 
-        switch (view){
+        switch (view) {
             case 'teams':
                 this.showChildView('contentRegion', new TeamsView());
                 break;
             case 'team':
-                this.showChildView('contentRegion', new TeamView({id:option}));
+                this.el.querySelector('.sign-up').classList.toggle('team', true);
+                this.showChildView('contentRegion', new TeamView({id: option}));
                 break;
             case 'players':
                 this.showChildView('contentRegion', new PlayersView());
@@ -92,7 +104,13 @@ let Layout = Marionette.View.extend({
                 this.showChildView('contentRegion', new SeasonsView());
                 break;
             case 'user':
-                this.showChildView('contentRegion', new UserView({model:this.user}));
+                this.showChildView('contentRegion', new UserView({model: this.user}));
+                break;
+            case 'meetings':
+                this.showChildView('contentRegion', new MeetingsView());
+                break;
+            case 'places':
+                this.showChildView('contentRegion', new PlacesView());
                 break;
         }
     },
@@ -102,44 +120,44 @@ let Layout = Marionette.View.extend({
         this.el.querySelector('.js-ModalRegion').classList.add('hide');
     },
 
-    onRender: function() {
-        this.showChildView('signupRegion', new SignupView());
+    onRender: function () {
+        this.showChildView('signupRegion', new SignupView({model: this.user}));
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
         channelGlobal.on("modal:show", this.startModal.bind(this));
         channelGlobal.on("modal:close", this.closeModal.bind(this));
-        this.signin = new SigninView();
+        this.signin = new SigninView({model: this.user});
         this.signin.fetch();
     },
 
-    minimizeHeader:function () {
+    minimizeHeader: function () {
         this.el.querySelector('.sign-up').classList.add('done');
     },
 
-    closeSignin: function(){
+    closeSignin: function () {
         this.getRegion('signinRegion').empty();
     },
 
-    doneSignin: function(user){
+    doneSignin: function (user) {
         this.closeSignin();
         this.minimizeHeader();
         this.user = user;
         this.el.querySelector('.js-login').innerText = user.get('email');
         channelGlobal.reply('get:user', this.getUser.bind(this));
-        channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
+        //channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
 
-    showSignin: function(){
+    showSignin: function () {
         this.showChildView('signinRegion', this.signin);
     },
 
-    doneSignup: function(){
+    doneSignup: function () {
         this.closeSignin();
         this.el.classList.add('done');
     },
 
-    getUser:function(){
+    getUser: function () {
         return this.user;
     }
 });

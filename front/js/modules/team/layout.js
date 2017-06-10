@@ -13,6 +13,8 @@ import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
 import TeamView from './team';
 
+
+//TODO: remove this layout as unnecessary
 let channelGlobal = Radio.channel('global');
 
 const TeamLayout = Marionette.View.extend({

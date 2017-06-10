@@ -1,18 +1,11 @@
-<div class="form-inline col-12">
-    <div class="col-2">
-        <div class="player-photo-small"><img src="{{image}}"></div>
-    </div>
+<div class="img"  {{#if image}} style="background-image: url({{image}})" {{/if}}>
+    <button type="button" class="close js-deleteBtn float-right " data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <!--<img src="{{image}}">-->
+</div>
 
-    <div class="col-9">
-        <h4 style="float:left">{{name}}
-            <span class="" name="firstName"></span>
-            <span class="" name="secondName"></span>
-        </h4>
-    </div>
-
-    <div class="col-1">
-        <button type="button" class="close js-deleteBtn float-right " data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<div class="footer">
+        <span class="" name="firstName"></span>
+        <span class="" name="secondName"></span>
 </div>

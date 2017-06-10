@@ -14,18 +14,20 @@ import * as db from './utils/DataBaseUtils';
 
 //routes
 import players from './routes/players';
+import places from './routes/places';
 import teams from './routes/teams';
 import seasons from './routes/seasons';
 import images from './routes/images';
 import user from './routes/user';
+import meetings from './routes/meetings';
 
 const app = express();
 let MongoStore= connectMongo(session);
 
 db.setUpConnection(app);
 
-
 // app.use(express.favicon());
+//app.use(favicon(__dirname + './build/files/favicon.ico'));
 app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({
     extended: true
@@ -45,9 +47,11 @@ app.use(express.static('./build'));
 
 app.use('/api', user);
 app.use('/api/players', players);
+app.use('/api/places', places);
 app.use('/api/teams', teams);
 app.use('/api/seasons', seasons);
 app.use('/api/files', images);
+app.use('/api/meetings', meetings);
 
 
 app.get('*', function(req, res) {

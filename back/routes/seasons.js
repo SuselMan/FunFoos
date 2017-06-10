@@ -8,11 +8,25 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    db.listSeasons().then(data => res.send(data));
+    db.listSeasons(req).then(data => res.send(data));
+});
+
+router.post('/startSeason/:id', (req, res) => {
+    db.startSeason();
 });
 
 router.post('/', (req, res) => {
     db.createSeason(req.body).then(data => res.send(data));
+});
+
+router.put('/:id', (req, res) => {
+    db.changeSeason(req)
+        .then(function(result){
+            res.status(200).send(result);
+        })
+        .catch(function(err){
+            res.status(err.status).send(err)
+        })
 });
 
 router.delete('/:id', (req, res) => {

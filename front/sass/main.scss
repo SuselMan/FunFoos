@@ -1,6 +1,8 @@
 //$enable-rounded:false!default;
 
 @import "~bootstrap/scss/bootstrap";
+//TODO: remove select2 if it will not use
+@import "~select2/src/scss/core";
 @import "./settings.scss";
 @import "./mixins.scss";
 @import "./views/login.scss";
@@ -11,7 +13,7 @@
 @import "./widgets/preloader.scss";
 
 body{
-  background-color: #fff;
+  background-color: $soft-white;
   color: $gray-light;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   margin: 0;
@@ -22,7 +24,7 @@ body{
 .app-contanier{
   position: absolute;
   width: 100%;
-  background: rgb(255, 255, 255);
+  background: $soft-white
 
 }
 

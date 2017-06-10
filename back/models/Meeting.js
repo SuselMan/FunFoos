@@ -7,10 +7,12 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const MeetingSchema = new Schema({
-    date     : { type: Date,required: true },
+    date     : { type: Number,required: true },
     place  : { type: Number},
-    teams : [Number]
+    host : {type:Number},
+    guest : {type:Number},
+    owner:{type:Number} //owner is season
 });
-MeetingSchema.plugin(autoIncrement, 'MeetingSchema');
 
+MeetingSchema.plugin(autoIncrement, 'MeetingSchema');
 const Meeting = mongoose.model('Meeting', MeetingSchema);

@@ -8,6 +8,7 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Teams from '../../entities/teams';
+import Seasons from '../../entities/seasons';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';

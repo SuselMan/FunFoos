@@ -13,25 +13,24 @@ const Player = Backbone.Model.extend({
         this.options = options;
     },
     defaults: {
-        firstName     : "",
-        secondName  : [],
-        owner  : null
+        firstName     : '',
+        secondName  : '',
+        owner  : null,
+        image: ''
+    },
+
+    update:function(){
+        return fetch('/api/players/'+this.id,{
+            headers: { 'Content-Type': 'application/json' },
+            method:'put',
+            body:JSON.stringify(this.toJSON())
+        });
     }
 });
 
 const Players = Backbone.Collection.extend({
     url: '/api/players',
-    model: Player,
-    getPlayers: function (players) {
-        var result = [];
-        for (var i = 0; i < ids.length; i++) {
-            let player = this.get(players[i]);
-            if(player){
-                result.push(player)
-            }
-        }
-        return result;
-    }
+    model: Player
 });
 
 export default Players;

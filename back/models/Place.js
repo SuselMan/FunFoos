@@ -8,11 +8,14 @@ const Schema = mongoose.Schema;
 
 const PlaceSchema = new Schema({
     name:{type:String},
-    days: [Boolean],
-    work:[Date],
+    workTime: [Array],
+    workDays: [Boolean],
+    specialDays: [Array], //it is days when place suddenly doesn't work
     address  : { type: String},
-    meetings : [Number]
+    image:{type:String},
+    link:{type:String},
+    comment:{type:String}
 });
 PlaceSchema.plugin(autoIncrement, 'PlaceSchema');
 
-const Place = mongoose.model('Place', PlaceSchema)
+const Place = mongoose.model('Place', PlaceSchema);
