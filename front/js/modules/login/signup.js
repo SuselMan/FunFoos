@@ -16,7 +16,6 @@ let Login = Marionette.View.extend({
     template: require('../../../templates/login/signup.hbs'),
     className: 'form-inline header-form',
     tagName: 'div',
-    model: new User(),
 
     ui: {
         saveBtn: ".js-save"
@@ -32,7 +31,7 @@ let Login = Marionette.View.extend({
     },
 
     save: function () {
-        this.model.save()
+        this.model.signup()
             .then(function (result) {
                 channelGlobal.trigger("done:signup", this.model);
             })

@@ -12,21 +12,21 @@ const Team = Backbone.Model.extend({
     urlRoot: '/api/teams',
 
     defaults: {
-        name     : "",
-        players  : [],
-        meetings  : [],
-        image: ""
+        name: "",
+        shortName: "",
+        image: "",
+        season: null
     },
 
-    initialize: function(attrs,options){
+    initialize: function (attrs, options) {
         this.options = options;
     },
 
-    update:function(){
-        return fetch('/api/teams/'+this.id,{
-            headers: { 'Content-Type': 'application/json' },
-            method:'put',
-            body:JSON.stringify(this.toJSON())
+    update: function () {
+        return fetch('/api/teams/' + this.id, {
+            headers: {'Content-Type': 'application/json'},
+            method: 'put',
+            body: JSON.stringify(this.toJSON())
         });
     },
 });

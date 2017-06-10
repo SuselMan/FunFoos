@@ -19,6 +19,16 @@ router.post('/', (req, res) => {
     db.createSeason(req.body).then(data => res.send(data));
 });
 
+router.put('/:id', (req, res) => {
+    db.changeSeason(req)
+        .then(function(result){
+            res.status(200).send(result);
+        })
+        .catch(function(err){
+            res.status(err.status).send(err)
+        })
+});
+
 router.delete('/:id', (req, res) => {
     db.deletePlayer(req.params.id).then(data => res.send(data));
 });

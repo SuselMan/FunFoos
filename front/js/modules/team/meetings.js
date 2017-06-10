@@ -7,8 +7,7 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
-import Seasons from '../../entities/seasons';
+import Meetings from '../../entities/meetings';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
@@ -16,27 +15,27 @@ import Preloader from '../../behaviors/preloader';
 let channelGlobal = Radio.channel('global');
 
 
-const TeamView = Marionette.View.extend({
-    template: require('../../../templates/user/team.hbs'),
-    tagName:'li',
-    className: 'list-group-item',
+const MeetingView = Marionette.View.extend({
+    template: require('../../../templates/team/meeting.hbs'),
+    tagName:'div',
+    className: 'team-meeting',
 
     ui:{
-      deleteBtn: '.js-deleteBtn'
+        deleteBtn: '.js-deleteBtn'
     },
 
     events:{
-        'click @ui.deleteBtn': 'deleteTeam',
+        'click @ui.deleteBtn': 'deleteMeeting',
         'click': 'navigate'
     },
 
-    deleteTeam: function(e){
+    deleteMeeting: function(e){
         e.stopPropagation();
         this.model.destroy();
     },
 
     navigate:function(){
-        channelGlobal.request('navigate', 'team/'+this.model.id, {trigger: true, replace: true});
+        channelGlobal.request('navigate', 'meeting/'+this.model.id, {trigger: true, replace: true});
     },
 
     onRender:function () {
@@ -46,20 +45,30 @@ const TeamView = Marionette.View.extend({
 });
 
 const EmptyView = Marionette.View.extend({
-    template: require('../../../templates/user/empty.hbs'),
-    tagName:'li',
-    className: 'list-group-item',
+    template: require('../../../templates/team/emptyMeetings.hbs'),
+    tagName:'div'
+    // className: 'list-group-item',
 });
 
-const TeamsView = Marionette.CollectionView.extend({
-    childView: TeamView,
-    emptyView: EmptyView
+const MeetingsView = Marionette.CollectionView.extend({
+    childView: MeetingView,
+    emptyView: EmptyView,
+    className:'col-12 team-meetings-container'
 });
 
-const TeamsLayout = Marionette.View.extend({
-    template: require('../../../templates/teams/teams.hbs'),
-    collection: new Teams(),
+const MeetingsLayout = Marionette.View.extend({
+    template: require('../../../templates/team/meetings.hbs'),
+    collection: new Meetings(),
     behaviors: [Preloader],
+
+    ui:{
+        //createMeetingBtn: ".js-createMeeting"
+    },
+
+    events: {
+        'click @ui.createMeetingBtn': 'createMeeting'
+    },
+
     regions: {
         listRegion: {
             el: '.js-listRegion'
@@ -68,18 +77,17 @@ const TeamsLayout = Marionette.View.extend({
 
     initialize: function(options){
         this.options = options;
-        channelGlobal.on('team:created',this.fetchTeams.bind(this));
+        channelGlobal.on('meeting:created',this.fetchMeetings.bind(this));
     },
 
-    fetchTeams: function(){
-        debugger;
+    fetchMeetings: function(){
         return this.collection.fetch({data: {owner: this.options.owner}});
     },
 
     onRender: function(){
-        this.fetchTeams()
+        this.fetchMeetings()
             .then(function(){
-                this.showChildView('listRegion', new TeamsView({
+                this.showChildView('listRegion', new MeetingsView({
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
@@ -90,4 +98,4 @@ const TeamsLayout = Marionette.View.extend({
     }
 });
 
-export default TeamsLayout;
+export default MeetingsLayout;

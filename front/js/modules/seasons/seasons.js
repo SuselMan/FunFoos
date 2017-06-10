@@ -17,17 +17,31 @@ let channelGlobal = Radio.channel('global');
 
 const SeasonView = Marionette.View.extend({
     template: require('../../../templates/seasons/season.hbs'),
-    tagName:'li',
+    tagName: 'li',
     className: 'list-group-item',
-    onRender:function () {
+    ui: {
+        startSeasonBtn: '.js-startSeasonBtn'
+    },
+
+    events: {
+        'click @ui.startSeasonBtn': 'startSeason'
+    },
+
+    onRender: function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
+    },
+
+    startSeason: function () {
+        console.log('startSeason');
+        this.model.save({isBegan:true});
     }
+
 });
 
 const EmptyView = Marionette.View.extend({
     template: require('../../../templates/seasons/empty.hbs'),
-    tagName:'li',
+    tagName: 'li',
     className: 'list-group-item',
 });
 
@@ -38,7 +52,7 @@ const SeasonsView = Marionette.CollectionView.extend({
 
 const NewSeason = Marionette.View.extend({
     template: require('../../../templates/seasons/newSeason.hbs'),
-    ui:{
+    ui: {
         saveBtn: ".js-addSeasonBtn",
     },
 
@@ -47,10 +61,10 @@ const NewSeason = Marionette.View.extend({
     },
 
     initialize: function () {
-        this.model= new this.collection.model();
+        this.model = new this.collection.model();
     },
 
-    onRender:function(){
+    onRender: function () {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     },
@@ -79,9 +93,9 @@ const SeasonsLayout = Marionette.View.extend({
         addSeasonRegion: '.js-newSeasonRegion'
     },
 
-    onRender:function(){
+    onRender: function () {
         this.collection.fetch()
-            .then(function(){
+            .then(function () {
                 this.showChildView('listRegion', new SeasonsView({
                     collection: this.collection
                 }));
@@ -90,7 +104,7 @@ const SeasonsLayout = Marionette.View.extend({
                 }));
                 this.triggerMethod('fetch:complete');
             }.bind(this))
-            .catch(function(e){
+            .catch(function (e) {
                 console.error(e);
             })
     }

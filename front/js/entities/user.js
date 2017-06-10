@@ -9,25 +9,36 @@ const User = Backbone.Model.extend({
         "password": "",
         "team": []
     },
-    urlRoot: function(){
-        if(this.options && this.options.login){
-            return '/api/login'
-        }else{
-            return '/api/signup'
-        }
-    },
-    initialize: function(attrs,options){
+
+    initialize: function (attrs, options) {
         this.options = options;
     },
-    update:function(){
-        return fetch('/api/user/'+this.id,{
-            headers: { 'Content-Type': 'application/json' },
-            method:'put',
-            body:JSON.stringify(this.toJSON())
+
+    update: function () {
+        return fetch('/api/user/' + this.id, {
+            headers: {'Content-Type': 'application/json'},
+            method: 'put',
+            body: JSON.stringify(this.toJSON())
         });
     },
-    validate:(attrs, options)=>{
-        if(!attrs.email || !attrs.password){
+
+    signin: function () {
+        this.urlRoot = '/api/login';
+        return this.save();
+    },
+
+    signup: function () {
+        this.urlRoot = '/api/signup';
+        return this.save();
+    },
+
+    updateSignin: function () {
+        this.urlRoot = '/api/login';
+        return this.fetch();
+    },
+
+    validate: (attrs, options)=> {
+        if (!attrs.email || !attrs.password) {
             return 'Все поля должны быть заполнены!'
         }
     }

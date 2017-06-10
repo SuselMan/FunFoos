@@ -27,6 +27,7 @@ let MongoStore= connectMongo(session);
 db.setUpConnection(app);
 
 // app.use(express.favicon());
+app.use(favicon(__dirname + './build/files/favicon.ico'));
 app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({
     extended: true

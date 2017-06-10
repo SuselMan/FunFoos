@@ -10,7 +10,7 @@ const PlaceSchema = new Schema({
     name:{type:String},
     workTime: [Array],
     workDays: [Boolean],
-    specialDays: [Array], //it is days when place suddenly don't work
+    specialDays: [Array], //it is days when place suddenly doesn't work
     address  : { type: String},
     image:{type:String},
     link:{type:String},

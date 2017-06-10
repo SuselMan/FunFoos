@@ -12,6 +12,7 @@ import Marionette from 'backbone.marionette';
 import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import App from '../../../app'
 
 let channelGlobal = Radio.channel('global');
 
@@ -19,7 +20,6 @@ let Login = Marionette.View.extend({
     template: require('../../../templates/login/signin.hbs'),
     className: 'form-control row login-form',
     tagName: 'div',
-    model: new User({},{login:true}),
 
 
     ui: {
@@ -32,13 +32,17 @@ let Login = Marionette.View.extend({
         'click @ui.closeBtn': 'close'
     },
 
+    initialize: function(){
+        console.log(App);
+    },
+
     onRender: function() {
         var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
         new ModelBinder().bind(this.model, this.el, bindings);
     },
 
     save: function () {
-        this.model.save()
+        this.model.signin()
             .then(function (result) {
                 channelGlobal.trigger("done:signin", this.model);
             }.bind(this))
@@ -48,7 +52,7 @@ let Login = Marionette.View.extend({
 
     },
     fetch: function () {
-        this.model.fetch()
+        this.model.updateSignin()
             .then(function (result) {
                 channelGlobal.trigger("done:signin", this.model);
             }.bind(this))

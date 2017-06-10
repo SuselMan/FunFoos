@@ -8,15 +8,13 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
 const Season = Backbone.Model.extend({
-
+    idAttribute: "_id",
     initialize: function(attrs,options){
         this.options = options;
     },
     defaults: {
         name:"",
-        meetings : [],
-        teams  : [],
-        isEnd  : false
+        isBegan  : false
     }
 });
 

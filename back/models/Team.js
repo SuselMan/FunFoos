@@ -9,11 +9,9 @@ const Schema = mongoose.Schema;
 const TeamSchema = new Schema({
     name     : { type: String,required: true },
     shortName     : { type: String,required: true },
-    owner  : { type: Number, required: true},
-    devision  : { type: Number},
+    owner  : { type: Number, required: true}, // it is user
     image  : { type: String},
-    players  : [Number],
-    meetings  : [Number]
+    season  : { type: Number},
 });
 TeamSchema.plugin(autoIncrement, 'TeamSchema');
 const Team = mongoose.model('Team', TeamSchema);
