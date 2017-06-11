@@ -11,6 +11,7 @@ import Meetings from '../../entities/meetings';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
+import moment from 'moment';
 
 let channelGlobal = Radio.channel('global');
 
@@ -39,6 +40,7 @@ const MeetingView = Marionette.View.extend({
         let image = this.options.teamsCollection.get(id).get('image');
         this.model.set('name',name);
         this.model.set('image',image);
+        this.model.set('time',moment(moment.unix(this.model.get('date')), "YYYYMMDD").fromNow());
         console.log('id', id);
     },
 

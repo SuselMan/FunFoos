@@ -18,9 +18,9 @@
   color: $soft-white;
   background: $soft-white;
   height:500px;
-  background-image: url(../images/signup_bg.jpg);
-  background-size: 100%;
-  background-repeat: no-repeat;
+  background-image: url(../images/signup_bg.png);
+  //background-size: 100%;
+  background-repeat: repeat;
   background-position: 50% bottom;
   position: relative;
   .text-block{

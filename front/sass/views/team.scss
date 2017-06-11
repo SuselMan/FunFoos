@@ -57,7 +57,7 @@
 .team-players-container {
   display: flex;
   justify-content: left;
-  overflow-x: scroll;
+  overflow:hidden;
   //flex-wrap:wrap;
 }
 
@@ -78,8 +78,9 @@ button.team-player{
 
 .team-player {
   flex-basis:150px;
-  flex-shrink:0;
+  //flex-shrink:0;
   width: 150px;
+  min-width: 90px;
   height: 200px;
   margin: 2px;
   background-color: $white;
@@ -89,7 +90,7 @@ button.team-player{
     background-image: url(../images/empty_avatar.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
-    background-position: 50% bottom;
+    background-position: 50% top;
     //border-radius: 100px;
     button.close {
       position: relative;
