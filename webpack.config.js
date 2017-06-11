@@ -42,7 +42,15 @@ module.exports = {
                 test   : /\.(jpg|png|gif)$/,
                 include: /images/,
                 loader : 'url'
-            }
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                include: /fonts/,
+                loader: 'url',
+                options: {
+                    limit: 50000,
+                }
+            },
         ]
     },
     node: {
