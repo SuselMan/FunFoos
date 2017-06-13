@@ -65,6 +65,7 @@
     "mongoose": "^4.8.4",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-autoincrement": "^1.0.0",
+    "notifyjs-browser": "git+https://github.com/jpillora/notifyjs.git",
     "npm-install-webpack-plugin": "^4.0.4",
     "pikaday": "^1.6.0",
     "precss": "^1.4.0",
