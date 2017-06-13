@@ -13,7 +13,7 @@ export function changeMeeting(req) {
   return new Promise(function(resolve, reject) {
     Meeting.findById(req.params.id,function(err,meeting){
       if(meeting){
-        Meeting.update({_id:req.params.id},{image:req.body.image})
+        Meeting.update({_id:req.params.id},req.body)
           .then(function (isOk) {
             Meeting.findById(req.params.id)
               .then(function(meeting){
