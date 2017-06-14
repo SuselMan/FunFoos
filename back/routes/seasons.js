@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/startSeason/:id', (req, res) => {
-    db.startSeason();
+    db.startSeason(req.params.id);
 });
 
 router.post('/', (req, res) => {

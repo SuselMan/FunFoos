@@ -28,18 +28,18 @@ function createMeetingsForTeam(team, teams, index) {
     var meetings = [];
     for (var i = 0; i < teams.length; i++) {
         meetings.push({
-            date: moment().add(index,'days').unix(),
-            place: 1,
+            date: null,
+            place: null,
             host: teams[i]._id,
             guest: team._id,
-            owner: 1
+            owner: index
         })
         meetings.push({
-            date: moment().add(index,'days').unix(),
-            place: 1,
+            date: null,
+            place: null,
             host: team._id,
             guest: teams[i]._id,
-            owner: 1
+            owner: index
         })
     }
     return meetings;
@@ -87,7 +87,7 @@ export function changeSeason(req) {
 
 }
 
-export function startSeason(id) {
+export function startSeason(id) { 
     console.log('StartSeason');
     var meetings = [];
     this.listTeams(null).then(function (teams) {
@@ -95,7 +95,7 @@ export function startSeason(id) {
         if (teams && teams.length) {
             for (var i = 0; i < teams.length - 1; i++) {
                 console.log('team');
-                meetings = meetings.concat(createMeetingsForTeam(teams[i], teams.slice(i + 1), i));
+                meetings = meetings.concat(createMeetingsForTeam(teams[i], teams.slice(i + 1), id));
             }
             console.log(meetings);
             saveMeetingsInDB.call(this,meetings,0);

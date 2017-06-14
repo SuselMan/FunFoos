@@ -13,6 +13,7 @@ var routes = {
     'user(/)': 'userWindow',
     'seasons(/)': 'seasonsWindow',
     'meetings(/)': 'meetingsWindow',
+    'meeting(/:id)': 'meetingWindow',
     'places(/)': 'placesWindow',
     '(/)': 'index'
 };
