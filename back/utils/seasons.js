@@ -33,14 +33,14 @@ function createMeetingsForTeam(team, teams, index) {
             host: teams[i]._id,
             guest: team._id,
             owner: index
-        })
+        });
         meetings.push({
             date: null,
             place: null,
             host: team._id,
             guest: teams[i]._id,
             owner: index
-        })
+        });
     }
     return meetings;
 }

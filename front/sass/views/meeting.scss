@@ -1,8 +1,12 @@
 //TODO add media query for small screens where will show only second name
 .protocol {
+  .games{
+    width:100%;
+  }
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  width:100%;
   .meeting-team {
     background-color: $white;
     width: 50%;

@@ -23,7 +23,7 @@ const vocabulary = {
     October: 'Октябрь',
     November: 'Ноябрь',
     December: 'Декабрь'
-}
+};
 
 const Day = Backbone.Model.extend({
     initialize: function(attrs,options){

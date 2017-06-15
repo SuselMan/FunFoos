@@ -27,7 +27,7 @@ const TeamLayout = Marionette.View.extend({
     template: require('../../../templates/team/team.hbs'),
 
     ui: {
-        'select': 'seasonSelector'
+        'select': 'js-seasonSelector'
     },
 
     regions: {
