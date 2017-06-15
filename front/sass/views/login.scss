@@ -1,33 +1,44 @@
 
-.done{
+.done {
   transition-property: all;
   transition-duration: .4s;
-  &.sign-up{
-    height:55px;
+  &.sign-up {
+    height: 55px;
   }
-  &.team{
-    height:140px;
+  &.team {
+    height: 140px;
   }
-  .text-block, .header-form{
+  .text-block, .header-form {
     opacity: 0;
     display: none;
   }
 }
 
-.sign-up{
+.sign-up {
   color: $soft-white;
   background: $soft-white;
-  height:500px;
-  background-image: url(../images/signup_bg.jpg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: 50% bottom;
+  height: 500px;
+  background-image: url(../images/signup_bg.png);
+  //background-size: 100%;
+  background-repeat: repeat;
+  background-position: 50% top;
   position: relative;
-  .text-block{
+  .logo {
+    background-image: url(../images/logo.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% bottom;
+    width: 40px;
+    height: 60px;
+    top: -3px;
+    position: relative;
+    //TODO: make svg logo and add better styles for it
+  }
+  .text-block {
     width: 500px;
     text-align: center;
     position: relative;
-    @include strict-center(-50%,-80%);
+    @include strict-center(-50%, -80%);
     font-size: 19px;
   }
   .login-button {
@@ -42,22 +53,23 @@
     }
   }
 }
-.login-form{
+
+.login-form {
   z-index: 10000;
   width: 350px;
   position: absolute;
   right: 20px;
   top: 10px;
   background: $soft-white;
-  input{
+  input {
     border-radius: 0;
     background: $soft-white;
     margin: 10px;
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 
   }
-  .login{
+  .login {
     border: none;
     margin: 10px;
     color: $soft-white;
@@ -66,20 +78,26 @@
   }
 }
 
-.header-form{
+.header-form {
   bottom: 20px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  input{
-    background-color:rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,251,231,0.6);
-    color:#fffbe7;
-    ::-webkit-input-placeholder {color:#fffbe7;}
-    ::-moz-placeholder          {color:#fffbe7;}
-    :-ms-input-placeholder      {color:#fffbe7;}
+  input {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 251, 231, 0.6);
+    color: #fffbe7;
+    ::-webkit-input-placeholder {
+      color: #fffbe7;
+    }
+    ::-moz-placeholder {
+      color: #fffbe7;
+    }
+    :-ms-input-placeholder {
+      color: #fffbe7;
+    }
   }
-  button{
+  button {
     color: #fffbe7;
     border-color: transparent;
     border: 1px solid #687e62;

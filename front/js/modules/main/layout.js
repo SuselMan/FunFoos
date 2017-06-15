@@ -21,6 +21,7 @@ import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
 import MeetingsView from '../meetings/meetings';
+import MeetingView from '../meeting/meeting';
 import PlacesView from '../places/places';
 
 let channelGlobal = Radio.channel('global');
@@ -87,6 +88,7 @@ let Layout = Marionette.View.extend({
     start: function (view, option) {
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
+        //TODO: rename 'team' class if it will have more then one usage
         this.el.querySelector('.sign-up').classList.toggle('team', false);
 
         switch (view) {
@@ -108,6 +110,10 @@ let Layout = Marionette.View.extend({
                 break;
             case 'meetings':
                 this.showChildView('contentRegion', new MeetingsView());
+                break;
+            case 'meeting':
+                this.el.querySelector('.sign-up').classList.toggle('team', true);
+                this.showChildView('contentRegion', new MeetingView({id: option}));
                 break;
             case 'places':
                 this.showChildView('contentRegion', new PlacesView());

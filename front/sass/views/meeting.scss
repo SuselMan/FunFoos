@@ -1,0 +1,59 @@
+//TODO add media query for small screens where will show only second name
+.protocol {
+  .games{
+    width:100%;
+  }
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width:100%;
+  .meeting-team {
+    background-color: $white;
+    width: 50%;
+    height: 90px;
+    display: flex;
+    .name {
+      flex-grow: 100;
+      font-size: 30px;
+      line-height: 90px;
+      text-align: center;
+    }
+    .logo {
+      width: 88px;
+      height: 88px;
+      background-image: url(../images/empty_team.jpg);
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: 50% top;
+    }
+    border-bottom: 2px solid $light-gray-shadow;
+  }
+  .game {
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
+    background-color: $white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    border-bottom: 2px solid $light-gray-shadow;
+    .team {
+      flex-basis: 50%;
+      .player {
+        height: 50px;
+      }
+    }
+    .score {
+      width: 180px;
+      flex-basis: 180px;
+      flex-shrink: 0;
+      .score-line {
+        display: flex;
+        div {
+          width: 50%;
+        }
+      }
+    }
+  }
+}

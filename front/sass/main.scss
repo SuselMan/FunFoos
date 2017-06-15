@@ -3,19 +3,28 @@
 @import "~bootstrap/scss/bootstrap";
 //TODO: remove select2 if it will not use
 @import "~select2/src/scss/core";
+@import "~pikaday/scss/pikaday";
 @import "./settings.scss";
 @import "./mixins.scss";
 @import "./views/login.scss";
 @import "./views/team.scss";
+@import "./views/meeting.scss";
 @import "./views/user.scss";
 
 @import "./widgets/uploadForm.scss";
 @import "./widgets/preloader.scss";
+@import "./widgets/dataSelector.scss";
+
+
+@font-face {
+  font-family: "FuturaBook";
+  src: url(../fonts/FuturaBookC.woff) format("woff");
+}
 
 body{
   background-color: $soft-white;
   color: $gray-light;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: FuturaBook,Helvetica,Arial,sans-serif;
   margin: 0;
   padding: 0;
   border: 0;

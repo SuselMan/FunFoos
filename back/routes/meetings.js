@@ -11,6 +11,16 @@ router.get('/', (req, res) => {
   db.listMeetings(req).then(data => res.send(data));
 });
 
+router.get('/:id', (req, res) => {
+  db.getMeeting(req)
+      .then(function(result){
+        res.status(200).send(result);
+      })
+      .catch(function(err){
+        res.status(err.status).send(err)
+      })
+});
+
 router.post('/', (req, res) => {
   db.createMeeting(req.body).then(data => res.send(data));
 });

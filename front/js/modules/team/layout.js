@@ -31,18 +31,19 @@ const TeamLayout = Marionette.View.extend({
         channelGlobal.on('user:updated', this.showTeam.bind(this));
     },
 
-    showTeam: function (team) {
-        this.showChildView('newTeamRegion', new TeamView({model: team, owner: team.id}));
+    showTeam: function (team, collection) {
+        this.showChildView('newTeamRegion', new TeamView({model: team, owner: team.id, collection:collection}));
     },
 
     onRender: function () {
         this.user = channelGlobal.request('get:user');
-        let collection = new Teams();
-        let model = new collection.model({_id: this.options.id});
-        // collection.add(model);
-        model.fetch().then(function (team) {
-            this.showTeam(model);
-        }.bind(this))
+        var collection = new Teams();
+        var model = new collection.model({_id: this.options.id});
+        collection.fetch()
+            .then(function(){
+                model = collection.get(this.options.id);
+                this.showTeam(model,collection);
+            }.bind(this))
     }
 });
 

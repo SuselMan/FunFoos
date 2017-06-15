@@ -9,11 +9,24 @@ const Meeting = mongoose.model('Meeting');
 
 
 //TODO: Refactor
+
+export function getMeeting(req) {
+  return new Promise(function(resolve, reject) {
+    Meeting.findById(req.params.id,function(err,meeting){
+      if(meeting){
+        resolve(meeting);
+      } else {
+        reject({status:500,message:'User not found'});
+      }
+    });
+  });
+}
+
 export function changeMeeting(req) {
   return new Promise(function(resolve, reject) {
     Meeting.findById(req.params.id,function(err,meeting){
       if(meeting){
-        Meeting.update({_id:req.params.id},{image:req.body.image})
+        Meeting.update({_id:req.params.id},req.body)
           .then(function (isOk) {
             Meeting.findById(req.params.id)
               .then(function(meeting){
@@ -32,12 +45,11 @@ export function changeMeeting(req) {
       }
     });
   });
-
 }
 
 export function listMeetings(req) {
   if(req.param('owner')){
-    return Meeting.find({ owner: req.param('owner') })
+    return Meeting.find({}).or([{ guest:  req.param('owner')  }, { host:  req.param('owner')  }])
   }
   return Meeting.find();
 }

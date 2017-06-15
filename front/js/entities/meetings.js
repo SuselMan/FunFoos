@@ -8,6 +8,8 @@ import Marionette from 'backbone.marionette';
 
 const Meeting = Backbone.Model.extend({
   idAttribute: "_id",
+  urlRoot: '/api/meetings',
+
   initialize: function(attrs,options){
     this.options = options;
   },
