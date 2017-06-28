@@ -7,6 +7,7 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    isAdmin:{type:Boolean},
     email:{
         type: String,
         unique: true,

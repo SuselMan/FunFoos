@@ -61,7 +61,7 @@ export function createMeeting(data) {
     place: data.place,
     host: data.host,
     guest: data.guest,
-    season: data.season
+    owner: data.owner
   });
   return meeting.save();
 }
