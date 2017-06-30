@@ -24,6 +24,7 @@ const ButtonView = Marionette.View.extend({
 
     initialize: function(options){
         this.options = options;
+        this.model = this.options.user;
     },
 
     createPlayer: function () {
@@ -109,7 +110,7 @@ const PlayersLayout = Marionette.View.extend({
         this.fetchPlayers()
             .then(function () {
                 this.showChildView('listRegion', new PlayersView({
-                    user:this.model,
+                    user:this.model.toJSON(),
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');

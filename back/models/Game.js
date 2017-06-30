@@ -12,6 +12,7 @@ const GameSchema = new Schema({
     meeting  : { type: Number, required: true},
     score  : { type: Array},
     season  : { type: Number, required:true},
+    type:{ type: Number},
     approved:{type:Boolean} // game doesn't participate in statictics if false
 });
 GameSchema.plugin(autoIncrement, 'GameSchema');

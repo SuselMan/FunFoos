@@ -60,6 +60,7 @@ export function createGame(data) {
   const game = new Game({
     meeting  : data.meeting,
     season  : data.season,
+    type: data.type,
     approved:false
   });
   return game.save();

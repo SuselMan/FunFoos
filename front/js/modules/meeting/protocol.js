@@ -59,6 +59,7 @@ const ProtocolView = Marionette.View.extend({
         this.collection = new Games();
         this.collection.getEmptyCollection();
         this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}).then(function () {
+            console.log('this here');
             this.showChildView('gamesRegion', new GamesView({
                 collection: this.collection,
                 guestPlayers: this.guestPlayers.toJSON()

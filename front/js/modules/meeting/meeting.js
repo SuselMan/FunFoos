@@ -26,6 +26,8 @@ const MeetingLayout = Marionette.View.extend({
     },
 
     initialize: function (options) {
+        debugger;
+        console.log('initialize meeting');
         this.options = options;
         this.model = new this.collection.model({_id: this.options.id});
         this.model.fetch().then(this.showMeeting.bind(this));
@@ -45,13 +47,15 @@ const MeetingLayout = Marionette.View.extend({
                 this.model.set('guestTeam', teams.get(this.model.get('guest')).toJSON());
                 this.model.set('hostName', this.model.get('hostTeam').name);
                 this.model.set('guestName', this.model.get('guestTeam').name);
-                this.model.set('hostLogo', this.model.get('hostTeam').image);
-                this.model.set('guestLogo', this.model.get('guestTeam').image);
-
-                var place = places.get(this.model.get('place')).toJSON();
-                this.model.set('placeName', place.name);
-                this.model.set('placeImage', place.image);
+                this.model.set('hostLogo', this.model.get('hostTeam').image || '');
+                this.model.set('guestLogo', this.model.get('guestTeam').image || '');
+                if(this.model.get('place')){
+                    var place = places.get(this.model.get('place')).toJSON();
+                    this.model.set('placeName', place.name);
+                    this.model.set('placeImage', place.image);
+                }
                 this.render();
+                console.log('URA');
                 this.showChildView('protocolRegion', new ProtocolView({
                     model: this.model
                 }));

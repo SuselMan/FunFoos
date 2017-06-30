@@ -52,6 +52,7 @@ const MeetingView = Marionette.View.extend({
     },
 
     navigate: function () {
+        console.log('hohoho',this.model.id);
         channelGlobal.request('navigate', 'meeting/' + this.model.id, {trigger: true, replace: true});
     },
 
