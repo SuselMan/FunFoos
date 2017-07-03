@@ -22,13 +22,10 @@ const GameView = Marionette.View.extend({
     },
 
     initialize: function (options) {
-        // console.log('this.model', this.model.toJSON());
-        console.log('initialize');
         this.options = options;
     },
 
     onRender: function () {
-        console.log('render');
         this.selector = new dataSelector({data: this.options.guestPlayers});
         this.showChildView('hostTeam', this.selector);
     }
@@ -53,19 +50,19 @@ const ProtocolView = Marionette.View.extend({
     },
 
     onRender: function () {
-        console.log('RENDER2');
         this.hostPlayers = new Players();
         this.guestPlayers = new Players();
         this.collection = new Games();
-        this.collection.getEmptyCollection();
-        this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}).then(function () {
-            console.log('this here');
-            this.showChildView('gamesRegion', new GamesView({
-                collection: this.collection,
-                guestPlayers: this.guestPlayers.toJSON()
-            }));
-        }.bind(this))
-
+        this.collection.fetch({data: {meeting: this.model.id}})
+          .then(() =>{
+              this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}).then(function () {
+                  this.showChildView('gamesRegion', new GamesView({
+                      collection: this.collection,
+                      guestPlayers: this.guestPlayers.toJSON()
+                  }));
+              }.bind(this))
+          })
+        //this.collection.getEmptyCollection();
     }
 });
 

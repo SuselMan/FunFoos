@@ -70,7 +70,6 @@ const TeamLayout = Marionette.View.extend({
             option.innerText = options[i].get('name');
             option.setAttribute('value', options[i].id);
             document.querySelector('#js-seasonSelector').appendChild(option);
-            console.log(options[i]);
         }
         document.querySelector('#js-seasonSelector').onchange = this.selectSeason.bind(this);
     },

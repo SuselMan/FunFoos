@@ -42,7 +42,6 @@ export function listPlaces(req) {
 }
 
 export function createPlace(data) {
-    console.log('data',data);
     const team = new Place({
         name:data.name,
         address  : data.address,

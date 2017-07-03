@@ -48,7 +48,7 @@ export function changeGame(req) {
 }
 
 export function listGames(req) {
-  //TODO: use all patams if it possible;
+  //TODO: use all params if it will need;
   if(req.param('meeting')){
     return Game.find({ meeting:  req.param('meeting')  })
   }
@@ -56,7 +56,6 @@ export function listGames(req) {
 }
 
 export function createGame(data) {
-  console.log('create Game');
   const game = new Game({
     meeting  : data.meeting,
     season  : data.season,

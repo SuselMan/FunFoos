@@ -113,7 +113,6 @@ let Layout = Marionette.View.extend({
                 break;
             case 'meeting':
                 this.el.querySelector('.sign-up').classList.toggle('team', true);
-                debugger;
                 this.showChildView('contentRegion', new MeetingView({id: option}));
                 break;
             case 'places':

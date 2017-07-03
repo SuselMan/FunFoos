@@ -26,8 +26,6 @@ const MeetingLayout = Marionette.View.extend({
     },
 
     initialize: function (options) {
-        debugger;
-        console.log('initialize meeting');
         this.options = options;
         this.model = new this.collection.model({_id: this.options.id});
         this.model.fetch().then(this.showMeeting.bind(this));
@@ -55,7 +53,6 @@ const MeetingLayout = Marionette.View.extend({
                     this.model.set('placeImage', place.image);
                 }
                 this.render();
-                console.log('URA');
                 this.showChildView('protocolRegion', new ProtocolView({
                     model: this.model
                 }));

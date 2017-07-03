@@ -49,10 +49,8 @@ const appController = {
     },
 
     meetingWindow: function(id) {
-        console.log('we was here 444');
         this.checkMainModule();
         App.mainModule.setView('meeting',id);
-        console.log('and here');
     },
 
     placesWindow: function() {

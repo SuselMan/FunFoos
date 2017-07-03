@@ -42,7 +42,6 @@ const NewPlaceView = BaseModalView.extend({
     },
 
     submit: function () {
-        console.log('model', this.model);
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {

@@ -18,12 +18,10 @@ const DataSelector = Marionette.View.extend({
     initialize: function (options) {
         this.options = options;
         this.data = options.data;
-        console.log('options', options);
     },
 
     onRender: function () {
         this.el.onchange = function (e) {
-            console.log('hey', e.target.value);
             let image = '';
             for (var i = 0; i < this.data.length; i++) {
                 if (this.data[i]._id + '' === e.target.value) {
@@ -41,7 +39,6 @@ const DataSelector = Marionette.View.extend({
                 var option = document.createElement('option');
                 option.setAttribute('value', this.data[i]._id);
                 option.innerText = this.data[i].firstName + " " + this.data[i].secondName;
-                console.log('what', this.el);
                 this.el.appendChild(option);
             }
         }

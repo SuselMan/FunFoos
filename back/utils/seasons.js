@@ -26,10 +26,8 @@ export function createSeason(data) {
 
 function saveMeetingsInDB(meetings, i, season) {
     if (i < meetings.length) {
-        console.log('try to create', meetings[i]);
         this.createMeeting(meetings[i])
             .then(function (result) {
-                console.log('Meeting saved', result)
                 for (var j = 0; j < config.meetingStructire.length; j++) {
                     this.createGame({
                         meeting: result._id,
@@ -98,7 +96,7 @@ export function changeSeason(req) {
 }
 
 export function startSeason(id) {
-    console.log('START SEASON!!!!!!!', id);
+    console.info('Start season', id);
     this.listTeams(null).then(function (teams) {
         if (teams && teams.length > 1) {
             saveMeetingsInDB.call(this, eachWithEach(teams, parseInt(id)), 0, id);

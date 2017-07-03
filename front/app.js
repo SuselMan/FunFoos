@@ -37,7 +37,6 @@ var App = Marionette.Application.extend({
 
 channelGlobal.reply('navigate', function (route, options) {
     console.info('channelGlobal app:navigate: ', arguments);
-    debugger;
     Backbone.history.navigate(route, options || {});
 
 });

@@ -55,7 +55,6 @@ export function listMeetings(req) {
 }
 
 export function createMeeting(data) {
-  console.log('create meeting');
   const meeting = new Meeting({
     date: data.date,
     place: data.place,

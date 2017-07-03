@@ -33,7 +33,7 @@ let Login = Marionette.View.extend({
     },
 
     initialize: function(){
-        console.log(App);
+        console.info('App initialized', App);
     },
 
     onRender: function() {

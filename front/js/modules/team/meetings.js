@@ -35,15 +35,12 @@ const MeetingView = Marionette.View.extend({
     initialize: function (options) {
         this.options = options;
         let id;
-        console.log('owner', options);
         id = options.owner === this.model.get('host') ? this.model.get('guest') : this.model.get('host');
-        console.log('team', this.options.teamsCollection.get(id));
         let name = this.options.teamsCollection.get(id).get('name');
         let image = this.options.teamsCollection.get(id).get('image');
         this.model.set('name', name);
         this.model.set('image', image);
         this.model.set('time', moment(moment.unix(this.model.get('date')), "YYYYMMDD").fromNow());
-        console.log('id', id);
     },
 
     deleteMeeting: function (e) {
@@ -52,7 +49,6 @@ const MeetingView = Marionette.View.extend({
     },
 
     navigate: function () {
-        console.log('hohoho',this.model.id);
         channelGlobal.request('navigate', 'meeting/' + this.model.id, {trigger: true, replace: true});
     },
 
@@ -62,7 +58,6 @@ const MeetingView = Marionette.View.extend({
         var picker = new pikaday({
             field: this.el,
             onSelect: function (date) {
-                console.log(moment(date).unix());
                 this.model.save({date: moment(date).unix()})
             }.bind(this)
         });
