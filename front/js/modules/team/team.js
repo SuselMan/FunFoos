@@ -7,7 +7,7 @@
 
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
-import Seasons from '../../entities/Seasons';
+import Seasons from '../../entities/seasons';
 import Radio from 'backbone.radio';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import Players from './players';

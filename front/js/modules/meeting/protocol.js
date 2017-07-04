@@ -14,56 +14,67 @@ import dataSelector from '../../widgets/dataSelector/dataSelector';
 let channelGlobal = Radio.channel('global');
 
 const GameView = Marionette.View.extend({
-    template: require('../../../templates/meeting/game.hbs'),
-    className: 'game',
-    regions: {
-        hostTeam: '.js-hostTeam',
-        guestTeam: '.js-guestTeam'
-    },
+  template: require('../../../templates/meeting/game.hbs'),
+  className: 'game',
+  regions: {
+    host0: '.js-firstHost',
+    host1: '.js-secondHost',
+    guest0: '.js-firstGuest',
+    guest1: '.js-secondGuest'
+  },
 
-    initialize: function (options) {
-        this.options = options;
-    },
+  initialize: function (options) {
+    this.options = options;
+  },
 
-    onRender: function () {
-        this.selector = new dataSelector({data: this.options.guestPlayers});
-        this.showChildView('hostTeam', this.selector);
+  onRender: function () {
+    let type = this.model.get('type');
+    let hostSelectors = [];
+    let guestSelectors = [];
+    for (var i = 0; i < type; i++){
+      hostSelectors.push(new dataSelector({data: this.options.hostPlayers}));
+      guestSelectors.push(new dataSelector({data: this.options.guestPlayers}));
+      this.showChildView('host'+ i, hostSelectors[i]);
+      this.showChildView('guest'+ i, guestSelectors[i]);
     }
+  }
 });
 
 const GamesView = Marionette.CollectionView.extend({
-    className: 'games',
-    childView: GameView,
-    initialize: function (options) {
-        this.childViewOptions = options;
-    }
+  className: 'games',
+  childView: GameView,
+  initialize: function (options) {
+    this.childViewOptions = options;
+  }
 });
 
 const ProtocolView = Marionette.View.extend({
-    template: require('../../../templates/meeting/protocol.hbs'),
-    className: 'protocol',
-    regions: {
-        gamesRegion: '.js-gamesRegion'
-    },
-    initialize: function (options) {
-        this.options = options;
-    },
+  template: require('../../../templates/meeting/protocol.hbs'),
+  className: 'protocol',
+  regions: {
+    gamesRegion: '.js-gamesRegion'
+  },
+  initialize: function (options) {
+    this.options = options;
+  },
 
-    onRender: function () {
-        this.hostPlayers = new Players();
-        this.guestPlayers = new Players();
-        this.collection = new Games();
-        this.collection.fetch({data: {meeting: this.model.id}})
-          .then(() =>{
-              this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}).then(function () {
-                  this.showChildView('gamesRegion', new GamesView({
-                      collection: this.collection,
-                      guestPlayers: this.guestPlayers.toJSON()
-                  }));
-              }.bind(this))
-          })
-        //this.collection.getEmptyCollection();
-    }
+  onRender: function () {
+    this.hostPlayers = new Players();
+    this.guestPlayers = new Players();
+    this.collection = new Games();
+    Promise.all([
+      this.collection.fetch({data: {meeting: this.model.id}}),
+      this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}),
+      this.hostPlayers.fetch({data: {owner: this.model.get('host')}})
+    ]).then(() => {
+      this.showChildView('gamesRegion', new GamesView({
+        collection: this.collection,
+        guestPlayers: this.guestPlayers.toJSON(),
+        hostPlayers: this.hostPlayers.toJSON()
+      }));
+    })
+    //this.collection.getEmptyCollection();
+  }
 });
 
 export default ProtocolView;
