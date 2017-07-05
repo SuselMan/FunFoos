@@ -45,7 +45,6 @@ const PlayerView = Marionette.View.extend({
 const EmptyView = Marionette.View.extend({
   template: require('../../../templates/team/empty.hbs'),
   tagName: 'div'
-  // className: 'list-group-item',
 });
 
 const PlayersView = Marionette.CollectionView.extend({
@@ -77,14 +76,6 @@ const SelectTeamView = BaseModalView.extend({
     this.showChildView('playersRegion', new PlayersView({
       collection: this.collection
     }));
-  },
-
-  submit: function () {
-
-  },
-
-  showImage: function (url) {
-
   }
 });
 
