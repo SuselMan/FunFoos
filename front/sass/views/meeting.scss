@@ -41,7 +41,9 @@
     .team {
       flex-basis: 50%;
       .player {
-        height: 50px;
+        .data-selector {
+          height:50px;
+        }
       }
     }
     .score {

@@ -69,8 +69,8 @@ const ProtocolView = Marionette.View.extend({
     ]).then(() => {
       this.showChildView('gamesRegion', new GamesView({
         collection: this.collection,
-        guestPlayers: this.guestPlayers.toJSON(),
-        hostPlayers: this.hostPlayers.toJSON()
+        guestPlayers: this.guestPlayers,
+        hostPlayers: this.hostPlayers
       }));
     })
     //this.collection.getEmptyCollection();

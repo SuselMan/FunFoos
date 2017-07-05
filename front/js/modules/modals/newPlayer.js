@@ -28,7 +28,8 @@ const NewTeamView = BaseModalView.extend({
         this.options = options;
         this.collection = new Players();
         this.model= new this.collection.model();
-        this.model.set('owner',options.user.id);
+        //TODO: rename to team;
+        this.model.set('owner',options.user._id);
     },
 
     onRender:function(){

@@ -1,4 +1,6 @@
 .data-selector {
+  cursor: pointer;
+  color: $brend-blue;
   width: 100%;
   height: 100%;
   font-family: inherit;
@@ -9,7 +11,23 @@
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: left top;
+
   option {
     height: 40px;
+  }
+  span {
+    text-decoration: underline;
+  }
+  &:hover {
+    background-color: #e9ecf5;
+    span {
+      color:$brend-blue-light;
+    }
+  }
+}
+
+.guest{
+  .data-selector{
+    background-position: right top;
   }
 }
