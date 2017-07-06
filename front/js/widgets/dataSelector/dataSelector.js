@@ -47,7 +47,23 @@ const DataSelector = Marionette.View.extend({
     // }
   },
 
+  setSelected: function(model){
+    channelGlobal.off('player:selected');
+    console.log('select',model);
+    this.el.querySelector('span').innerHTML = model.get('firstName') + ' ' + model.get('secondName');
+    let image = model.get('image');
+    if (image) {
+        this.el.setAttribute('style', 'background-image:url(' + image + ')');
+    } else {
+        this.el.setAttribute('style', '');
+    }
+  },
+
   navigate: function(){
+    channelGlobal.on('player:selected',this.setSelected.bind(this));
+    channelGlobal.on("modal:close", ()=>{
+      channelGlobal.off('player:selected');
+    });
     channelGlobal.trigger('modal:show',{view:'playerSelector', collection: this.data});
   }
 });

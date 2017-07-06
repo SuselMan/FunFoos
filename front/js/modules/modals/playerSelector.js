@@ -33,7 +33,8 @@ const PlayerView = Marionette.View.extend({
   },
 
   navigate: function () {
-    channelGlobal.request('navigate', 'player/' + this.model.id, {trigger: true, replace: true});
+    channelGlobal.trigger('player:selected',this.model);
+    channelGlobal.trigger('modal:close');
   },
 
   onRender: function () {
