@@ -45,6 +45,9 @@
         .data-selector {
           height: 80px;
         }
+        &:only-child{
+          border-bottom:none!important;
+        }
         &:first-child {
           border-bottom: 1px dashed $light-gray-shadow;
         }
@@ -69,6 +72,9 @@
           color: rgba(87, 95, 119, 1);
           text-decoration: underline;
           cursor: pointer;
+          &:hover {
+            background-color: #e9ecf5;
+          }
         }
         &:first-child {
           border-bottom: 1px dashed $light-gray-shadow;

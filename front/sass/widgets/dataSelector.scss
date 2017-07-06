@@ -7,7 +7,8 @@
   text-align: center;
   text-align-last: center;
   border: none;
-  background-image: url(../images/empty_avatar.jpg);
+  background-image: url(../images/empty_player_choice.png);
+  background-blend-mode: luminosity;
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: left top;
@@ -21,7 +22,7 @@
   &:hover {
     background-color: #e9ecf5;
     span {
-      color:$brend-blue-light;
+      color:$brend-blue;
     }
   }
 }
