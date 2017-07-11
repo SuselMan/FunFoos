@@ -16,11 +16,19 @@ let channelGlobal = Radio.channel('global');
 const GameView = Marionette.View.extend({
   template: require('../../../templates/meeting/game.hbs'),
   className: 'game',
+
   regions: {
     host0: '.js-firstHost',
     host1: '.js-secondHost',
     guest0: '.js-firstGuest',
     guest1: '.js-secondGuest'
+  },
+
+  ui:{
+    game0ScoreHost: 'js-game0 > input.host',
+    game1ScoreHost: 'js-game1 > input.host',
+    game0ScoreGuest: 'js-game0 > input.guest',
+    game1ScoreGuest: 'js-game1 > input.guest'
   },
 
   initialize: function (options) {
@@ -31,12 +39,18 @@ const GameView = Marionette.View.extend({
     let type = this.model.get('type');
     let hostSelectors = [];
     let guestSelectors = [];
-    for (var i = 0; i < type; i++){
-      hostSelectors.push(new dataSelector({data: this.options.hostPlayers}));
-      guestSelectors.push(new dataSelector({data: this.options.guestPlayers}));
-      this.showChildView('host'+ i, hostSelectors[i]);
-      this.showChildView('guest'+ i, guestSelectors[i]);
+    for (var i = 0; i < type; i++) {
+      hostSelectors.push(new dataSelector({data: this.options.hostPlayers, index: i}));
+      guestSelectors.push(new dataSelector({data: this.options.guestPlayers, index: i}));
+      this.showChildView('host' + i, hostSelectors[i]);
+      this.showChildView('guest' + i, guestSelectors[i]);
+      hostSelectors[i].on('change:player', this.changePlayer);
+      guestSelectors[i].on('change:player', this.changePlayer);
     }
+  },
+
+  changePlayer: function (e) {
+    // e.index, e.value
   }
 });
 

@@ -64,11 +64,14 @@
         display: flex;
         min-height: 50%;
         align-self: stretch;
-        div {
+
+        input {
+          border: none;
           width: 50%;
           display: flex;
           justify-content: center;
           align-items: center;
+          text-align: center;
           color: rgba(87, 95, 119, 1);
           text-decoration: underline;
           cursor: pointer;
