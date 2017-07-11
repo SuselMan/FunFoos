@@ -24,7 +24,7 @@ const GameView = Marionette.View.extend({
     guest1: '.js-secondGuest'
   },
 
-  ui:{
+  ui: {
     game0ScoreHost: 'js-game0 > input.host',
     game1ScoreHost: 'js-game1 > input.host',
     game0ScoreGuest: 'js-game0 > input.guest',
@@ -46,7 +46,16 @@ const GameView = Marionette.View.extend({
       this.showChildView('guest' + i, guestSelectors[i]);
       hostSelectors[i].on('change:player', this.changePlayer);
       guestSelectors[i].on('change:player', this.changePlayer);
+
+      var scores = this.el.querySelectorAll('input');
+      for (var i = 0; i < scores.length; i++) {
+        scores[i].onchange = this.changeScore;
+      }
     }
+  },
+
+  changeScore: function (e) {
+    // score changed
   },
 
   changePlayer: function (e) {
