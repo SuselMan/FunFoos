@@ -17,6 +17,10 @@ const GameView = Marionette.View.extend({
   template: require('../../../templates/meeting/game.hbs'),
   className: 'game',
 
+  collectionEvents : {
+    'sync' : 'setItems'
+  },
+
   regions: {
     host0: '.js-firstHost',
     host1: '.js-secondHost',
@@ -52,20 +56,16 @@ const GameView = Marionette.View.extend({
       scores[i].onchange = this.changeScore.bind(this);
     }
     this.setItems();
-    setInterval(function() {
-      this.model.fetch()
-        .then(this.setItems.bind(this));
-    }.bind(this), 60000);
   },
 
   setItems: function () {
     let type = this.model.get('type');
     for (var i = 0; i < type; i++) {
       if (this.model.get('hostPlayer'+i)) {
-        this.hostSelectors[i].setSelected(this.options.hostPlayers.get(this.model.get('hostPlayer'+i)));
+        this.hostSelectors[i].setSelected(this.options.hostPlayers.get(this.model.get('hostPlayer'+i)), true);
       }
       if (this.model.get('guestPlayer'+i)) {
-        this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get('guestPlayer'+i)));
+        this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get('guestPlayer'+i)), true);
       }
     }
     if (this.model.get('hostScore0')) this.ui.game0ScoreHost.val(this.model.get('hostScore0'));
@@ -116,6 +116,9 @@ const ProtocolView = Marionette.View.extend({
     this.hostPlayers = new Players();
     this.guestPlayers = new Players();
     this.collection = new Games();
+    setInterval(function() {
+      this.collection.fetch({data: {meeting: this.model.id}})
+    }.bind(this), 200);
     Promise.all([
       this.collection.fetch({data: {meeting: this.model.id}}),
       this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}),

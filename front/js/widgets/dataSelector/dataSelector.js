@@ -48,10 +48,8 @@ const DataSelector = Marionette.View.extend({
     // }
   },
 
-  setSelected: function(model){
+  setSelected: function(model, silent){
     this.current = model;
-    channelGlobal.off('player:selected');
-    console.log('select',model);
     this.el.querySelector('span').innerHTML = model.get('firstName') + ' ' + model.get('secondName');
     let image = model.get('image');
     if (image) {
@@ -59,7 +57,10 @@ const DataSelector = Marionette.View.extend({
     } else {
         this.el.setAttribute('style', '');
     }
-    this.trigger('change:player', this.current, this.options.index);
+    if(!silent){
+      this.trigger('change:player', this.current, this.options.index);
+      channelGlobal.off('player:selected');
+    }
   },
 
   navigate: function(){
