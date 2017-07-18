@@ -59,7 +59,7 @@ const DataSelector = Marionette.View.extend({
     } else {
         this.el.setAttribute('style', '');
     }
-    this.trigger('change:player', this.current);
+    this.trigger('change:player', this.current, this.options.index);
   },
 
   navigate: function(){

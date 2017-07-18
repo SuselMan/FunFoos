@@ -7,11 +7,15 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
-    hostPlayers     : { type: Array},
-    guestPlayers     : { type: Array},
+    hostPlayer0     : { type: Number},
+    hostPlayer1     : { type: Number},
+    guestPlayer0     : { type: Number},
+    guestPlayer1     : { type: Number},
     meeting  : { type: Number, required: true},
-    hostScore  : { type: Array},
-    guestScore  : { type: Array},
+    hostScore0  : { type: Number},
+    guestScore0  : { type: Number},
+    hostScore1  : { type: Number},
+    guestScore1  : { type: Number},
     season  : { type: Number, required:true},
     type:{ type: Number},
     approved:{type:Boolean} // game doesn't participate in statictics if false

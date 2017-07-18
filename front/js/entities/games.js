@@ -17,7 +17,22 @@ const Game = Backbone.Model.extend({
 
     initialize: function (attrs, options) {
         this.options = options;
+    },
+
+    saveChanges: function(model){
+        return fetch(this.urlRoot +'/'+ this.id,{
+            headers: { 'Content-Type': 'application/json' },
+            method:'put',
+            body:JSON.stringify(model)
+        });
+    },
+
+    validate: function(attrs) {
+        // TODO return errors if they exist
+        return false;
     }
+
+
 });
 
 const Games = Backbone.Collection.extend({
