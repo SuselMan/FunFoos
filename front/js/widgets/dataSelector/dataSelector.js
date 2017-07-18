@@ -21,6 +21,7 @@ const DataSelector = Marionette.View.extend({
   initialize: function (options) {
     this.options = options;
     this.data = options.data;
+    this.current = null;
   },
 
   onRender: function () {
@@ -48,6 +49,7 @@ const DataSelector = Marionette.View.extend({
   },
 
   setSelected: function(model){
+    this.current = model;
     channelGlobal.off('player:selected');
     console.log('select',model);
     this.el.querySelector('span').innerHTML = model.get('firstName') + ' ' + model.get('secondName');
@@ -57,6 +59,7 @@ const DataSelector = Marionette.View.extend({
     } else {
         this.el.setAttribute('style', '');
     }
+    this.trigger('change:player', this.current);
   },
 
   navigate: function(){

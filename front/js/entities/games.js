@@ -7,25 +7,13 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
+// TODO: move it out to separate ENUM file
 const DOUBLE = 2;
 const SINGLE = 1;
 
 const Game = Backbone.Model.extend({
     idAttribute: "_id",
     urlRoot: '/api/games',
-    defaults: {
-        hostPlayers: [],
-        guestPlayers: [],
-        score: [0, 0, 0, 0]
-    },
-    // We need another format data on client and server;
-    remoteData: {
-        winners: [],
-        losers: [],
-        score: [0, 0, 0, 0],
-        meeting: null,
-        season: null
-    },
 
     initialize: function (attrs, options) {
         this.options = options;
