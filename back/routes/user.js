@@ -40,6 +40,22 @@ router.get('/login', (req, res, next) => {
     }
 });
 
+router.get('/login/:id', (req, res, next) => {
+  if (req.session.user && req.session.user.id) {
+    db.checkSession(req.session.user.id)
+      .then(function(user){
+        res.status(200).send(user);
+      })
+      .catch(function(e){
+        console.error(e);
+        login(req, res, next);
+      })
+  }
+  else {
+    res.status(500).send("Has no session")
+  }
+});
+
 function login (req, res, next){
     db.checkUser(req.body)
         .then((user) => {

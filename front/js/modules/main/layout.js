@@ -43,11 +43,13 @@ let Layout = Marionette.View.extend({
     },
 
     ui: {
-        nav: "a"
+        nav: "a",
+        logo: ".js-logo"
     },
 
     events: {
-        'click @ui.nav': 'navigateTo'
+        'click @ui.nav': 'navigateTo',
+        'click @ui.logo': 'navigateTo'
     },
 
     initialize: function () {
