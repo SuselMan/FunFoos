@@ -91,15 +91,14 @@ let Layout = Marionette.View.extend({
     start: function (view, option) {
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
-        //TODO: rename 'team' class if it will have more then one usage
-        this.el.querySelector('.sign-up').classList.toggle('team', false);
+        this.el.querySelector('.sign-up').classList.toggle('big-header', false);
 
         switch (view) {
             case 'teams':
                 this.showChildView('contentRegion', new TeamsView());
                 break;
             case 'team':
-                this.el.querySelector('.sign-up').classList.toggle('team', true);
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
                 this.showChildView('contentRegion', new TeamView({id: option}));
                 break;
             case 'players':
@@ -115,7 +114,7 @@ let Layout = Marionette.View.extend({
                 this.showChildView('contentRegion', new MeetingsView());
                 break;
             case 'meeting':
-                this.el.querySelector('.sign-up').classList.toggle('team', true);
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
                 this.showChildView('contentRegion', new MeetingView({id: option}));
                 break;
             case 'places':

@@ -6,15 +6,11 @@
 
 
 import Marionette from 'backbone.marionette';
-import ModelBinder from 'backbone.modelbinder';
 import Seasons from '../../entities/seasons';
 import Radio from 'backbone.radio';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import Players from './players';
 import Meetings from './meetings';
-
-//TODO remove this if it will not use
-//import select2 from 'select2';
 
 let channelGlobal = Radio.channel('global');
 

@@ -12,7 +12,7 @@ import Radio from 'backbone.radio';
 let channelGlobal = Radio.channel('global');
 
 
-//TODO: refactor
+//TODO: refactor, add button for file manager, users haven't ability to use drug and drop in mobile devices
 
 const UploaderView = Marionette.View.extend({
     template: require('./fileUploader.hbs'),

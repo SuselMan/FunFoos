@@ -14,6 +14,8 @@ import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import App from '../../../app'
 
+//TODO : move it to modals!
+
 let channelGlobal = Radio.channel('global');
 
 let Login = Marionette.View.extend({

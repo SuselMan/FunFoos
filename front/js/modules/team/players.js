@@ -24,11 +24,11 @@ const ButtonView = Marionette.View.extend({
 
     initialize: function(options){
         this.options = options;
-        this.model = this.options.user;
+        this.model = this.options.team;
     },
 
     createPlayer: function () {
-        channelGlobal.trigger('modal:show', {view: 'newPlayer', user: this.options.user});
+        channelGlobal.trigger('modal:show', {view: 'newPlayer', team: this.options.team});
     }
 
 });
@@ -81,8 +81,7 @@ const PlayersView = Marionette.CollectionView.extend({
     },
 
     onRender: function () {
-        // TODO: if every time when collection fetched;
-        this.addChildView(new ButtonView({user:this.options.user}), 0);
+        this.addChildView(new ButtonView({team:this.options.team}), 0);
     }
 });
 
@@ -110,7 +109,7 @@ const PlayersLayout = Marionette.View.extend({
         this.fetchPlayers()
             .then(function () {
                 this.showChildView('listRegion', new PlayersView({
-                    user:this.model.toJSON(),
+                    team:this.model.toJSON(),
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');

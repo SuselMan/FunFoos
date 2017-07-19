@@ -28,8 +28,7 @@ const NewTeamView = BaseModalView.extend({
         this.options = options;
         this.collection = new Players();
         this.model= new this.collection.model();
-        //TODO: rename to team;
-        this.model.set('owner',options.user._id);
+        this.model.set('owner',options.team._id);
     },
 
     onRender:function(){
@@ -49,7 +48,7 @@ const NewTeamView = BaseModalView.extend({
         this.collection.add(this.model);
         this.model.save()
             .then(function (result) {
-                console.info('new player was created with owner', this.options.user.id);
+                console.info('new player was created with owner', this.options.team.id);
                 channelGlobal.trigger('player:created');
                 channelGlobal.trigger('modal:close');
             }.bind(this))

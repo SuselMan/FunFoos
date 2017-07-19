@@ -116,9 +116,10 @@ const ProtocolView = Marionette.View.extend({
     this.hostPlayers = new Players();
     this.guestPlayers = new Players();
     this.collection = new Games();
+    //TODO: use websockets istead of this shit
     setInterval(function() {
       this.collection.fetch({data: {meeting: this.model.id}})
-    }.bind(this), 200);
+    }.bind(this), 500);
     Promise.all([
       this.collection.fetch({data: {meeting: this.model.id}}),
       this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}),
@@ -130,7 +131,6 @@ const ProtocolView = Marionette.View.extend({
         hostPlayers: this.hostPlayers
       }));
     })
-    //this.collection.getEmptyCollection();
   }
 });
 

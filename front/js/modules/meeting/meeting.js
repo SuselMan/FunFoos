@@ -38,7 +38,7 @@ const MeetingLayout = Marionette.View.extend({
     showMeeting: function () {
         var teams = new Teams();
         var places = new Places();
-        //TODO: refactor ASAP;
+        //TODO: refactor;
         Promise.all([teams.fetch(),places.fetch()])
             .then(function () {
                 this.model.set('hostTeam', teams.get(this.model.get('host')).toJSON());
