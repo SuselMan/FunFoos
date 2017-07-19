@@ -21,7 +21,7 @@ let channelGlobal = Radio.channel('global');
 const MeetingView = Marionette.View.extend({
     template: require('../../../templates/team/meeting.hbs'),
     tagName: 'div',
-    className: 'team-player',
+    className: 'flex-card',
 
     ui: {
         deleteBtn: '.js-deleteBtn'

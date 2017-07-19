@@ -17,7 +17,7 @@ let channelGlobal = Radio.channel('global');
 const ButtonView = Marionette.View.extend({
     template: require('../../../templates/team/addPlayer.hbs'),
     tagName: 'button',
-    className: 'team-player',
+    className: 'team-player flex-card',
     events: {
         'click': 'createPlayer'
     },
@@ -36,7 +36,7 @@ const ButtonView = Marionette.View.extend({
 const PlayerView = Marionette.View.extend({
     template: require('../../../templates/team/player.hbs'),
     tagName: 'div',
-    className: 'team-player',
+    className: 'team-player flex-card',
 
     ui: {
         deleteBtn: '.js-deleteBtn'

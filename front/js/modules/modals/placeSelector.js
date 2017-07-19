@@ -5,7 +5,7 @@
 "use strict";
 
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
+import Places from '../../entities/places';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import BaseModalView from './baseModal'
@@ -13,8 +13,8 @@ import UploadView from '../../widgets/fileUploader/fileUploader';
 
 let channelGlobal = Radio.channel('global');
 
-const PlayerView = Marionette.View.extend({
-  template: require('../../../templates/modals/components/playerCard.hbs'),
+const PlaceView = Marionette.View.extend({
+  template: require('../../../templates/modals/components/placeCard.hbs'),
   tagName: 'div',
   className: 'flex-card',
 
@@ -23,17 +23,17 @@ const PlayerView = Marionette.View.extend({
   },
 
   events: {
-    'click @ui.deleteBtn': 'deletePlayer',
+    'click @ui.deleteBtn': 'deletePlace',
     'click': 'navigate'
   },
 
-  deletePlayer: function (e) {
+  deletePlace: function (e) {
     e.stopPropagation();
     this.model.destroy();
   },
 
   navigate: function () {
-    channelGlobal.trigger('player:selected',this.model);
+    channelGlobal.trigger('place:selected',this.model);
     channelGlobal.trigger('modal:close');
   },
 
@@ -48,10 +48,10 @@ const EmptyView = Marionette.View.extend({
   tagName: 'div'
 });
 
-const PlayersView = Marionette.CollectionView.extend({
-  childView: PlayerView,
+const PlacesView = Marionette.CollectionView.extend({
+  childView: PlaceView,
   emptyView: EmptyView,
-  className: 'col-12 team-players-container',
+  className: 'col-12 team-places-container',
 
   initialize: function(options){
     this.options = options;
@@ -62,11 +62,11 @@ const PlayersView = Marionette.CollectionView.extend({
   }
 });
 
-const SelectPlayerView = BaseModalView.extend({
-  template: require('../../../templates/modals/selectPlayer.hbs'),
+const SelectPlaceView = BaseModalView.extend({
+  template: require('../../../templates/modals/selectPlace.hbs'),
 
   regions: {
-    playersRegion: '.js-playersRegion'
+    placesRegion: '.js-placesRegion'
   },
 
   initialize: function (options) {
@@ -74,10 +74,10 @@ const SelectPlayerView = BaseModalView.extend({
   },
 
   onRender: function () {
-    this.showChildView('playersRegion', new PlayersView({
+    this.showChildView('placesRegion', new PlacesView({
       collection: this.collection
     }));
   }
 });
 
-export default SelectPlayerView;
+export default SelectPlaceView;

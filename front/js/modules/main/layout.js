@@ -17,13 +17,14 @@ import TeamView from '../team/layout';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
 import NewPlaceView from '../modals/newPlace';
-import PlayerSelector from '../modals/playerSelector';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
 import MeetingsView from '../meetings/meetings';
 import MeetingView from '../meeting/meeting';
 import PlacesView from '../places/places';
+import PlayerSelector from '../modals/playerSelector';
+import PlaceSelector from '../modals/placeSelector';
 
 let channelGlobal = Radio.channel('global');
 
@@ -84,6 +85,9 @@ let Layout = Marionette.View.extend({
                 break;
             case 'playerSelector':
                 this.showChildView('modalRegion', new PlayerSelector(options));
+                break;
+            case 'placeSelector':
+                this.showChildView('modalRegion', new PlaceSelector(options));
                 break;
         }
     },

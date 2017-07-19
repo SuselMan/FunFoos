@@ -51,13 +51,15 @@ const MeetingLayout = Marionette.View.extend({
                     var place = places.get(this.model.get('place')).toJSON();
                     this.model.set('placeName', place.name);
                     this.model.set('placeImage', place.image);
+                } else {
+                  this.model.set('placeName', 'Выбрать место');
                 }
                 this.render();
                 this.showChildView('protocolRegion', new ProtocolView({
                     model: this.model
                 }));
             }.bind(this));
-    },
+    }
 });
 
 

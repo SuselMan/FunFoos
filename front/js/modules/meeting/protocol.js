@@ -61,10 +61,12 @@ const GameView = Marionette.View.extend({
   setItems: function () {
     let type = this.model.get('type');
     for (var i = 0; i < type; i++) {
-      if (this.model.get('hostPlayer'+i)) {
+      let hostPlayer = this.model.get('hostPlayer'+i);
+      if (hostPlayer && this.isHostPlayer(hostPlayer)) {
         this.hostSelectors[i].setSelected(this.options.hostPlayers.get(this.model.get('hostPlayer'+i)), true);
       }
-      if (this.model.get('guestPlayer'+i)) {
+      let guestPlayer = this.model.get('guestPlayer'+i);
+      if (guestPlayer && this.isGuestPlayer(guestPlayer)) {
         this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get('guestPlayer'+i)), true);
       }
     }
@@ -72,6 +74,14 @@ const GameView = Marionette.View.extend({
     if (this.model.get('hostScore1')) this.ui.game1ScoreHost.val(this.model.get('hostScore1'));
     if (this.model.get('guestScore0')) this.ui.game0ScoreGuest.val(this.model.get('guestScore0'));
     if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.val(this.model.get('guestScore1'));
+  },
+
+  isHostPlayer:function(id){
+    return this.options.hostPlayers.get(id);
+  },
+
+  isGuestPlayer:function(id){
+    return this.options.guestPlayers.get(id);
   },
 
   changeHostPlayer: function (model, index) {
@@ -82,7 +92,7 @@ const GameView = Marionette.View.extend({
 
   changeGuestPlayer: function (model, index) {
     var obj = {};
-    obj['hostPlayer' + index] = model.id;
+    obj['guestPlayer' + index] = model.id;
     this.model.saveChanges(obj);
   },
 
