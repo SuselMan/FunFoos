@@ -16,10 +16,10 @@ const ImageCropper = Marionette.View.extend({
   className: 'image-cropper',
 
   ui:{
-    upload: '#file-upload'
+    delete:'.js-delete'
   },
   events: {
-    'change @ui.upload': 'uploadImage'
+    'click @ui.delete': 'delete'
   },
 
   initialize: function (options) {
@@ -54,7 +54,12 @@ const ImageCropper = Marionette.View.extend({
       }
       fr.readAsDataURL(this.options.file);
     }
+  },
+
+  delete: function () {
+    this.trigger('cropper:cancel')
   }
+
 });
 
 export default ImageCropper;

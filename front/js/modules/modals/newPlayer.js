@@ -39,10 +39,7 @@ const NewTeamView = BaseModalView.extend({
         if(this.model.get('image')){
             this.showChildView('imageRegion', new ImageView({model:this.model}));
         } else {
-            this.uploadView = new UploadView();
-            this.showChildView('imageRegion', this.uploadView);
-            console.log('1');
-            this.uploadView.on('image:selected',this.showCropper.bind(this));
+            this.showUploader();
         }
     },
 
@@ -59,8 +56,18 @@ const NewTeamView = BaseModalView.extend({
             })
     },
 
+    showUploader: function(){
+        this.uploadView = null;
+        this.uploadView = new UploadView();
+        this.showChildView('imageRegion', this.uploadView);
+        this.uploadView.on('image:selected',this.showCropper.bind(this));
+    },
+
     showCropper: function (file) {
-        this.showChildView('imageRegion', new ImageCropper({file:file}));
+        this.cropper = null;
+        this.cropper = new ImageCropper({file:file});
+        this.showChildView('imageRegion', this.cropper);
+        this.cropper.on('cropper:cancel', this.showUploader.bind(this));
     },
 
     showImage: function(url) {
