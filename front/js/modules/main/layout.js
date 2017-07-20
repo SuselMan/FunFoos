@@ -43,7 +43,7 @@ let Layout = Marionette.View.extend({
     },
 
     ui: {
-        nav: "a",
+        nav: "a.nav-link",
         logo: ".js-logo"
     },
 

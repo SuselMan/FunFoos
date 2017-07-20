@@ -12,11 +12,18 @@ import Radio from 'backbone.radio';
 let channelGlobal = Radio.channel('global');
 
 
-//TODO: refactor, add button for file manager, users haven't ability to use drug and drop in mobile devices
+//TODO: refactor
 
 const UploaderView = Marionette.View.extend({
     template: require('./fileUploader.hbs'),
     className: 'upload-form',
+    ui:{
+      upload: '#file-upload'
+    },
+    events: {
+      'change @ui.upload': 'uploadImage'
+    },
+
     onRender: function () {
         this.el.addEventListener("dragover", function (event) {
             this.el.classList.add('drop');
@@ -28,23 +35,24 @@ const UploaderView = Marionette.View.extend({
             event.preventDefault();
         }.bind(this), false);
 
-        this.el.addEventListener("drop", function (event) {
-            event.preventDefault();
-
-            let files = event.dataTransfer.files;
-            this.trigger('image:selected',event.dataTransfer.files[0]);
-            // let form = new FormData();
-            // form.append("imageFiles", files[0]);
-            // fetch('/api/files', {
-            //     method: 'POST',
-            //     body: form
-            // }).then(function (res) {
-            //     return res.json()
-            // }.bind(this)).then(function (imageUrl) {
-            //     this.trigger('load:complete',imageUrl)
-            // }.bind(this));
-            this.el.classList.remove('drop');
-        }.bind(this), false);
+        this.el.addEventListener("drop", this.uploadImage.bind(this));
+    },
+  
+    uploadImage: function(event){
+      event.preventDefault();
+      let files = event.target.files || event.dataTransfer.files;
+      this.trigger('image:selected', files[0]);
+      // let form = new FormData();
+      // form.append("imageFiles", files[0]);
+      // fetch('/api/files', {
+      //     method: 'POST',
+      //     body: form
+      // }).then(function (res) {
+      //     return res.json()
+      // }.bind(this)).then(function (imageUrl) {
+      //     this.trigger('load:complete',imageUrl)
+      // }.bind(this));
+      this.el.classList.remove('drop');
     }
 });
 

@@ -10,6 +10,7 @@ import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import BaseModalView from './baseModal'
 import UploadView from '../../widgets/fileUploader/fileUploader';
+import ImageCropper from '../../widgets/imageCropper/imageCropper';
 
 let channelGlobal = Radio.channel('global');
 
@@ -40,7 +41,8 @@ const NewTeamView = BaseModalView.extend({
         } else {
             this.uploadView = new UploadView();
             this.showChildView('imageRegion', this.uploadView);
-            this.uploadView.on('load:complete',this.showImage.bind(this))
+            console.log('1');
+            this.uploadView.on('image:selected',this.showCropper.bind(this));
         }
     },
 
@@ -55,6 +57,10 @@ const NewTeamView = BaseModalView.extend({
             .catch(function (err) {
                 console.error(err);
             })
+    },
+
+    showCropper: function (file) {
+        this.showChildView('imageRegion', new ImageCropper({file:file}));
     },
 
     showImage: function(url) {
