@@ -31,7 +31,7 @@ module.exports = {
             {
                 test   : /\.scss$/,
                 exclude: /node_modules/,
-                loader : 'style!css!sass'
+                loader : 'style!css!sass!import-glob-loader'
             },
             {
                 test: /\.hbs$/,
@@ -57,3 +57,8 @@ module.exports = {
         fs: 'empty'
     }
 }
+
+ // import-glob-loader translate @import "foo/**/*"; to
+ // @import "foo/1.scss";
+ // @import "foo/bar/2.scss";
+ // @import "foo/bar/3.scss";

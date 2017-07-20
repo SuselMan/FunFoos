@@ -18,7 +18,6 @@ const UploaderView = Marionette.View.extend({
     template: require('./fileUploader.hbs'),
     className: 'upload-form',
     onRender: function () {
-
         this.el.addEventListener("dragover", function (event) {
             this.el.classList.add('drop');
             event.preventDefault();
@@ -31,17 +30,19 @@ const UploaderView = Marionette.View.extend({
 
         this.el.addEventListener("drop", function (event) {
             event.preventDefault();
+
             let files = event.dataTransfer.files;
-            let form = new FormData();
-            form.append("imageFiles", files[0]);
-            fetch('/api/files', {
-                method: 'POST',
-                body: form
-            }).then(function (res) {
-                return res.json()
-            }.bind(this)).then(function (imageUrl) {
-                this.trigger('load:complete',imageUrl)
-            }.bind(this));
+            this.trigger('image:selected',event.dataTransfer.files[0]);
+            // let form = new FormData();
+            // form.append("imageFiles", files[0]);
+            // fetch('/api/files', {
+            //     method: 'POST',
+            //     body: form
+            // }).then(function (res) {
+            //     return res.json()
+            // }.bind(this)).then(function (imageUrl) {
+            //     this.trigger('load:complete',imageUrl)
+            // }.bind(this));
             this.el.classList.remove('drop');
         }.bind(this), false);
     }
