@@ -47,4 +47,14 @@
       opacity: 0.5;
     }
   }
+
+  .cropper-point {
+    border: 2px white solid;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    opacity: .9;
+    background-color: #39f;
+  }
+
 }

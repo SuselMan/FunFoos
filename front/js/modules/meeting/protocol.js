@@ -128,7 +128,7 @@ const ProtocolView = Marionette.View.extend({
     this.collection = new Games();
     //TODO: use websockets istead of this shit
     setInterval(function() {
-      //this.collection.fetch({data: {meeting: this.model.id}})
+      this.collection.fetch({data: {meeting: this.model.id}})
     }.bind(this), 500);
     Promise.all([
       this.collection.fetch({data: {meeting: this.model.id}}),
