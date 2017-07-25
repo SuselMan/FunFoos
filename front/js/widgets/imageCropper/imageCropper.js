@@ -33,7 +33,7 @@ const ImageCropper = Marionette.View.extend({
       fr.onload = function () {
         document.getElementById('testImage').src = fr.result;
         var image = document.getElementById('testImage');
-        var cropper = new Cropper(image, {
+        this.cropper = new Cropper(image, {
           aspectRatio: 1,
           viewMode: 1,
           background: false,

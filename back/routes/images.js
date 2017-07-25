@@ -8,9 +8,10 @@ import * as db from '../utils/DataBaseUtils';
 
 const router = express.Router();
 
+//TODO: check that returns available  path
 router.post('/', imagesUpload(
     './build/files',
-    'http://localhost:8080/files'
+    '/files'
 ));
 
 export default router
