@@ -10,7 +10,6 @@ import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
-import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
@@ -25,6 +24,7 @@ import MeetingView from '../meeting/meeting';
 import PlacesView from '../places/places';
 import PlayerSelector from '../modals/playerSelector';
 import PlaceSelector from '../modals/placeSelector';
+import SigninView from '../modals/login';
 
 let channelGlobal = Radio.channel('global');
 
@@ -91,6 +91,9 @@ let Layout = Marionette.View.extend({
             case 'placeSelector':
                 this.showChildView('modalRegion', new PlaceSelector(options));
                 break;
+            case 'login':
+                this.showChildView('modalRegion',  this.signin);
+                break;
         }
     },
 
@@ -141,6 +144,7 @@ let Layout = Marionette.View.extend({
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
         channelGlobal.on("modal:show", this.startModal.bind(this));
         channelGlobal.on("modal:close", this.closeModal.bind(this));
+
         this.signin = new SigninView({model: this.user});
         this.signin.fetch();
     },
@@ -150,7 +154,7 @@ let Layout = Marionette.View.extend({
     },
 
     closeSignin: function () {
-        this.getRegion('signinRegion').empty();
+        channelGlobal.trigger("modal:close");
     },
 
     doneSignin: function (user) {
@@ -163,7 +167,7 @@ let Layout = Marionette.View.extend({
     },
 
     showSignin: function () {
-        this.showChildView('signinRegion', this.signin);
+        this.startModal({view:'login', user: this.user});
     },
 
     doneSignup: function () {
