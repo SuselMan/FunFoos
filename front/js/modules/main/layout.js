@@ -10,7 +10,6 @@ import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
-import SigninView from '../login/signin';
 import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
@@ -23,6 +22,9 @@ import UserView from '../user/user';
 import MeetingsView from '../meetings/meetings';
 import MeetingView from '../meeting/meeting';
 import PlacesView from '../places/places';
+import PlayerSelector from '../modals/playerSelector';
+import PlaceSelector from '../modals/placeSelector';
+import SigninView from '../modals/login';
 
 let channelGlobal = Radio.channel('global');
 
@@ -38,15 +40,16 @@ let Layout = Marionette.View.extend({
         signupRegion: '.js-signupRegion',
         contentRegion: '.js-contentRegion',
         modalRegion: '.js-ModalRegion'
-
     },
 
     ui: {
-        nav: "a"
+        nav: "a.nav-link",
+        logo: ".js-logo"
     },
 
     events: {
-        'click @ui.nav': 'navigateTo'
+        'click @ui.nav': 'navigateTo',
+        'click @ui.logo': 'navigateTo'
     },
 
     initialize: function () {
@@ -82,21 +85,29 @@ let Layout = Marionette.View.extend({
             case 'newPlace':
                 this.showChildView('modalRegion', new NewPlaceView(options));
                 break;
+            case 'playerSelector':
+                this.showChildView('modalRegion', new PlayerSelector(options));
+                break;
+            case 'placeSelector':
+                this.showChildView('modalRegion', new PlaceSelector(options));
+                break;
+            case 'login':
+                this.showChildView('modalRegion',  this.signin);
+                break;
         }
     },
 
     start: function (view, option) {
         this.minimizeHeader();
         this.getRegion('contentRegion').empty();
-        //TODO: rename 'team' class if it will have more then one usage
-        this.el.querySelector('.sign-up').classList.toggle('team', false);
+        this.el.querySelector('.sign-up').classList.toggle('big-header', false);
 
         switch (view) {
             case 'teams':
                 this.showChildView('contentRegion', new TeamsView());
                 break;
             case 'team':
-                this.el.querySelector('.sign-up').classList.toggle('team', true);
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
                 this.showChildView('contentRegion', new TeamView({id: option}));
                 break;
             case 'players':
@@ -112,7 +123,7 @@ let Layout = Marionette.View.extend({
                 this.showChildView('contentRegion', new MeetingsView());
                 break;
             case 'meeting':
-                this.el.querySelector('.sign-up').classList.toggle('team', true);
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
                 this.showChildView('contentRegion', new MeetingView({id: option}));
                 break;
             case 'places':
@@ -133,6 +144,7 @@ let Layout = Marionette.View.extend({
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
         channelGlobal.on("modal:show", this.startModal.bind(this));
         channelGlobal.on("modal:close", this.closeModal.bind(this));
+
         this.signin = new SigninView({model: this.user});
         this.signin.fetch();
     },
@@ -142,7 +154,7 @@ let Layout = Marionette.View.extend({
     },
 
     closeSignin: function () {
-        this.getRegion('signinRegion').empty();
+        channelGlobal.trigger("modal:close");
     },
 
     doneSignin: function (user) {
@@ -155,7 +167,7 @@ let Layout = Marionette.View.extend({
     },
 
     showSignin: function () {
-        this.showChildView('signinRegion', this.signin);
+        this.startModal({view:'login', user: this.user});
     },
 
     doneSignup: function () {

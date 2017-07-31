@@ -7,6 +7,7 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    isAdmin:{type:Boolean},
     email:{
         type: String,
         unique: true,
@@ -16,7 +17,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    team: [Number]
+    isAdmin : {type: Boolean}
 });
 
 UserSchema.plugin(autoIncrement, 'UserSchema');

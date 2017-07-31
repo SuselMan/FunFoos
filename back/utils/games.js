@@ -1,62 +1,70 @@
 /**
- * Created by ipavl on 15.06.2017.
+ * Created by pavluhin on 24.04.2017.
  */
 
 import mongoose from "mongoose";
-import '../models/Team';
-const Team = mongoose.model('Team');
+import '../models/Game';
 
-export function listTeams(req) {
-    if(req && req.param('owner')){
-        return Team.find({ owner: req.param('owner') })
-    }
-    return Team.find();
-}
+const Game = mongoose.model('Game');
 
-export function getTeam(req) {
-    return new Promise(function(resolve, reject) {
-        Team.findById(req.params.id,function(err,team){
-            if(team){
-                resolve(team);
-            } else {
-                reject({status:500,message:'User not found'});
-            }
-        });
+
+//TODO: Refactor
+
+export function getGame(req) {
+  return new Promise(function(resolve, reject) {
+    Game.findById(req.params.id,function(err,game){
+      if(game){
+        resolve(game);
+      } else {
+        reject({status:500,message:'Game not found'});
+      }
     });
+  });
 }
 
-export function createTeam(data) {
-    const team = new Team({
-        name: data.name,
-        shortName: data.shortName,
-        owner: data.owner
+export function changeGame(req) {
+  return new Promise(function(resolve, reject) {
+    Game.findById(req.params.id,function(err,game){
+      if(game){
+        Game.update({_id:req.params.id},req.body)
+          .then(function (isOk) {
+            Game.findById(req.params.id)
+              .then(function(game){
+                resolve(game);
+              })
+              .catch(function(err){
+                console.error(err);
+                reject(err);
+              })
+          })
+          .catch(function (err) {
+            reject(err);
+          })
+      } else {
+        reject({status:500,message:'Game not found'});
+      }
     });
-
-    return team.save();
+  });
 }
 
-export function changeTeam(req) {
-    return new Promise(function(resolve, reject) {
-        Team.findById(req.params.id,function(err,team){
-            if(team){
-                Team.update({_id:req.params.id},req.body)
-                    .then(function (isOk) {
-                        Team.findById(req.params.id)
-                            .then(function(team){
-                                resolve(team);
-                            });
-                    })
-                    .catch(function (err) {
-                        reject(err);
-                    })
-            } else {
-                reject({status:500,message:'Team not found'});
-            }
-        });
-    });
-
+export function listGames(req) {
+  //TODO: use all params if it will need;
+  if(req.param('meeting')){
+    return Game.find({ meeting:  req.param('meeting')  })
+  }
+  return Game.find();
 }
 
-export function deleteTeam(id) {
-    return Team.findById(id).remove();
+export function createGame(data) {
+  const game = new Game({
+    meeting  : data.meeting,
+    season  : data.season,
+    type: data.type,
+    approved:false
+  });
+  return game.save();
+}
+
+export function deleteGame(id) {
+  return Game.findById(id).remove();
 }

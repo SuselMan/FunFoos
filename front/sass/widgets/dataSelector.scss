@@ -1,15 +1,34 @@
 .data-selector {
+  cursor: pointer;
+  color: $brend-blue;
   width: 100%;
   height: 100%;
   font-family: inherit;
   text-align: center;
   text-align-last: center;
   border: none;
-  background-image: url(../images/empty_avatar.jpg);
+  background-image: url(../images/empty_player_choice.png);
+  background-blend-mode: luminosity;
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: left top;
+
   option {
     height: 40px;
+  }
+  span {
+    text-decoration: underline;
+  }
+  &:hover {
+    background-color: #f8f2ce;
+    span {
+      color:$brend-blue;
+    }
+  }
+}
+
+.guest{
+  .data-selector{
+    background-position: right top;
   }
 }

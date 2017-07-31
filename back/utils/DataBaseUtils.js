@@ -12,10 +12,10 @@ export function setUpConnection() {
 export * from './teams';
 export * from './players';
 export * from './users';
+export * from './games';
 export * from './seasons';
 export * from './meetings';
 export * from './places';
-export * from './games';
 
 
 //TODO think about baseUtil class and just extend it

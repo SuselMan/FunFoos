@@ -38,7 +38,6 @@ const UserLayout = Marionette.View.extend({
     },
 
     onRender: function () {
-        console.log('userID', this.model);
         this.model.updateSignin()
             .then(function (res) {
                 this.showChildView('teamsRegion', new TeamsView({

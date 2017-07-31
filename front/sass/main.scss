@@ -3,18 +3,14 @@
 @import "~bootstrap/scss/bootstrap";
 //TODO: remove select2 if it will not use
 @import "~select2/src/scss/core";
+@import "~cropperjs/dist/cropper.min.css";
 @import "~pikaday/scss/pikaday";
 @import "./settings.scss";
 @import "./mixins.scss";
-@import "./views/login.scss";
-@import "./views/team.scss";
-@import "./views/meeting.scss";
-@import "./views/user.scss";
 
-@import "./widgets/uploadForm.scss";
-@import "./widgets/preloader.scss";
-@import "./widgets/dataSelector.scss";
+@import "./views/*";
 
+@import "./widgets/*";
 
 @font-face {
   font-family: "FuturaBook";
@@ -75,4 +71,11 @@ body{
   right: 10px;
   top: 5px;
   position: absolute;
+}
+
+.modal-input{
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #CCC;
+  height: 50px;
 }

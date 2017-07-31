@@ -1,12 +1,12 @@
 //TODO add media query for small screens where will show only second name
 .protocol {
-  .games{
-    width:100%;
+  .games {
+    width: 100%;
   }
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width:100%;
+  width: 100%;
   .meeting-team {
     background-color: $white;
     width: 50%;
@@ -31,29 +31,63 @@
   .game {
     font-size: 20px;
     text-align: center;
-    line-height: 50px;
+    line-height: 80px;
     background-color: $white;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 5px;
     border-bottom: 2px solid $light-gray-shadow;
     .team {
       flex-basis: 50%;
       .player {
-        height: 50px;
+        .data-selector {
+          height: 80px;
+        }
+        &:only-child{
+          border-bottom:none!important;
+        }
+        &:first-child {
+          border-bottom: 1px dashed $light-gray-shadow;
+        }
       }
     }
     .score {
       width: 180px;
       flex-basis: 180px;
       flex-shrink: 0;
+      line-height: 40px;
+      min-height: 100%;
+      align-self: stretch;
       .score-line {
         display: flex;
-        div {
+        min-height: 50%;
+        align-self: stretch;
+
+        input {
+          border: none;
           width: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          color: rgba(87, 95, 119, 1);
+          text-decoration: underline;
+          cursor: pointer;
+          &:hover {
+            background-color: #e9ecf5;
+          }
+        }
+        &:first-child {
+          border-bottom: 1px dashed $light-gray-shadow;
         }
       }
     }
   }
+}
+
+.modal-body.selector{
+  overflow-y: scroll;
+  height: 90%;
 }

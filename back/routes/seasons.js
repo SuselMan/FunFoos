@@ -11,10 +11,6 @@ router.get('/', (req, res) => {
     db.listSeasons(req).then(data => res.send(data));
 });
 
-router.post('/startSeason/:id', (req, res) => {
-    db.startSeason(req.params.id);
-});
-
 router.post('/', (req, res) => {
     db.createSeason(req.body).then(data => res.send(data));
 });

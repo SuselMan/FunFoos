@@ -42,6 +42,7 @@ const TeamLayout = Marionette.View.extend({
         collection.fetch()
             .then(function(){
                 model = collection.get(this.options.id);
+                this.model = model;
                 this.showTeam(model,collection);
             }.bind(this))
     }

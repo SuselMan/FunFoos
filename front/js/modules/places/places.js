@@ -60,7 +60,7 @@ const PlacesLayout = Marionette.View.extend({
                 this.triggerMethod('fetch:complete');
             }.bind(this))
             .catch(function(e){
-                console.log('Something wrong',e);
+                console.error('Something wrong',e);
             })
     },
     createPlace :function() {

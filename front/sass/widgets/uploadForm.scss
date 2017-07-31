@@ -13,5 +13,18 @@
     position: absolute;
     text-align: center;
     @include strict-center();
+    label.upload {
+      color: $brend-blue-light;
+      text-decoration: underline;
+      cursor: pointer;
+      &:hover{
+        color: $brend-blue-light;
+        text-decoration: underline;
+        //text-decoration-style: dashed;
+      }
+    }
+    input[type="file"] {
+      display: none;
+    }
   }
 }
