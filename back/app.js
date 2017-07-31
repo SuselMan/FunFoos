@@ -21,6 +21,7 @@ import images from './routes/images';
 import user from './routes/user';
 import meetings from './routes/meetings';
 import games from './routes/games';
+import fileUpload from 'express-fileupload';
 
 const app = express();
 let MongoStore= connectMongo(session);
@@ -29,11 +30,13 @@ db.setUpConnection(app);
 
 // app.use(express.favicon());
 //app.use(favicon(__dirname + './build/files/favicon.ico'));
-app.use( bodyParser.json() );
+app.use(bodyParser.json() );
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(methodOverride());
+
+//TODO: make sure this is safe!
 app.use(cors({ origin: '*' }));
 app.use(session({
     secret: 'i need more beers',
@@ -43,6 +46,8 @@ app.use(session({
         url: `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`
     })
 }));
+
+//app.use(fileUpload());
 
 app.use(express.static('./build'));
 

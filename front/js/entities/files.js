@@ -11,19 +11,18 @@ import Marionette from 'backbone.marionette';
 
 const File = Backbone.Model.extend({
   idAttribute: "_id",
-  urlRoot: 'api/files',
+  urlRoot: '/api/files',
 
   initialize: function (attrs, options) {
     this.options = options;
   },
 
   saveImage: function () {
-    if(this.model.get('blob')){
+    if(this.get('blob')){
       var formData = new FormData();
-      formData.append('croppedImage', this.model.get('blob'));
+      formData.append('imageFiles', this.get('blob'), 'image.png');
       return fetch(this.urlRoot, {
-        headers: {'Content-Type': 'application/json'},
-        method: 'post',
+        method: 'POST',
         body: formData
       });
     }

@@ -46,12 +46,10 @@ const NewTeamView = BaseModalView.extend({
 
   submit: function () {
     console.log('this.cropper.',this.cropper);
-    this.cropper.cropper.getCroppedCanvas({
-      width: 400,
-      height: 400
-    }).toBlob((blob) => {
-      var image = new File({blob: blob});
-      image.saveImage().then(()=> {
+    this.cropper.getCroppedImage()
+      .then((image)=>{
+        console.log('image saved successful', image);
+        this.model.set('image',image);
         this.collection.add(this.model);
         this.model.save()
           .then(function (result) {
@@ -63,7 +61,6 @@ const NewTeamView = BaseModalView.extend({
             console.error(err);
           })
       })
-    })
   },
 
   showUploader: function () {

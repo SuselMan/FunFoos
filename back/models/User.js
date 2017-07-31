@@ -17,7 +17,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    team: [Number]
+    isAdmin : {type: Boolean}
 });
 
 UserSchema.plugin(autoIncrement, 'UserSchema');
