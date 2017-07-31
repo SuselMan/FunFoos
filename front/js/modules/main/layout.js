@@ -25,6 +25,7 @@ import PlacesView from '../places/places';
 import PlayerSelector from '../modals/playerSelector';
 import PlaceSelector from '../modals/placeSelector';
 import SigninView from '../modals/login';
+import trianglify from 'trianglify';
 
 let channelGlobal = Radio.channel('global');
 
@@ -147,6 +148,13 @@ let Layout = Marionette.View.extend({
 
         this.signin = new SigninView({model: this.user});
         this.signin.fetch();
+
+        var pattern = new trianglify({
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+        console.log('overlay-gradient',this.el.querySelector('.overlay-gradient'))
+        this.el.querySelector('.overlay-gradient').appendChild(pattern.canvas());
     },
 
     minimizeHeader: function () {
