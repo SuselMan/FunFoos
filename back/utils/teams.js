@@ -7,8 +7,8 @@ import '../models/Team';
 const Team = mongoose.model('Team');
 
 export function listTeams(req) {
-    if(req && req.param('owner')){
-        return Team.find({ owner: req.param('owner') })
+    if(req && req.query.owner){
+        return Team.find({ owner: req.query.owner })
     }
     return Team.find();
 }

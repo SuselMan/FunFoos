@@ -48,8 +48,8 @@ export function changeMeeting(req) {
 }
 
 export function listMeetings(req) {
-  if(req.param('owner')){
-    return Meeting.find({}).or([{ guest:  req.param('owner')  }, { host:  req.param('owner')  }])
+  if(req.query.owner){
+    return Meeting.find({}).or([{ guest:  req.query.owner  }, { host:  req.query.owner  }])
   }
   return Meeting.find();
 }

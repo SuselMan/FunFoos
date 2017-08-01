@@ -10,8 +10,8 @@ import config from '../etc/config.json';
 const Season = mongoose.model('Season');
 
 export function listSeasons(req) {
-    if (req && req.param('state')) {
-        return Season.find({state: req.param('state')})
+    if (req &&req.query.state) {
+        return Season.find({state: req.query.state})
     }
     return Season.find();
 }

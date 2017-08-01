@@ -35,9 +35,8 @@ export function changePlayer(req) {
 
 
 export function listPlayers(req) {
-  //TODO param is depticated() use params
-  if (req.param('owner')) {
-    return Player.find({owner: req.param('owner')})
+  if (req.query.owner) {
+    return Player.find({owner: req.query.owner})
   }
   return Player.find();
 }
