@@ -36,7 +36,7 @@ router.get('/login', (req, res, next) => {
             })
     }
     else {
-        res.status(500).send("Has no session")
+        res.status(401).send("Has no session")
     }
 });
 
