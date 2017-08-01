@@ -62,6 +62,7 @@ app.use('/api/games', games);
 
 
 app.get('*', function(req, res) {
+    //TODO: use sendFile instead of sendfile
     res.sendfile('./build/index.html'); // load our public/index.html file
 });
 
