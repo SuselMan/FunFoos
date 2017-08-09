@@ -15,6 +15,7 @@ var routes = {
     'meetings(/)': 'meetingsWindow',
     'meeting(/:id)': 'meetingWindow',
     'places(/)': 'placesWindow',
+    'admin(/)': 'adminWindow',
     '(/)': 'index'
 };
 

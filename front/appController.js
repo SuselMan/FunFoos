@@ -58,6 +58,11 @@ const appController = {
         App.mainModule.setView('places');
     },
 
+    adminWindow: function() {
+        this.checkMainModule();
+        App.mainModule.setView('admin');
+    },
+
     checkMainModule:function(){
         if(!App.mainModule){
             App.mainModule = MainModule;

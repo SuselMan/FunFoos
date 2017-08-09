@@ -44,6 +44,7 @@ router.get('/login/:id', (req, res, next) => {
   if (req.session.user && req.session.user.id) {
     db.checkSession(req.session.user.id)
       .then(function (user) {
+        console.log('send', user);
         res.status(200).send(user);
       })
       .catch(function (e) {
