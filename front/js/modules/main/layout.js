@@ -10,7 +10,6 @@ import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
-import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
 import NewTeamView from '../modals/newTeam';
@@ -25,6 +24,7 @@ import PlacesView from '../places/places';
 import PlayerSelector from '../modals/playerSelector';
 import PlaceSelector from '../modals/placeSelector';
 import SigninView from '../modals/login';
+import RegistrationView from '../modals/registration';
 
 let channelGlobal = Radio.channel('global');
 
@@ -36,20 +36,20 @@ let Layout = Marionette.View.extend({
     className: 'app',
 
     regions: {
-        signinRegion: '.js-signinRegion',
-        signupRegion: '.js-signupRegion',
         contentRegion: '.js-contentRegion',
         modalRegion: '.js-ModalRegion'
     },
 
     ui: {
         nav: "a.nav-link",
-        logo: ".js-logo"
+        logo: ".js-logo",
+        registration: '.js-registration'
     },
 
     events: {
         'click @ui.nav': 'navigateTo',
-        'click @ui.logo': 'navigateTo'
+        'click @ui.logo': 'navigateTo',
+        'click @ui.registration': 'registration'
     },
 
     initialize: function () {
@@ -69,6 +69,10 @@ let Layout = Marionette.View.extend({
             this.showSignin();
         }
 
+    },
+
+    registration: function() {
+        this.startModal({view:'registration', user: this.user});
     },
 
     startModal(options){
@@ -93,6 +97,9 @@ let Layout = Marionette.View.extend({
                 break;
             case 'login':
                 this.showChildView('modalRegion',  this.signin);
+                break;
+            case 'registration':
+                this.showChildView('modalRegion',  new RegistrationView({model:this.user}));
                 break;
         }
     },
@@ -138,7 +145,6 @@ let Layout = Marionette.View.extend({
     },
 
     onRender: function () {
-        this.showChildView('signupRegion', new SignupView({model: this.user}));
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
@@ -171,7 +177,7 @@ let Layout = Marionette.View.extend({
     },
 
     doneSignup: function () {
-        this.closeSignin();
+        this.doneSignin(this.user);
         this.el.classList.add('done');
     },
 

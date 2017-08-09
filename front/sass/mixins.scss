@@ -5,7 +5,7 @@
   transform: translate($tX,$tY);
 }
 
-@mixin linear-gradienr($from: $light-green,$to: $dark-green){
+@mixin linear-gradient($from: $light-color,$to: $dark-color){
   background: $from;
   background: -moz-linear-gradient(top,  $from 0%, $to 100%);
   background: -webkit-linear-gradient(top,  $from 0%, $to 100%);
