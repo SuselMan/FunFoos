@@ -45,10 +45,8 @@ const NewTeamView = BaseModalView.extend({
   },
 
   submit: function () {
-    console.log('this.cropper.',this.cropper);
     this.cropper.getCroppedImage()
       .then((image)=>{
-        console.log('image saved successful', image);
         this.model.set('image',image);
         this.collection.add(this.model);
         this.model.save()

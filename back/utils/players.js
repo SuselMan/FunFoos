@@ -52,7 +52,6 @@ export function createPlayer(data, user) {
     });
     return team.save();
   } else {
-    console.log('FORBIDDEN!');
     return new Promise(function (resolve, reject) {
       reject({
         status: 403,

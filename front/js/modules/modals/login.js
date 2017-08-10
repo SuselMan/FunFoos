@@ -17,7 +17,6 @@ const LoginView = BaseModalView.extend({
 
   initialize: function(options){
     this.options = options;
-    console.log('HEY!');
   },
 
   onRender:function(){

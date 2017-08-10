@@ -25,7 +25,6 @@ const ImageCropper = Marionette.View.extend({
 
   initialize: function (options) {
     this.options = options;
-    console.log('options', options);
   },
 
   onRender: function () {
@@ -43,13 +42,7 @@ const ImageCropper = Marionette.View.extend({
           scalable: false,
           zoomable: false,
           crop: function (e) {
-            console.log(e.detail.x);
-            console.log(e.detail.y);
-            console.log(e.detail.width);
-            console.log(e.detail.height);
-            console.log(e.detail.rotate);
-            console.log(e.detail.scaleX);
-            console.log(e.detail.scaleY);
+            //TODO: remove this callback if we will not find to reason for it;
           }
         });
       }.bind(this);
