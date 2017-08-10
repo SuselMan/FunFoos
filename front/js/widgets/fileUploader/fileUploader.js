@@ -17,12 +17,6 @@ let channelGlobal = Radio.channel('global');
 const UploaderView = Marionette.View.extend({
     template: require('./fileUploader.hbs'),
     className: 'upload-form',
-    ui:{
-      upload: '#file-upload'
-    },
-    events: {
-      'change @ui.upload': 'uploadImage'
-    },
 
     onRender: function () {
         this.el.addEventListener("dragover", function (event) {
@@ -36,23 +30,21 @@ const UploaderView = Marionette.View.extend({
         }.bind(this), false);
 
         this.el.addEventListener("drop", this.uploadImage.bind(this));
+        this.el.querySelector('#file-upload').addEventListener("change", this.uploadImage.bind(this));
     },
-  
-    uploadImage: function(event){
-      event.preventDefault();
-      let files = event.target.files || event.dataTransfer.files;
-      this.trigger('image:selected', files[0]);
-      // let form = new FormData();
-      // form.append("imageFiles", files[0]);
-      // fetch('/api/files', {
-      //     method: 'POST',
-      //     body: form
-      // }).then(function (res) {
-      //     return res.json()
-      // }.bind(this)).then(function (imageUrl) {
-      //     this.trigger('load:complete',imageUrl)
-      // }.bind(this));
-      this.el.classList.remove('drop');
+
+    uploadImage: function (event) {
+        try{
+        console.log('why it is not work?', this);
+        event.preventDefault();
+        var files = event.target.files || event.dataTransfer.files;
+        channelGlobal.trigger('image:selected', files[0]);
+        console.log('image:selected');
+        this.el.classList.remove('drop');
+        }
+        catch (e){
+            console.log(e);
+        }
     }
 });
 

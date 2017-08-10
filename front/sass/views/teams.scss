@@ -13,17 +13,21 @@
       flex-basis: 50px;
       width: 50px;
       min-width: 50px;
-      img {
-        height: 50px;
-        width: 50px
-      }
     }
+
     &:not(.table-header) {
       .name {
         text-decoration: underline;
         &:hover {
           color: $brend-blue-light;
         }
+      }
+      .image {
+        height: 50px;
+        background-image: url(../images/empty_team.jpg);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% top;
       }
     }
     .name {

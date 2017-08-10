@@ -65,10 +65,12 @@ const NewTeamView = BaseModalView.extend({
     this.uploadView = null;
     this.uploadView = new UploadView();
     this.showChildView('imageRegion', this.uploadView);
-    this.uploadView.on('image:selected', this.showCropper.bind(this));
+    channelGlobal.on('image:selected', this.showCropper.bind(this));
+    console.log('i listen this event');
   },
 
   showCropper: function (file) {
+    console.log('show CROPPER!');
     this.cropper = null;
     this.cropper = new ImageCropper({file: file});
     this.showChildView('imageRegion', this.cropper);
