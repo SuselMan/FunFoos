@@ -19,7 +19,7 @@ let channelGlobal = Radio.channel('global');
 const MeetingLayout = Marionette.View.extend({
   template: require('../../../templates/meeting/meeting.hbs'),
   collection: new Meetings(),
-  className: 'container team-layout',
+  className: 'container big-header-layout',
 
   ui: {
     selectPlaceBtn: '.js-name'

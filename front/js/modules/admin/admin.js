@@ -11,7 +11,8 @@ import Radio from 'backbone.radio';
 let channelGlobal = Radio.channel('global');
 
 const UserLayout = Marionette.View.extend({
-  template: require('../../../templates/user/layout.hbs'),
+  template: require('../../../templates/admin/admin.hbs'),
+  className: 'container',
 
   ui: {
     createTeamBtn: ".js-createTeam"

@@ -42,7 +42,7 @@ let Layout = Marionette.View.extend({
     },
 
     ui: {
-        nav: "a.nav-link",
+        nav: ".main > a.nav-link",
         logo: ".js-logo",
         registration: '.js-registration'
     },

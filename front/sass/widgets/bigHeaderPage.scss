@@ -17,7 +17,7 @@
     height: 200px;
     border-radius: 100px;
     overflow: hidden;
-    background-color: $white;
+    background-color: white;
 
     img {
       width: 200px;
@@ -32,4 +32,8 @@
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.big-header-layout {
+  top: -100px;
 }
