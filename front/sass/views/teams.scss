@@ -58,6 +58,14 @@
       color: $dark-color;
       text-align: center;
     }
+
+    .win-rate {
+      flex-basis: 80px;
+      width: 80px;
+      min-width: 80px;
+      text-align: center;
+    }
+
     .score {
       flex-basis: 50px;
       width: 50px;

@@ -4,10 +4,8 @@
 
 "use strict";
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import User from '../../entities/user';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
 import TeamsView from '../teams/teams';
@@ -144,7 +142,7 @@ let Layout = Marionette.View.extend({
     },
 
     closeModal: function () {
-        this.getRegion('modalRegion').empty();
+        this.getRegion('modalRegion').reset();
         this.el.querySelector('.js-ModalRegion').classList.add('hide');
     },
 

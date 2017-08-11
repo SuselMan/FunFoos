@@ -6,7 +6,6 @@
 
 import Marionette from 'backbone.marionette';
 import Players from '../../entities/players';
-import File from '../../entities/files';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import BaseModalView from './baseModal'
@@ -31,6 +30,7 @@ const NewTeamView = BaseModalView.extend({
     this.collection = new Players();
     this.model = new this.collection.model();
     this.model.set('owner', options.team._id);
+    channelGlobal.off('image:selected');
   },
 
   onRender: function () {
@@ -46,11 +46,11 @@ const NewTeamView = BaseModalView.extend({
 
   submit: function () {
     this.cropper.getCroppedImage()
-      .then((image)=>{
-        this.model.set('image',image);
+      .then((image)=> {
+        this.model.set('image', image);
         this.collection.add(this.model);
         this.model.save()
-          .then(function (result) {
+          .then(function () {
             console.info('new player was created with owner', this.options.team.id);
             channelGlobal.trigger('player:created');
             channelGlobal.trigger('modal:close');
@@ -65,12 +65,10 @@ const NewTeamView = BaseModalView.extend({
     this.uploadView = null;
     this.uploadView = new UploadView();
     this.showChildView('imageRegion', this.uploadView);
-    channelGlobal.on('image:selected', this.showCropper.bind(this));
-    console.log('i listen this event');
+    channelGlobal.on('image:selected', this.showCropper, this);
   },
 
   showCropper: function (file) {
-    console.log('show CROPPER!');
     this.cropper = null;
     this.cropper = new ImageCropper({file: file});
     this.showChildView('imageRegion', this.cropper);
