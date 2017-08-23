@@ -56,9 +56,4 @@ module.exports = {
     node: {
         fs: 'empty'
     }
-}
-
- // import-glob-loader translate @import "foo/**/*"; to
- // @import "foo/1.scss";
- // @import "foo/bar/2.scss";
- // @import "foo/bar/3.scss";
+};

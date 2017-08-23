@@ -79,6 +79,7 @@ const TeamsLayout = Marionette.View.extend({
                 this.triggerMethod('fetch:complete');
             }.bind(this))
             .catch(function (err) {
+                //TODO: notification
                 console.error(err);
             })
     }
