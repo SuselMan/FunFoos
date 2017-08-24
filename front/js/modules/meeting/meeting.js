@@ -23,10 +23,12 @@ const MeetingLayout = Marionette.View.extend({
   className: 'container big-header-layout',
 
   ui: {
-    selectPlaceBtn: '.js-name'
+    selectPlaceBtn: '.js-name',
+    dateSelector: '.js-date'
   },
   events: {
-    'click @ui.selectPlaceBtn': 'callPlaceSelector'
+    'click @ui.selectPlaceBtn': 'callPlaceSelector',
+    'click @ui.dateSelector': 'showDateSelector'
   },
 
   regions: {
@@ -48,10 +50,15 @@ const MeetingLayout = Marionette.View.extend({
     console.log('date', date);
     console.log('el', this.el.querySelector('.js-date'));
     console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
-    if(date){
+    if (date) {
       this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
       console.log('el', this.el.querySelector('.js-date'));
     }
+  },
+
+  showDateSelector: function() {
+    console.log('showDateSelector');
+    channelGlobal.trigger('modal:show', {view: 'dateSelector', collection: this.places});
   },
 
   callPlaceSelector: function () {
@@ -62,18 +69,18 @@ const MeetingLayout = Marionette.View.extend({
       })
   },
 
-  changePlace:function(model){
-    this.model.save({place:model.id})
-      .then(()=>{
+  changePlace: function (model) {
+    this.model.save({place: model.id})
+      .then(()=> {
         this.setPlace();
       })
   },
 
-  setPlace: function(){
+  setPlace: function () {
     var place = this.places.get(this.model.get('place')).toJSON();
     this.model.set('placeName', place.name);
     this.model.set('placeImage', place.image);
-    this.el.querySelector('.js-placeImage').src =  place.image;
+    this.el.querySelector('.js-placeImage').src = place.image;
   },
 
   showMeeting: function () {

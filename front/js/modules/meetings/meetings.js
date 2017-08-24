@@ -19,11 +19,14 @@ const MeetingView = Marionette.View.extend({
   className: 'list-group-item',
   ui: {
     protocol: '.protocol',
-    //image: '.image'
+    host: '.host',
+    guest: '.guest'
   },
 
   events: {
     'click @ui.protocol': 'navigateToMeeting',
+    'click @ui.host': 'navigateToHost',
+    'click @ui.guest': 'navigateToGuest'
   },
 
   initialize: function (options) {
@@ -59,6 +62,14 @@ const MeetingView = Marionette.View.extend({
 
   navigateToMeeting: function () {
     channelGlobal.request('navigate', 'meeting/' + this.model.id, {trigger: true, replace: true});
+  },
+
+  navigateToHost: function () {
+    channelGlobal.request('navigate', 'team/' + this.model.get('host'), {trigger: true, replace: true});
+  },
+
+  navigateToGuest: function () {
+    channelGlobal.request('navigate', 'team/' + this.model.get('guest'), {trigger: true, replace: true});
   }
 });
 

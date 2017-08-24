@@ -23,6 +23,7 @@ import PlayerSelector from '../modals/playerSelector';
 import PlaceSelector from '../modals/placeSelector';
 import SigninView from '../modals/login';
 import RegistrationView from '../modals/registration';
+import DateSelector from '../modals/dateSelector';
 import AdminView from '../admin/admin';
 
 let channelGlobal = Radio.channel('global');
@@ -99,6 +100,9 @@ let Layout = Marionette.View.extend({
                 break;
             case 'registration':
                 this.showChildView('modalRegion',  new RegistrationView({model:this.user}));
+                break;
+            case 'dateSelector':
+                this.showChildView('modalRegion',  new DateSelector());
                 break;
         }
     },

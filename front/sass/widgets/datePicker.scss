@@ -1,0 +1,50 @@
+.date-input {
+  display: none!important;
+}
+
+.flatpickr-calendar {
+  width: 100%!important;
+  box-shadow: none!important;
+  background: transparent!important;
+  font-size: 20px!important;
+}
+
+.flatpickr-rContainer {
+  width: 100%!important;
+}
+
+.flatpickr-days {
+  width: 100%!important;
+}
+
+.dayContainer {
+  width: 100%!important;
+  max-width: 100%!important;
+  min-width: 100%!important;
+}
+
+.flatpickr-day {
+  height: 59px!important;
+  line-height: 59px!important;
+  max-width: none!important;
+}
+
+.flatpickr-month {
+  height: 58px!important;
+  border-bottom: 1px solid $medium-gray!important;
+  margin-bottom: 15px!important;
+}
+
+.flatpickr-time input {
+  font-size: 20px!important;
+}
+
+.flatpickr-calendar.showTimeInput.hasTime .flatpickr-time {
+  height: 40px;
+  border-top: 1px solid $medium-gray!important;
+}
+
+.flatpickr-day.selected {
+  background: $brend-blue-light!important;
+  border-color: transparent!important;
+}
