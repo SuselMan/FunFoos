@@ -1,3 +1,4 @@
+// TODO: move it to another directory
 .big-header {
   border-bottom: 1px solid $light-gray;
   width: 100%;
@@ -11,13 +12,15 @@
 
   .big-logo {
     position: relative;
-    @include strict-center(-50%, 0);
+    @include strict-center(-50%, 0%);
     left: 50%;
     width: 200px;
     height: 200px;
     border-radius: 100px;
     overflow: hidden;
     background-color: white;
+    -webkit-animation: run 0.5s 1 ease-in-out;
+    animation: run 0.5s 1 ease-in-out;
 
     img {
       width: 200px;
@@ -36,4 +39,27 @@
 
 .big-header-layout {
   top: -100px;
+}
+
+
+//TODO: make it smoothly or remove it
+@-webkit-keyframes run {
+  0% {
+    //transform: translate(-50%,-200%);
+    opacity: 0;
+  }
+  100% {
+    //transform: translate(-50%,-0%);
+    opacity: 1;
+  }
+}
+@keyframes run {
+  0% {
+    //transform: translate(-50%,-200%);
+    opacity: 0;
+  }
+  100% {
+    //transform: translate(-50%,-50%);
+    opacity: 1;
+  }
 }

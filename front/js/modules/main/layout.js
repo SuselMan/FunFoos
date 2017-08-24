@@ -170,6 +170,9 @@ let Layout = Marionette.View.extend({
         this.minimizeHeader();
         this.user = user;
         this.el.querySelector('.js-login').innerText = user.get('email');
+        if(user.get('isAdmin')){
+            this.el.querySelector('.js-login').innerText += ' (администратор)'
+        }
         channelGlobal.reply('get:user', this.getUser.bind(this));
         //channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },

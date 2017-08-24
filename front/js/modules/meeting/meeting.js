@@ -13,6 +13,7 @@ import Players from '../../entities/players';
 import Meetings from '../../entities/meetings';
 import Places from '../../entities/places'
 import ProtocolView from './protocol';
+import moment from 'moment';
 
 let channelGlobal = Radio.channel('global');
 
@@ -41,6 +42,16 @@ const MeetingLayout = Marionette.View.extend({
   onRender: function () {
     var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
+
+    let date = this.model.get('date');
+    console.log('Model', this.model);
+    console.log('date', date);
+    console.log('el', this.el.querySelector('.js-date'));
+    console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
+    if(date){
+      this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
+      console.log('el', this.el.querySelector('.js-date'));
+    }
   },
 
   callPlaceSelector: function () {
