@@ -24,6 +24,7 @@ import PlaceSelector from '../modals/placeSelector';
 import SigninView from '../modals/login';
 import RegistrationView from '../modals/registration';
 import DateSelector from '../modals/dateSelector';
+import ImageCropper from '../modals/imageCropper';
 import AdminView from '../admin/admin';
 
 let channelGlobal = Radio.channel('global');
@@ -103,6 +104,10 @@ let Layout = Marionette.View.extend({
                 break;
             case 'dateSelector':
                 this.showChildView('modalRegion',  new DateSelector());
+                break;
+
+            case 'imageCropper':
+                this.showChildView('modalRegion',  new ImageCropper(options));
                 break;
         }
     },
