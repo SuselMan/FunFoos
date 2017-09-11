@@ -91,3 +91,25 @@
   overflow-y: scroll;
   height: 90%;
 }
+
+.result{
+  width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 30px;
+  .score{
+    height: 90px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  button{
+    flex-basis: 180px;
+    border-radius: 0;
+  }
+}
