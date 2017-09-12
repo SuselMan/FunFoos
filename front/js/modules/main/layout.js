@@ -196,7 +196,7 @@ let Layout = Marionette.View.extend({
     },
 
     getUser: function () {
-        return this.user;
+        return this.user || null;
     }
 });
 

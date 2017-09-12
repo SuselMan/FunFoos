@@ -85,6 +85,14 @@
       }
     }
   }
+
+  .errors{
+    width: 100%;
+    background-color: $dark-color;
+    color: $soft-white;
+    text-align: center;
+  }
+
 }
 
 .modal-body.selector{
