@@ -24,26 +24,6 @@ export function createSeason(data) {
     return team.save();
 }
 
-function saveMeetingsInDB(meetings, i, season) {
-    if (i < meetings.length) {
-        this.createMeeting(meetings[i])
-            .then(function (result) {
-                for (var j = 0; j < config.meetingStructire.length; j++) {
-                    this.createGame({
-                        meeting: result._id,
-                        season: season,
-                        type: config.meetingStructire[j],
-                        approved: false
-                    });
-                }
-                saveMeetingsInDB.call(this, meetings, i + 1, season);
-            }.bind(this))
-            .catch(function (e) {
-                console.error("error", e);
-            })
-    }
-}
-
 function eachWithEach(teams, season) {
     var meetings = [];
     teams.forEach((item, i, arr) => {
@@ -99,7 +79,8 @@ export function startSeason(id) {
     console.info('Start season', id);
     this.listTeams(null).then(function (teams) {
         if (teams && teams.length > 1) {
-            saveMeetingsInDB.call(this, eachWithEach(teams, parseInt(id)), 0, id);
+            this.createMeetings(eachWithEach(teams, parseInt(id)));
+            //saveMeetingsInDB.call(this, eachWithEach(teams, parseInt(id)), 0, id);
         }
     }.bind(this))
 }
