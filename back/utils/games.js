@@ -65,6 +65,18 @@ export function createGame(data) {
   return game.save();
 }
 
+export function createGames(dataArr) {
+  return new Promise ((resolve, reject) => {
+    Game.create(dataArr,(err, res) =>{
+      if(err){
+        reject(err);
+      } else {
+        resolve(res)
+      }
+    });
+  })
+}
+
 export function deleteGame(id) {
   return Game.findById(id).remove();
 }
