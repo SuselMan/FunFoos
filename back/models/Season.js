@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 const SeasonSchema = new Schema({
     name: {type: String},
     startDate: {type: Date},
+    meetingStructure: {type: Array},
     endDate: {type: Date},
     isBegan: {type: Boolean},
     state: {type: Number} // 0-closed, 1-registration is opened, 2-games is started

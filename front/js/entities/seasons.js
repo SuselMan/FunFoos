@@ -20,7 +20,9 @@ const Season = Backbone.Model.extend({
 
 const Seasons = Backbone.Collection.extend({
     url: '/api/seasons',
-    model: Season
+    model: Season,
+    meetingStructure: [],
+    name:''
 });
 
 export default Seasons;
