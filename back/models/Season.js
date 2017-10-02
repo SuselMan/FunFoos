@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
 
 const SeasonSchema = new Schema({
     name: {type: String},
+    rounds: {type: Number},
     startDate: {type: Date},
     meetingStructure: {type: Array},
     endDate: {type: Date},
