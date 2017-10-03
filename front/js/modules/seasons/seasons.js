@@ -75,16 +75,8 @@ const NewSeason = Marionette.View.extend({
     },
 
     save: function () {
-        this.collection.add(this.model);
-        this.model.save()
-            .then(function (result) {
-
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-
-    },
+        channelGlobal.trigger('modal:show', {view: 'newSeason'});
+    }
 });
 
 const SeasonsLayout = Marionette.View.extend({

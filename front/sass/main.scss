@@ -9,6 +9,7 @@
 @import "./settings.scss";
 @import "./mixins.scss";
 @import "./views/*";
+@import "./views/modals/*";
 @import "./widgets/*";
 
 @font-face {
@@ -79,10 +80,12 @@ body {
 }
 
 .modal-input {
+  margin-bottom: 5px;
   border: none;
   border-radius: 0;
   border-bottom: 1px solid #CCC;
   height: 50px;
+  border-left: 1px solid $soft-white;
 }
 
 .small-header {
