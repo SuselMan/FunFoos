@@ -28,6 +28,11 @@ const appController = {
         App.mainModule.setView('seasons');
     },
 
+    seasonWindow: function(id) {
+        this.checkMainModule();
+        App.mainModule.setView('season',id);
+    },
+
     playersWindow: function() {
         this.checkMainModule();
         App.mainModule.setView('players');

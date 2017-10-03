@@ -7,9 +7,9 @@
 import Marionette from 'backbone.marionette';
 import User from '../../entities/user';
 import Radio from 'backbone.radio';
-
 import TeamsView from '../teams/teams';
 import TeamView from '../team/layout';
+import SeasonView from '../season/season';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
 import NewSeasonView from '../modals/newSeason';
@@ -134,6 +134,10 @@ let Layout = Marionette.View.extend({
                 break;
             case 'seasons':
                 this.showChildView('contentRegion', new SeasonsView());
+                break;
+            case 'season':
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
+                this.showChildView('contentRegion', new SeasonView({id: option}));
                 break;
             case 'user':
                 this.showChildView('contentRegion', new UserView({model: this.user}));

@@ -14,9 +14,9 @@ let channelGlobal = Radio.channel('global');
 
 const NewSeasonView = BaseModalView.extend({
   template: require('../../../templates/modals/newSeason.hbs'),
-  regions: {
-    meetingStructure: '.js-structureRegion'
-  },
+  // regions: {
+  //   meetingStructure: '.js-structureRegion'
+  // },
 
   initialize: function (options) {
     this.options = options;
@@ -27,13 +27,14 @@ const NewSeasonView = BaseModalView.extend({
   onRender: function () {
     var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
-    this.showChildView('meetingStructure', new MeetingStructure());
+    // this.showChildView('meetingStructure', new MeetingStructure());
   },
 
   submit: function () {
     this.collection.add(this.model);
     this.model.save()
       .then((result) => {
+        channelGlobal.request('navigate', 'season/' + this.model.id, {trigger: true, replace: true});
         channelGlobal.trigger('season:created');
         channelGlobal.trigger('modal:close');
       })

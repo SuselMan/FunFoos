@@ -24,6 +24,18 @@ export function createSeason(data) {
   return team.save();
 }
 
+export function getSeason(req) {
+  return new Promise(function(resolve, reject) {
+    Season.findById(req.params.id,function(err,team){
+      if(team){
+        resolve(team);
+      } else {
+        reject({status:500,message:'User not found'});
+      }
+    });
+  });
+}
+
 function eachWithEach(teams, season) {
   var meetings = [];
   teams.forEach((item, i, arr) => {
