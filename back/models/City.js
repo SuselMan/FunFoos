@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 
 const CitySchema = new Schema({
   name     : { type: String,required: true },
-  image:{type:String}
+  image: {type: String}
 });
 CitySchema.plugin(autoIncrement, 'CitySchema');
 const City = mongoose.model('City', CitySchema);

@@ -1,6 +1,8 @@
 {
   "name": "FunFoos",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "repository": "https://github.com/SuselMan/FunFoos",
+  "license": "https://github.com/SuselMan/FunFoos/blob/master/LICENSE.md",
   "scripts": {
     "start": "node back/app.js",
     "build": "webpack"

@@ -8,10 +8,12 @@ import Marionette from 'backbone.marionette';
 import User from '../../entities/user';
 import Radio from 'backbone.radio';
 import TeamsView from '../teams/teams';
+import CitiesView from '../cities/cities';
 import TeamView from '../team/layout';
 import SeasonView from '../season/season';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
+import NewCityView from '../modals/newCity';
 import NewSeasonView from '../modals/newSeason';
 import NewPlaceView from '../modals/newPlace';
 import PlayersView from '../players/players';
@@ -85,6 +87,9 @@ let Layout = Marionette.View.extend({
             case 'newTeam':
                 this.showChildView('modalRegion', new NewTeamView(options));
                 break;
+            case 'newCity':
+                this.showChildView('modalRegion', new NewCityView(options));
+                break;
             case 'newPlayer':
                 this.showChildView('modalRegion', new NewPlayerView(options));
                 break;
@@ -135,6 +140,9 @@ let Layout = Marionette.View.extend({
             case 'seasons':
                 this.showChildView('contentRegion', new SeasonsView());
                 break;
+            case 'cities':
+                this.showChildView('contentRegion', new CitiesView());
+                break;
             case 'season':
                 this.el.querySelector('.sign-up').classList.toggle('big-header', true);
                 this.showChildView('contentRegion', new SeasonView({id: option}));
@@ -172,6 +180,7 @@ let Layout = Marionette.View.extend({
 
         this.signin = new SigninView({model: this.user});
         this.signin.fetch();
+        // this.el.querySelector('.app-footer').textContent = VERSION;
     },
 
     minimizeHeader: function () {

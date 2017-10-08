@@ -48,6 +48,11 @@ const appController = {
         App.mainModule.setView('team',id);
     },
 
+    citiesWindow: function() {
+        this.checkMainModule();
+        App.mainModule.setView('cities');
+    },
+
     meetingsWindow: function() {
         this.checkMainModule();
         App.mainModule.setView('meetings');

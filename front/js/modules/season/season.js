@@ -10,52 +10,99 @@ import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Seasons from '../../entities/seasons';
 import moment from 'moment';
+import UploadView from '../../widgets/fileUploader/fileUploader';
 
 let channelGlobal = Radio.channel('global');
 
-const MeetingLayout = Marionette.View.extend({
-  template: require('../../../templates/season/season.hbs'),
-  collection: new Seasons(),
-  className: 'container big-header-layout',
+const LogoView = Marionette.View.extend({
+    template: require('../../../templates/season/logo.hbs'),
+    className: 'big-logo'
+});
 
-  ui: {
-    dateSelector: '.js-date'
-  },
+const SeasonLayout = Marionette.View.extend({
+    template: require('../../../templates/season/season.hbs'),
+    collection: new Seasons(),
+    className: 'container big-header-layout',
 
-  events: {
-    'click @ui.dateSelector': 'showDateSelector'
-  },
+    ui: {
+        dateSelector: '.js-date'
+    },
 
-  regions: {
-    subSeasonsRegion: '.js-subSeasonsRegion'
-  },
+    events: {
+        'click @ui.dateSelector': 'showDateSelector'
+    },
 
-  initialize: function (options) {
-    this.options = options;
-    this.model = new this.collection.model({_id: this.options.id});
-    this.model.fetch();
-  },
+    regions: {
+        subSeasonsRegion: '.js-subSeasonsRegion',
+        logoRegion: '.js-logoRegion'
+    },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
-    new ModelBinder().bind(this.model, this.el, bindings);
+    initialize: function (options) {
+        this.options = options;
+        this.model = new this.collection.model({_id: this.options.id});
+        this.model.fetch()
+            .then(
+                () => {
+                    this.setLogoRegion();
+                }
+            );
+    },
 
-    let date = this.model.get('date');
-    console.log('Model', this.model);
-    console.log('date', date);
-    console.log('el', this.el.querySelector('.js-date'));
-    console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
-    if (date) {
-      this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
-      console.log('el', this.el.querySelector('.js-date'));
+    onRender: function (model) {
+        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+        new ModelBinder().bind(this.model, this.el, bindings);
+
+        let date = this.model.get('startDate');
+        console.log('Model', this.model);
+        console.log('date', date);
+        console.log('el', this.el.querySelector('.js-date'));
+        console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
+        if (date) {
+            this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
+            console.log('el', this.el.querySelector('.js-date'));
+        }
+        this.setLogoRegion();
+    },
+
+    setLogoRegion: function () {
+        if(this.uploadView){
+            this.uploadView.off('load:complete');
+            channelGlobal.off('image:selected');
+        }
+        this.getRegion('logoRegion').empty();
+        if (this.model.get('image')) {
+            this.showChildView('logoRegion', new LogoView({model: this.model}));
+        } else {
+            this.uploadView = new UploadView();
+            this.showChildView('logoRegion', this.uploadView);
+            this.uploadView.on('load:complete', this.showLogo.bind(this));
+            channelGlobal.on('image:selected', this.callImageCropper.bind(this));
+        }
+    },
+
+    callImageCropper: function (image) {
+        channelGlobal.trigger('modal:show', {view: 'imageCropper', image: image});
+        channelGlobal.on('modal:imageCropped', this.saveImage.bind(this));
+    },
+
+    saveImage: function (image) {
+        this.model.save({image: image})
+            .then(() => {
+                this.showChildView('logoRegion', new LogoView({model: this.model}));
+            })
+    },
+
+    showDateSelector: function () {
+        console.log('showDateSelector');
+        channelGlobal.trigger('modal:show', {view: 'dateSelector', collection: this.places});
+    },
+
+    showLogo: function (url) {
+        this.model.set('image', url);
+        this.model.update();
+        this.showChildView('logoRegion', new LogoView({model: this.model}));
     }
-  },
-
-  showDateSelector: function() {
-    console.log('showDateSelector');
-    channelGlobal.trigger('modal:show', {view: 'dateSelector', collection: this.places});
-  }
 });
 
 
-export default MeetingLayout;
+export default SeasonLayout;
