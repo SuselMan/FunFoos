@@ -70,7 +70,6 @@ const SelectPlaceView = BaseModalView.extend({
   },
 
   initialize: function (options) {
-    console.log('lol');
     this.options = options;
   },
 

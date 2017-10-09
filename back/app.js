@@ -17,10 +17,12 @@ import players from './routes/players';
 import places from './routes/places';
 import teams from './routes/teams';
 import seasons from './routes/seasons';
+import subseasons from './routes/subseasons';
 import images from './routes/images';
 import user from './routes/user';
 import meetings from './routes/meetings';
 import games from './routes/games';
+import cities from './routes/cities';
 import fileUpload from 'express-fileupload';
 
 const app = express();
@@ -59,9 +61,17 @@ app.use('/api/seasons', seasons);
 app.use('/api/files', images);
 app.use('/api/meetings', meetings);
 app.use('/api/games', games);
+app.use('/api/cities', cities);
+app.use('/api/subseasons', subseasons);
 
+
+app.get('/favicon.ico', function(req, res) {
+    //TODO: use sendFile instead of sendfile
+    res.sendfile('./back/favicon.ico'); // load our public/index.html file
+});
 
 app.get('*', function(req, res) {
+    //TODO: use sendFile instead of sendfile
     res.sendfile('./build/index.html'); // load our public/index.html file
 });
 

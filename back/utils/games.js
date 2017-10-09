@@ -49,8 +49,8 @@ export function changeGame(req) {
 
 export function listGames(req) {
   //TODO: use all params if it will need;
-  if(req.param('meeting')){
-    return Game.find({ meeting:  req.param('meeting')  })
+  if(req.query.meeting){
+    return Game.find({ meeting:  req.query.meeting })
   }
   return Game.find();
 }
@@ -63,6 +63,18 @@ export function createGame(data) {
     approved:false
   });
   return game.save();
+}
+
+export function createGames(dataArr) {
+  return new Promise ((resolve, reject) => {
+    Game.create(dataArr,(err, res) =>{
+      if(err){
+        reject(err);
+      } else {
+        resolve(res)
+      }
+    });
+  })
 }
 
 export function deleteGame(id) {

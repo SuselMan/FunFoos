@@ -1,6 +1,7 @@
 /**
  * Created by pavluhin on 24.04.2017.
  */
+"use strict";
 
 import mongoose from "mongoose";
 import '../models/Meeting';
@@ -48,8 +49,8 @@ export function changeMeeting(req) {
 }
 
 export function listMeetings(req) {
-  if(req.param('owner')){
-    return Meeting.find({}).or([{ guest:  req.param('owner')  }, { host:  req.param('owner')  }])
+  if(req.query.owner){
+    return Meeting.find({}).or([{ guest:  req.query.owner  }, { host:  req.query.owner  }])
   }
   return Meeting.find();
 }
@@ -63,6 +64,18 @@ export function createMeeting(data) {
     owner: data.owner
   });
   return meeting.save();
+}
+
+export function createMeetings(dataArr) {
+    return new Promise ((resolve, reject) => {
+        Meeting.create(dataArr,(err, res) =>{
+            if(err){
+                reject(err);
+            } else {
+                resolve(res)
+            }
+        });
+    })
 }
 
 export function deleteMeeting(id) {

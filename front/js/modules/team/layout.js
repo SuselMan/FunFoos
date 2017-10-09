@@ -18,34 +18,31 @@ import TeamView from './team';
 let channelGlobal = Radio.channel('global');
 
 const TeamLayout = Marionette.View.extend({
-    template: require('../../../templates/team/layout.hbs'),
-    regions: {
-        // logoRegion: '.js-logoRegion',
-        // playersRegion: '.js-logoRegion',
-        // meetingsRegion: '.js-meetingsRegion',
-        newTeamRegion: '.js-newTeamRegion'
-    },
+  template: require('../../../templates/team/layout.hbs'),
+  regions: {
+    newTeamRegion: '.js-newTeamRegion'
+  },
 
-    initialize: function (options) {
-        this.options = options;
-        channelGlobal.on('user:updated', this.showTeam.bind(this));
-    },
+  initialize: function (options) {
+    this.options = options;
+    channelGlobal.on('user:updated', this.showTeam.bind(this));
+  },
 
-    showTeam: function (team, collection) {
-        this.showChildView('newTeamRegion', new TeamView({model: team, owner: team.id, collection:collection}));
-    },
+  showTeam: function (team, collection) {
+    this.showChildView('newTeamRegion', new TeamView({model: team, owner: team.id, collection: collection}));
+  },
 
-    onRender: function () {
-        this.user = channelGlobal.request('get:user');
-        var collection = new Teams();
-        var model = new collection.model({_id: this.options.id});
-        collection.fetch()
-            .then(function(){
-                model = collection.get(this.options.id);
-                this.model = model;
-                this.showTeam(model,collection);
-            }.bind(this))
-    }
+  onRender: function () {
+    this.user = channelGlobal.request('get:user');
+    var collection = new Teams();
+    var model = new collection.model({_id: this.options.id});
+    collection.fetch()
+      .then(function () {
+        model = collection.get(this.options.id);
+        this.model = model;
+        this.showTeam(model, collection);
+      }.bind(this))
+  }
 });
 
 

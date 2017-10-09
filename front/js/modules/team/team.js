@@ -34,6 +34,7 @@ const TeamLayout = Marionette.View.extend({
 
     initialize: function (options) {
         this.options = options;
+        channelGlobal.off('image:selected');
     },
 
     onRender: function () {
@@ -43,6 +44,7 @@ const TeamLayout = Marionette.View.extend({
             this.uploadView = new UploadView();
             this.showChildView('logoRegion', this.uploadView);
             this.uploadView.on('load:complete', this.showLogo.bind(this))
+            channelGlobal.on('image:selected', this.callImageCropper.bind(this));
         }
         this.players = new Players();
         this.meetings = new Meetings();
@@ -57,6 +59,18 @@ const TeamLayout = Marionette.View.extend({
             .then(function (result) {
                 this.createSeasonSelector();
             }.bind(this))
+    },
+
+    callImageCropper: function (image) {
+        channelGlobal.trigger('modal:show', {view: 'imageCropper', image: image});
+        channelGlobal.on('modal:imageCropped', this.saveImage.bind(this));
+    },
+
+    saveImage: function (image) {
+        this.model.save({image: image})
+            .then(()=>{
+                this.showChildView('logoRegion', new LogoView({model: this.model}));
+            })
     },
 
     createSeasonSelector: function () {

@@ -11,7 +11,8 @@ const MeetingSchema = new Schema({
     place: {type: Number},
     host: {type: Number, required: true},
     guest: {type: Number, required: true},
-    owner: {type: Number, required: true} //owner is season
+    owner: {type: Number, required: true}, //owner is season
+    score: {type:Array}
 });
 
 MeetingSchema.plugin(autoIncrement, 'MeetingSchema');

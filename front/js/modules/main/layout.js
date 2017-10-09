@@ -4,17 +4,17 @@
 
 "use strict";
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import User from '../../entities/user';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-
-import SignupView from '../login/signup';
 import TeamsView from '../teams/teams';
+import CitiesView from '../cities/cities';
 import TeamView from '../team/layout';
+import SeasonView from '../season/season';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
+import NewCityView from '../modals/newCity';
+import NewSeasonView from '../modals/newSeason';
 import NewPlaceView from '../modals/newPlace';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
@@ -24,7 +24,12 @@ import MeetingView from '../meeting/meeting';
 import PlacesView from '../places/places';
 import PlayerSelector from '../modals/playerSelector';
 import PlaceSelector from '../modals/placeSelector';
+import CitySelector from '../modals/citySelector';
 import SigninView from '../modals/login';
+import RegistrationView from '../modals/registration';
+import DateSelector from '../modals/dateSelector';
+import ImageCropper from '../modals/imageCropper';
+import AdminView from '../admin/admin';
 
 let channelGlobal = Radio.channel('global');
 
@@ -36,20 +41,20 @@ let Layout = Marionette.View.extend({
     className: 'app',
 
     regions: {
-        signinRegion: '.js-signinRegion',
-        signupRegion: '.js-signupRegion',
         contentRegion: '.js-contentRegion',
         modalRegion: '.js-ModalRegion'
     },
 
     ui: {
-        nav: "a.nav-link",
-        logo: ".js-logo"
+        nav: ".main > a.nav-link",
+        logo: ".js-logo",
+        registration: '.js-registration'
     },
 
     events: {
         'click @ui.nav': 'navigateTo',
-        'click @ui.logo': 'navigateTo'
+        'click @ui.logo': 'navigateTo',
+        'click @ui.registration': 'registration'
     },
 
     initialize: function () {
@@ -71,6 +76,10 @@ let Layout = Marionette.View.extend({
 
     },
 
+    registration: function() {
+        this.startModal({view:'registration', user: this.user});
+    },
+
     startModal(options){
         this.getRegion('modalRegion').empty();
         this.el.querySelector('.js-ModalRegion').classList.remove('hide');
@@ -79,8 +88,14 @@ let Layout = Marionette.View.extend({
             case 'newTeam':
                 this.showChildView('modalRegion', new NewTeamView(options));
                 break;
+            case 'newCity':
+                this.showChildView('modalRegion', new NewCityView(options));
+                break;
             case 'newPlayer':
                 this.showChildView('modalRegion', new NewPlayerView(options));
+                break;
+            case 'newSeason':
+                this.showChildView('modalRegion', new NewSeasonView(options));
                 break;
             case 'newPlace':
                 this.showChildView('modalRegion', new NewPlaceView(options));
@@ -91,8 +106,21 @@ let Layout = Marionette.View.extend({
             case 'placeSelector':
                 this.showChildView('modalRegion', new PlaceSelector(options));
                 break;
+            case 'citySelector':
+                this.showChildView('modalRegion', new CitySelector(options));
+                break;
             case 'login':
                 this.showChildView('modalRegion',  this.signin);
+                break;
+            case 'registration':
+                this.showChildView('modalRegion',  new RegistrationView({model:this.user}));
+                break;
+            case 'dateSelector':
+                this.showChildView('modalRegion',  new DateSelector());
+                break;
+
+            case 'imageCropper':
+                this.showChildView('modalRegion',  new ImageCropper(options));
                 break;
         }
     },
@@ -116,6 +144,13 @@ let Layout = Marionette.View.extend({
             case 'seasons':
                 this.showChildView('contentRegion', new SeasonsView());
                 break;
+            case 'cities':
+                this.showChildView('contentRegion', new CitiesView());
+                break;
+            case 'season':
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
+                this.showChildView('contentRegion', new SeasonView({id: option}));
+                break;
             case 'user':
                 this.showChildView('contentRegion', new UserView({model: this.user}));
                 break;
@@ -129,16 +164,18 @@ let Layout = Marionette.View.extend({
             case 'places':
                 this.showChildView('contentRegion', new PlacesView());
                 break;
+            case 'admin':
+                this.showChildView('contentRegion', new AdminView());
+                break;
         }
     },
 
     closeModal: function () {
-        this.getRegion('modalRegion').empty();
+        this.getRegion('modalRegion').reset();
         this.el.querySelector('.js-ModalRegion').classList.add('hide');
     },
 
     onRender: function () {
-        this.showChildView('signupRegion', new SignupView({model: this.user}));
         channelGlobal.on("close:signin", this.closeSignin.bind(this));
         channelGlobal.on("done:signin", this.doneSignin.bind(this));
         channelGlobal.on("done:signup", this.doneSignup.bind(this));
@@ -147,6 +184,7 @@ let Layout = Marionette.View.extend({
 
         this.signin = new SigninView({model: this.user});
         this.signin.fetch();
+        // this.el.querySelector('.app-footer').textContent = VERSION;
     },
 
     minimizeHeader: function () {
@@ -162,6 +200,9 @@ let Layout = Marionette.View.extend({
         this.minimizeHeader();
         this.user = user;
         this.el.querySelector('.js-login').innerText = user.get('email');
+        if(user.get('isAdmin')){
+            this.el.querySelector('.js-login').innerText += ' (администратор)'
+        }
         channelGlobal.reply('get:user', this.getUser.bind(this));
         //channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
     },
@@ -171,12 +212,12 @@ let Layout = Marionette.View.extend({
     },
 
     doneSignup: function () {
-        this.closeSignin();
+        this.doneSignin(this.user);
         this.el.classList.add('done');
     },
 
     getUser: function () {
-        return this.user;
+        return this.user || null;
     }
 });
 

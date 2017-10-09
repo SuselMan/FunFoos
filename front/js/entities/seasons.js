@@ -9,6 +9,7 @@ import Marionette from 'backbone.marionette';
 
 const Season = Backbone.Model.extend({
     idAttribute: "_id",
+    urlRoot: '/api/seasons',
     initialize: function(attrs,options){
         this.options = options;
     },
@@ -20,7 +21,9 @@ const Season = Backbone.Model.extend({
 
 const Seasons = Backbone.Collection.extend({
     url: '/api/seasons',
-    model: Season
+    model: Season,
+    meetingStructure: [],
+    name:''
 });
 
 export default Seasons;

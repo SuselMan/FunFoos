@@ -35,8 +35,8 @@ export function changePlace(req) {
 
 
 export function listPlaces(req) {
-    if(req.param('owner')){
-        return Place.find({ owner: req.param('owner') })
+    if(req.query.owner){
+        return Place.find({ owner:req.query.owner })
     }
     return Place.find();
 }

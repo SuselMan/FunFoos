@@ -13,19 +13,22 @@ import Players from '../../entities/players';
 import Meetings from '../../entities/meetings';
 import Places from '../../entities/places'
 import ProtocolView from './protocol';
+import moment from 'moment';
 
 let channelGlobal = Radio.channel('global');
 
 const MeetingLayout = Marionette.View.extend({
   template: require('../../../templates/meeting/meeting.hbs'),
   collection: new Meetings(),
-  className: 'container team-layout',
+  className: 'container big-header-layout',
 
   ui: {
-    selectPlaceBtn: '.js-name'
+    selectPlaceBtn: '.js-name',
+    dateSelector: '.js-date'
   },
   events: {
-    'click @ui.selectPlaceBtn': 'callPlaceSelector'
+    'click @ui.selectPlaceBtn': 'callPlaceSelector',
+    'click @ui.dateSelector': 'showDateSelector'
   },
 
   regions: {
@@ -41,6 +44,21 @@ const MeetingLayout = Marionette.View.extend({
   onRender: function () {
     var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
+
+    let date = this.model.get('date');
+    console.log('Model', this.model);
+    console.log('date', date);
+    console.log('el', this.el.querySelector('.js-date'));
+    console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
+    if (date) {
+      this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
+      console.log('el', this.el.querySelector('.js-date'));
+    }
+  },
+
+  showDateSelector: function() {
+    console.log('showDateSelector');
+    channelGlobal.trigger('modal:show', {view: 'dateSelector', collection: this.places});
   },
 
   callPlaceSelector: function () {
@@ -51,18 +69,18 @@ const MeetingLayout = Marionette.View.extend({
       })
   },
 
-  changePlace:function(model){
-    this.model.save({place:model.id})
-      .then(()=>{
+  changePlace: function (model) {
+    this.model.save({place: model.id})
+      .then(()=> {
         this.setPlace();
       })
   },
 
-  setPlace: function(){
+  setPlace: function () {
     var place = this.places.get(this.model.get('place')).toJSON();
     this.model.set('placeName', place.name);
     this.model.set('placeImage', place.image);
-    this.el.querySelector('.js-placeImage').src =  place.image;
+    this.el.querySelector('.js-placeImage').src = place.image;
   },
 
   showMeeting: function () {

@@ -1,3 +1,4 @@
+// TODO: move it to another directory
 .big-header {
   border-bottom: 1px solid $light-gray;
   width: 100%;
@@ -11,25 +12,71 @@
 
   .big-logo {
     position: relative;
-    @include strict-center(-50%, 0);
+    @include strict-center(-50%, 0%);
     left: 50%;
     width: 200px;
     height: 200px;
     border-radius: 100px;
     overflow: hidden;
-    background-color: $white;
+    background-color: white;
+    -webkit-animation: run 0.5s 1 ease-in-out;
+    animation: run 0.5s 1 ease-in-out;
+
+    .edit-image{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      background-image: url(../images/image_edit.png);
+      cursor:pointer;
+      background-size: 40%;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0;
+      &:hover{
+        opacity: 1;
+      }
+
+    }
 
     img {
       width: 200px;
       height: 200px;
     }
   }
-
 }
 
 .big-header.no-select {
   .name {
     text-decoration: underline;
     cursor: pointer;
+  }
+}
+
+.big-header-layout {
+  position: relative;
+  top: -100px;
+}
+
+
+//TODO: make it smoothly or remove it
+@-webkit-keyframes run {
+  0% {
+    //transform: translate(-50%,-200%);
+    opacity: 0;
+  }
+  100% {
+    //transform: translate(-50%,-0%);
+    opacity: 1;
+  }
+}
+@keyframes run {
+  0% {
+    //transform: translate(-50%,-200%);
+    opacity: 0;
+  }
+  100% {
+    //transform: translate(-50%,-50%);
+    opacity: 1;
   }
 }

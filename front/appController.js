@@ -28,6 +28,11 @@ const appController = {
         App.mainModule.setView('seasons');
     },
 
+    seasonWindow: function(id) {
+        this.checkMainModule();
+        App.mainModule.setView('season',id);
+    },
+
     playersWindow: function() {
         this.checkMainModule();
         App.mainModule.setView('players');
@@ -43,6 +48,11 @@ const appController = {
         App.mainModule.setView('team',id);
     },
 
+    citiesWindow: function() {
+        this.checkMainModule();
+        App.mainModule.setView('cities');
+    },
+
     meetingsWindow: function() {
         this.checkMainModule();
         App.mainModule.setView('meetings');
@@ -56,6 +66,11 @@ const appController = {
     placesWindow: function() {
         this.checkMainModule();
         App.mainModule.setView('places');
+    },
+
+    adminWindow: function() {
+        this.checkMainModule();
+        App.mainModule.setView('admin');
     },
 
     checkMainModule:function(){

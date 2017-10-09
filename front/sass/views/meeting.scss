@@ -8,7 +8,7 @@
   flex-wrap: wrap;
   width: 100%;
   .meeting-team {
-    background-color: $white;
+    background-color: white;
     width: 50%;
     height: 90px;
     display: flex;
@@ -32,7 +32,7 @@
     font-size: 20px;
     text-align: center;
     line-height: 80px;
-    background-color: $white;
+    background-color: white;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -85,9 +85,39 @@
       }
     }
   }
+
+  .errors{
+    width: 100%;
+    background-color: $dark-color;
+    color: $soft-white;
+    text-align: center;
+  }
+
 }
 
 .modal-body.selector{
   overflow-y: scroll;
   height: 90%;
+}
+
+.result{
+  width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 30px;
+  .score{
+    height: 90px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  button{
+    flex-basis: 180px;
+    border-radius: 0;
+  }
 }

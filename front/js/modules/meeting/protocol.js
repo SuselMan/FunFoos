@@ -17,8 +17,8 @@ const GameView = Marionette.View.extend({
   template: require('../../../templates/meeting/game.hbs'),
   className: 'game',
 
-  collectionEvents : {
-    'sync' : 'setItems'
+  modelEvents: {
+    'sync': 'setItems'
   },
 
   regions: {
@@ -61,13 +61,13 @@ const GameView = Marionette.View.extend({
   setItems: function () {
     let type = this.model.get('type');
     for (var i = 0; i < type; i++) {
-      let hostPlayer = this.model.get('hostPlayer'+i);
+      let hostPlayer = this.model.get('hostPlayer' + i);
       if (hostPlayer && this.isHostPlayer(hostPlayer)) {
-        this.hostSelectors[i].setSelected(this.options.hostPlayers.get(this.model.get('hostPlayer'+i)), true);
+        this.hostSelectors[i].setSelected(this.options.hostPlayers.get(this.model.get('hostPlayer' + i)), true);
       }
-      let guestPlayer = this.model.get('guestPlayer'+i);
+      let guestPlayer = this.model.get('guestPlayer' + i);
       if (guestPlayer && this.isGuestPlayer(guestPlayer)) {
-        this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get('guestPlayer'+i)), true);
+        this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get('guestPlayer' + i)), true);
       }
     }
     if (this.model.get('hostScore0')) this.ui.game0ScoreHost.val(this.model.get('hostScore0'));
@@ -76,30 +76,30 @@ const GameView = Marionette.View.extend({
     if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.val(this.model.get('guestScore1'));
   },
 
-  isHostPlayer:function(id){
+  isHostPlayer: function (id) {
     return this.options.hostPlayers.get(id);
   },
 
-  isGuestPlayer:function(id){
+  isGuestPlayer: function (id) {
     return this.options.guestPlayers.get(id);
   },
 
   changeHostPlayer: function (model, index) {
     var obj = {};
     obj['hostPlayer' + index] = model.id;
-    this.model.saveChanges(obj);
+    this.model.save(obj);
   },
 
   changeGuestPlayer: function (model, index) {
     var obj = {};
     obj['guestPlayer' + index] = model.id;
-    this.model.saveChanges(obj);
+    this.model.save(obj);
   },
 
   changeScore: function (e) {
     var obj = {};
     obj[e.target.dataset.name] = e.target.value;
-    this.model.saveChanges(obj);
+    this.model.save(obj);
   }
 
 });
@@ -107,29 +107,51 @@ const GameView = Marionette.View.extend({
 const GamesView = Marionette.CollectionView.extend({
   className: 'games',
   childView: GameView,
+
   initialize: function (options) {
     this.childViewOptions = options;
+  },
+
+  onRender: function () {
+    console.log('PROTOCOL RENDERED');
   }
 });
 
 const ProtocolView = Marionette.View.extend({
   template: require('../../../templates/meeting/protocol.hbs'),
   className: 'protocol',
+
+  ui: {
+    'approve': '.js-approve'
+  },
+
+  events: {
+    'click @ui.approve': 'approveMeeting',
+  },
+
   regions: {
     gamesRegion: '.js-gamesRegion'
   },
+
+  collectionEvents: {
+    "sync": "updateResult"
+  },
+
   initialize: function (options) {
     this.options = options;
   },
 
   onRender: function () {
+    this.user = channelGlobal.request('get:user');
+    this.checkParticipant(this.user);
     this.hostPlayers = new Players();
     this.guestPlayers = new Players();
     this.collection = new Games();
+    this.collection.on('sync', this.updateResult.bind(this));
     //TODO: use websockets istead of this shit
-    setInterval(function() {
-      this.collection.fetch({data: {meeting: this.model.id}})
-    }.bind(this), 500);
+    // setInterval(function () {
+    //     this.collection.fetch({data: {meeting: this.model.id}})
+    // }.bind(this), 2000);
     Promise.all([
       this.collection.fetch({data: {meeting: this.model.id}}),
       this.guestPlayers.fetch({data: {owner: this.model.get('guest')}}),
@@ -141,6 +163,31 @@ const ProtocolView = Marionette.View.extend({
         hostPlayers: this.hostPlayers
       }));
     })
+  },
+
+  checkParticipant: function (user) {
+    if(user && (this.model.get('guest') == user.id || this.model.get('guest') == user.id || user.get('isAdmin'))){
+      this.ui.approve.show();
+    } else {
+      this.ui.approve.hide();
+    }
+  },
+
+  approveMeeting: function () {
+
+  },
+
+  updateResult: function () {
+    let score = this.collection.getScore();
+    let errors = this.collection.validateGames();
+    this.el.querySelector('.js-hostScore').textContent = score[0];
+    this.el.querySelector('.js-guestScore').textContent = score[1];
+    this.el.querySelector('.js-approve').disabled = ! (this.collection.isEnd() && !errors.length);
+    if(errors.length){
+      this.el.querySelector('.js-errors').textContent = errors[0];
+    } else {
+      this.el.querySelector('.js-errors').textContent = "";
+    }
   }
 });
 

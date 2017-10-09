@@ -1,0 +1,111 @@
+.meetings {
+  li, .table-header {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: left;
+    overflow: hidden;
+    border: none;
+    margin-bottom: 3px;
+    border-bottom: 1px $light-gray-shadow solid;
+    .image {
+      cursor: pointer;
+      flex-basis: 50px;
+      width: 50px;
+      min-width: 50px;
+    }
+
+    &:not(.table-header) {
+      .image {
+        height: 50px;
+        background-image: url(../images/empty_team.jpg);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% top;
+      }
+      .score{
+        height: 50px;
+        //background-color: $hover-yellow;
+        border-left: 1px dashed $light-gray;
+        border-right: 1px dashed $light-gray;
+        line-height: 53px;
+      }
+    }
+    .host, .guest {
+      cursor: pointer;
+      flex-basis: 140px;
+      width: 140px;
+      min-width: 140px;
+      padding-right: 15px;
+      text-align: right;
+
+    }
+
+    .date {
+      cursor: pointer;
+      flex-basis: 140px;
+      width: 140px;
+      min-width: 140px;
+      padding-left: 15px;
+      text-align: center;
+    }
+
+    .protocol {
+      cursor: pointer;
+      flex-basis: 140px;
+      width: 140px;
+      min-width: 140px;
+      padding-left: 15px;
+      text-align: center;
+      color: $brend-blue-light;
+      text-decoration: underline;
+    }
+
+    .guest {
+      text-align: left;
+      padding-left: 15px;
+    }
+
+    .score {
+      cursor: pointer;
+      flex-basis: 60px;
+      width: 60px;
+      min-width: 60px;
+      padding-left: 0;
+      text-align: center;
+    }
+
+    .settings {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;;
+      .icon {
+        background-image: url(../images/settings.png);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% top;
+        flex-basis: 25px;
+        width: 25px;
+        min-width: 25px;
+        &:hover {
+          background-color: $light-gray-shadow;
+        }
+      }
+    }
+  }
+  .table-header {
+    padding-top: 25px;
+    div {
+      cursor: pointer;
+      span {
+        opacity: 0;
+      }
+      &:hover {
+        text-decoration: underline;
+        span {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

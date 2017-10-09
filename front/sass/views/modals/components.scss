@@ -1,0 +1,27 @@
+.meeting-structure {
+  width: 100%;
+  .container {
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #CCC;
+    height: 50px;
+    background-color: $light-gray-shadow;
+    width: 100%;
+    padding: 0.4rem 0.4rem;
+    button {
+      margin-left: 1px;
+    }
+  }
+  .delete{
+    background-image: url(../images/delete-icon.png);
+    cursor:pointer;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  label {
+    display: inline-block;
+    margin-left: 10px;
+  }
+}

@@ -18,7 +18,9 @@ const GameSchema = new Schema({
     guestScore1  : { type: Number},
     season  : { type: Number, required:true},
     type:{ type: Number},
-    approved:{type:Boolean} // game doesn't participate in statictics if false
+    approved:{type:Boolean}, // game doesn't participate in statictics if false
+    hostApproved:{type:Boolean},
+    guestApproved:{type:Boolean}
 });
 GameSchema.plugin(autoIncrement, 'GameSchema');
 const Game = mongoose.model('Game', GameSchema);

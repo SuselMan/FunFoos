@@ -28,7 +28,7 @@ const BaseModalView = Marionette.View.extend({
     },
 
     submit:function(){
-        console.info('baseModel sumbit function is not overrided');
+        console.info('baseModel submit function is not overriden');
     }
 });
 

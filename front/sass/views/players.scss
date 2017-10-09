@@ -1,0 +1,109 @@
+.players {
+  li, .table-header {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: left;
+    overflow: hidden;
+    border: none;
+    margin-bottom: 3px;
+    border-bottom: 1px $light-gray-shadow solid;
+    .image {
+      cursor: pointer;
+      flex-basis: 50px;
+      width: 50px;
+      min-width: 50px;
+    }
+
+    &:not(.table-header) {
+      .name {
+        text-decoration: underline;
+        &:hover {
+          color: $brend-blue-light;
+        }
+      }
+      .image {
+        height: 50px;
+        background-image: url(../images/empty_avatar.jpg);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% top;
+      }
+    }
+    .name {
+      cursor: pointer;
+      flex-basis: 140px;
+      width: 140px;
+      min-width: 140px;
+      padding-left: 15px;
+
+    }
+    .short-name {
+      flex-basis: 60px;
+      width: 60px;
+      min-width: 60px;
+
+    }
+    .wins {
+      flex-basis: 80px;
+      width: 80px;
+      min-width: 80px;
+      color: $success-color;
+      text-align: center;
+    }
+    .fails {
+      flex-basis: 80px;
+      width: 80px;
+      min-width: 80px;
+      color: $dark-color;
+      text-align: center;
+    }
+
+    .win-rate {
+      flex-basis: 80px;
+      width: 80px;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .score {
+      flex-basis: 50px;
+      width: 50px;
+      min-width: 50px;
+      color: $brend-blue-light;
+      text-align: center;
+    }
+    .settings{
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;;
+      .icon{
+        background-image: url(../images/settings.png);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% top;
+        flex-basis: 25px;
+        width: 25px;
+        min-width: 25px;
+        &:hover{
+          background-color: $light-gray-shadow;
+        }
+      }
+    }
+  }
+  .table-header {
+    padding-top: 25px;
+    div{
+      cursor: pointer;
+      span{
+        opacity: 0;
+      }
+      &:hover{
+        text-decoration: underline;
+        span{
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
