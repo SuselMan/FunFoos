@@ -17,6 +17,7 @@ import players from './routes/players';
 import places from './routes/places';
 import teams from './routes/teams';
 import seasons from './routes/seasons';
+import subseasons from './routes/subseasons';
 import images from './routes/images';
 import user from './routes/user';
 import meetings from './routes/meetings';
@@ -61,6 +62,7 @@ app.use('/api/files', images);
 app.use('/api/meetings', meetings);
 app.use('/api/games', games);
 app.use('/api/cities', cities);
+app.use('/api/subseasons', subseasons);
 
 
 app.get('/favicon.ico', function(req, res) {

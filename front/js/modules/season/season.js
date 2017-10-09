@@ -63,7 +63,7 @@ const SeasonLayout = Marionette.View.extend({
             console.log('el', this.el.querySelector('.js-date'));
         }
         this.setLogoRegion();
-        this.showChildView('subSeasonsRegion', new SubseasonsView({season: this.model}));
+        this.showChildView('subSeasonsRegion', new SubseasonsView({model: this.model}));
     },
 
     addSubseason: function() {

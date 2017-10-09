@@ -16,109 +16,114 @@ import Cities from '../../entities/cities';
 let channelGlobal = Radio.channel('global');
 
 const ButtonView = Marionette.View.extend({
-  template: require('../../../templates/team/addPlayer.hbs'),
-  tagName: 'button',
-  className: 'team-player flex-card',
-  events: {
-    'click': 'createPlayer'
-  },
+    template: require('../../../templates/season/addSubseason.hbs'),
+    tagName: 'button',
+    className: 'team-player flex-card',
+    events: {
+        'click': 'selectCity'
+    },
 
-  initialize: function(options){
-    this.options = options;
-    this.model = this.options.team;
-  },
+    initialize: function (options) {
+        this.options = options;
+        this.model = this.options.season;
+    },
 
-  selectCity: function () {
-    channelGlobal.trigger('modal:show', {view: 'citySelector', collection: new Cities()});
-  }
+    selectCity: function () {
+        channelGlobal.trigger('modal:show', {view: 'citySelector', collection: this.options.cities});
+    }
 
 });
 
 const SubseasonView = Marionette.View.extend({
-  template: require('../../../templates/team/player.hbs'),
-  tagName: 'div',
-  className: 'team-player flex-card',
+    template: require('../../../templates/season/subseason.hbs'),
+    tagName: 'div',
+    className: 'team-player flex-card',
 
-  ui: {
-    deleteBtn: '.js-deleteBtn'
-  },
+    ui: {
+        deleteBtn: '.js-deleteBtn'
+    },
 
-  events: {
-    'click @ui.deleteBtn': 'deletePlayer',
-    'click': 'navigate'
-  },
+    events: {
+        'click': 'navigate'
+    },
 
-  deletePlayer: function (e) {
-    e.stopPropagation();
-    this.model.destroy();
-  },
+    initialize: function (options) {
+        this.model.set('image', options.cities.get(this.model.get('city')).get('image'));
+        this.model.set('name', options.cities.get(this.model.get('city')).get('name'));
+    },
 
-  navigate: function () {
-    channelGlobal.request('navigate', 'player/' + this.model.id, {trigger: true, replace: true});
-  },
+    navigate: function () {
+        channelGlobal.request('navigate', 'subseason/' + this.model.id, {trigger: true, replace: true});
+    },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
-    new ModelBinder().bind(this.model, this.el, bindings);
-  }
-});
-
-const EmptyView = Marionette.View.extend({
-  template: require('../../../templates/team/empty.hbs'),
-  tagName: 'div'
-  // className: 'list-group-item',
+    onRender: function () {
+        var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+        new ModelBinder().bind(this.model, this.el, bindings);
+    }
 });
 
 const SubseasonsView = Marionette.CollectionView.extend({
-  childView: SubseasonView,
-  emptyView: EmptyView,
-  className: 'col-12 team-players-container',
-  collectionEvents : {
-    'sync' : 'render'
-  },
+    childView: SubseasonView,
+    className: 'col-12 team-players-container',
+    collectionEvents: {
+        'sync': 'render'
+    },
 
-  initialize: function(options){
-    this.options = options;
-  },
+    initialize: function (options) {
+        this.options = options;
+        this.childViewOptions = options;
+    },
 
-  onRender: function () {
-    this.addChildView(new ButtonView({team:this.options.team}), 0);
-  }
+    onRender: function () {
+        this.addChildView(new ButtonView({season: this.options.season, cities: this.options.cities}), 0);
+    }
 });
 
 const SubseasonLayout = Marionette.View.extend({
-  template: require('../../../templates/team/players.hbs'),
-  collection: new Players(),
-  behaviors: [Preloader],
+    template: require('../../../templates/season/subseasons.hbs'),
+    collection: new Subseasons(),
+    behaviors: [Preloader],
 
-  regions: {
-    listRegion: {
-      el: '.js-listRegion'
+    regions: {
+        listRegion: {
+            el: '.js-listRegion'
+        }
+    },
+
+    initialize: function (options) {
+        this.options = options;
+        this.cities = new Cities();
+        channelGlobal.on('city:selected', this.createSubseason.bind(this));
+    },
+
+    createSubseason: function (city) {
+        const subseason = new this.collection.model();
+        subseason.set('season', this.model.id);
+        subseason.set('city', city.id);
+        subseason.save()
+            .then(() => {
+                this.fetchSubseasons()
+            });
+    },
+
+    fetchSubseasons: function () {
+        return this.collection.fetch({data: {season: this.model.id}});
+    },
+
+    onRender: function () {
+        Promise.all([this.fetchSubseasons(), this.cities.fetch()])
+            .then(function () {
+                this.showChildView('listRegion', new SubseasonsView({
+                    season: this.model.toJSON(),
+                    cities: this.cities,
+                    collection: this.collection
+                }));
+                this.triggerMethod('fetch:complete');
+            }.bind(this))
+            .catch(function (err) {
+                console.error(err);
+            })
     }
-  },
-
-  initialize: function (options) {
-    this.options = options;
-    channelGlobal.on('city:selected', this.fetchSubseasons.bind(this));
-  },
-
-  fetchSubseasons: function () {
-    return this.collection.fetch({data: {season: this.options.season}});
-  },
-
-  onRender: function () {
-    this.fetchSubseasons()
-      .then(function () {
-        this.showChildView('listRegion', new SubseasonsView({
-          team:this.model.toJSON(),
-          collection: this.collection
-        }));
-        this.triggerMethod('fetch:complete');
-      }.bind(this))
-      .catch(function (err) {
-        console.error(err);
-      })
-  }
 });
 
 export default SubseasonLayout;

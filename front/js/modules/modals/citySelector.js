@@ -45,18 +45,18 @@ const EmptyView = Marionette.View.extend({
 const CitiesView = Marionette.CollectionView.extend({
   childView: CityView,
   emptyView: EmptyView,
-  className: 'col-12 team-places-container',
+  className: 'col-12 team-players-container',
 
   initialize: function(options){
     this.options = options;
   }
 });
 
-const SelectPlaceView = BaseModalView.extend({
-  template: require('../../../templates/modals/selectCities.hbs'),
+const SelectCityView = BaseModalView.extend({
+  template: require('../../../templates/modals/selectCity.hbs'),
 
   regions: {
-    placesRegion: '.js-placesRegion'
+    citiesRegion: '.js-citiesRegion'
   },
 
   initialize: function (options) {
@@ -70,4 +70,4 @@ const SelectPlaceView = BaseModalView.extend({
   }
 });
 
-export default SelectPlaceView;
+export default SelectCityView;
