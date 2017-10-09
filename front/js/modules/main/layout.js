@@ -24,6 +24,7 @@ import MeetingView from '../meeting/meeting';
 import PlacesView from '../places/places';
 import PlayerSelector from '../modals/playerSelector';
 import PlaceSelector from '../modals/placeSelector';
+import CitySelector from '../modals/citySelector';
 import SigninView from '../modals/login';
 import RegistrationView from '../modals/registration';
 import DateSelector from '../modals/dateSelector';
@@ -104,6 +105,9 @@ let Layout = Marionette.View.extend({
                 break;
             case 'placeSelector':
                 this.showChildView('modalRegion', new PlaceSelector(options));
+                break;
+            case 'citySelector':
+                this.showChildView('modalRegion', new CitySelector(options));
                 break;
             case 'login':
                 this.showChildView('modalRegion',  this.signin);

@@ -11,6 +11,7 @@ import Radio from 'backbone.radio';
 import Seasons from '../../entities/seasons';
 import moment from 'moment';
 import UploadView from '../../widgets/fileUploader/fileUploader';
+import SubseasonsView from './subseasons';
 
 let channelGlobal = Radio.channel('global');
 
@@ -62,6 +63,11 @@ const SeasonLayout = Marionette.View.extend({
             console.log('el', this.el.querySelector('.js-date'));
         }
         this.setLogoRegion();
+        this.showChildView('subSeasonsRegion', new SubseasonsView({season: this.model}));
+    },
+
+    addSubseason: function() {
+        channelGlobal.trigger('modal:show', {view: 'citySelector', collection: this.places});
     },
 
     setLogoRegion: function () {
