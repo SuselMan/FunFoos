@@ -65,7 +65,7 @@ app.use('/api/cities', cities);
 
 app.get('/favicon.ico', function(req, res) {
     //TODO: use sendFile instead of sendfile
-    res.sendfile('./favicon.ico'); // load our public/index.html file
+    res.sendfile('./back/favicon.ico'); // load our public/index.html file
 });
 
 app.get('*', function(req, res) {
