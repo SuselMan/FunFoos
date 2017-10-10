@@ -41,6 +41,18 @@ export function listSubseasons(req) {
   return Subseason.find();
 }
 
+export function getSubseason(req) {
+    return new Promise(function(resolve, reject) {
+        Subseason.findById(req.params.id,function(err,team){
+            if(team){
+                resolve(team);
+            } else {
+                reject({status:500,message:'User not found'});
+            }
+        });
+    });
+}
+
 export function createSubseason(data, user) {
   if (user.isAdmin) {
     const subseason = new Subseason(data);

@@ -12,6 +12,7 @@ var routes = {
     'cities(/)': 'citiesWindow',
     'team(/:id)': 'teamWindow',
     'season(/:id)': 'seasonWindow',
+    'subseason(/:id)': 'subseasonWindow',
     'user(/)': 'userWindow',
     'seasons(/)': 'seasonsWindow',
     'meetings(/)': 'meetingsWindow',

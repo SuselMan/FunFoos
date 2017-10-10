@@ -11,10 +11,12 @@ import TeamsView from '../teams/teams';
 import CitiesView from '../cities/cities';
 import TeamView from '../team/layout';
 import SeasonView from '../season/season';
+import SubseasonView from '../subseason/subseason';
 import NewTeamView from '../modals/newTeam';
 import NewPlayerView from '../modals/newPlayer';
 import NewCityView from '../modals/newCity';
 import NewSeasonView from '../modals/newSeason';
+import NewDivisionView from '../modals/newDivision';
 import NewPlaceView from '../modals/newPlace';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
@@ -100,6 +102,9 @@ let Layout = Marionette.View.extend({
             case 'newPlace':
                 this.showChildView('modalRegion', new NewPlaceView(options));
                 break;
+            case 'newDivision':
+                this.showChildView('modalRegion', new NewDivisionView(options));
+                break;
             case 'playerSelector':
                 this.showChildView('modalRegion', new PlayerSelector(options));
                 break;
@@ -150,6 +155,10 @@ let Layout = Marionette.View.extend({
             case 'season':
                 this.el.querySelector('.sign-up').classList.toggle('big-header', true);
                 this.showChildView('contentRegion', new SeasonView({id: option}));
+                break;
+            case 'subseason':
+                this.el.querySelector('.sign-up').classList.toggle('big-header', true);
+                this.showChildView('contentRegion', new SubseasonView({id: option}));
                 break;
             case 'user':
                 this.showChildView('contentRegion', new UserView({model: this.user}));

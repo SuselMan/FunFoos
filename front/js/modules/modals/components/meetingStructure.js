@@ -40,18 +40,19 @@ const MeetingStructure = Marionette.View.extend({
       this.render();
   },
 
-  addDouble: function () {
+  addDouble: function (e) {
+    e.stopPropagation();
     if (this.structure.length < 10) {
       this.structure.push(2);
-      this.render();
     }
+      this.render();
   },
 
-  addSingle:function(){
+  addSingle:function(e){
     if (this.structure.length < 10) {
       this.structure.push(1);
-      this.render();
     }
+      this.render();
   },
 
   getItem: function(type){

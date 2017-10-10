@@ -11,6 +11,17 @@ router.get('/', (req, res) => {
   db.listSubseasons(req).then(data => res.send(data));
 });
 
+router.get('/:id', (req, res) => {
+    db.getSubseason(req)
+        .then(function(result){
+            res.status(200).send(result);
+        })
+        .catch(function(err){
+            res.status(err.status).send(err)
+        })
+});
+
+
 router.post('/', (req, res) => {
   db.checkSession(req.session.user.id)
     .then(function (user) {
