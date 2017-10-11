@@ -16,8 +16,9 @@ const Division = Backbone.Model.extend({
     defaults: {
         rounds: 2,
         meetingStructure: [2,2,1,1,2,2],
-        subSeason:null,
-        penalty: false
+        subseason:null,
+        penalty: false,
+        season:null
     }
 });
 

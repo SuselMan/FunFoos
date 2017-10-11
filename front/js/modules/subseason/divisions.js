@@ -24,11 +24,10 @@ const ButtonView = Marionette.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        this.model = this.options.subseason;
     },
 
     addDivision: function () {
-        channelGlobal.trigger('modal:show', {view: 'newDivision', collection: this.model});
+        channelGlobal.trigger('modal:show', {view: 'newDivision', subseason: this.options.subseason});
     }
 
 });
@@ -66,7 +65,7 @@ const DivisionsView = Marionette.CollectionView.extend({
     },
 
     onRender: function () {
-        this.addChildView(new ButtonView({season: this.options.season, cities: this.options.cities}), 0);
+        this.addChildView(new ButtonView(this.options), this.length-1);
     }
 });
 
@@ -88,7 +87,7 @@ const DivisionsLayout = Marionette.View.extend({
     },
 
     fetchDivisions: function () {
-        return this.collection.fetch({data: {season: this.model.id}});
+        return this.collection.fetch({data: {subseason: this.model.id}});
     },
 
     onRender: function () {

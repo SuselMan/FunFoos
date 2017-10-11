@@ -2,6 +2,10 @@
   .divisions {
     .add-button{
       cursor: pointer;
+      background-color: $success-color;
+      color:white;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
     }
   }
 }

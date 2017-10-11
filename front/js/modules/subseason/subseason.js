@@ -57,21 +57,12 @@ const SubseasonLayout = Marionette.View.extend({
         this.showChildView('divisionsRegion', new DivisionsView({model: this.model}));
     },
 
-    addDivision: function() {
-        channelGlobal.trigger('modal:show', {view: 'citySelector', collection: this.places});
-    },
-
     setLogoRegion: function () {
         const city = this.model.get('city');
         const image =this.cities.get(city).get('image');
         if (image) {
             this.showChildView('logoRegion', new LogoView({model: this.cities.get(city)}));
         }
-    },
-
-    callImageCropper: function (image) {
-        channelGlobal.trigger('modal:show', {view: 'imageCropper', image: image});
-        channelGlobal.on('modal:imageCropped', this.saveImage.bind(this));
     },
 
     saveImage: function (image) {
@@ -84,12 +75,6 @@ const SubseasonLayout = Marionette.View.extend({
     showDateSelector: function () {
         console.log('showDateSelector');
         channelGlobal.trigger('modal:show', {view: 'dateSelector', collection: this.places});
-    },
-
-    showLogo: function (url) {
-        this.model.set('image', url);
-        this.model.update();
-        this.showChildView('logoRegion', new LogoView({model: this.model}));
     }
 });
 

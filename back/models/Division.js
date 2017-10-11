@@ -11,7 +11,8 @@ const DivisionSchema = new Schema({
   name: {type: String},
   rounds: {type: Number},
   meetingStructure: {type: Array},
-  subSeason:{type:Number, required: true},
+  subseason:{type:Number, required: true},
+  season:{type:Number, required: true},
   penalty: {type:Boolean}
 });
 DivisionSchema.plugin(autoIncrement, 'DivisionSchema');

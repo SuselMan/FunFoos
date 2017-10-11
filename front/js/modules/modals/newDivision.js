@@ -5,7 +5,7 @@
 "use strict";
 
 import Marionette from 'backbone.marionette';
-import Divisions from '../../entities/seasons';
+import Divisions from '../../entities/divisions';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import BaseModalView from './baseModal'
@@ -22,6 +22,9 @@ const NewSeasonView = BaseModalView.extend({
     this.options = options;
     this.collection = new Divisions();
     this.model = new this.collection.model();
+    this.model.set('season',options.subseason.season);
+    this.model.set('subseason',options.subseason._id);
+
   },
 
   onRender: function () {
