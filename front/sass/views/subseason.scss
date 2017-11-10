@@ -2,10 +2,26 @@
   .divisions {
     .add-button{
       cursor: pointer;
-      background-color: $success-color;
+      background-color: $brend-blue-light;
       color:white;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
+      right: 0;
+      position: absolute;
+      height: 100%;
+      width: 180px;
+      border: none;
+      border-bottom: 1px solid $brend-blue;
+      &:hover{
+        background-color: $brend-blue;
+        border-bottom: 1px solid black;
+      }
     }
+    .nav-divisions{
+      padding: 0;
+    }
+  }
+  .details{
+    background-color: white;
   }
 }
