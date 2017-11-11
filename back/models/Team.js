@@ -11,7 +11,8 @@ const TeamSchema = new Schema({
     shortName     : { type: String,required: true },
     owner  : { type: Number, required: true}, // it is user
     image  : { type: String},
-    divisions: {type: Array}
+    divisions: {type: Array},
+    division: {type:Number}
 });
 TeamSchema.plugin(autoIncrement, 'TeamSchema');
 const Team = mongoose.model('Team', TeamSchema);
