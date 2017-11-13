@@ -51,7 +51,7 @@ const EmptyView = Marionette.View.extend({
 const TeamsView = Marionette.CollectionView.extend({
   childView: TeamView,
   emptyView: EmptyView,
-  className: 'col-12 team-teams-container',
+  className: 'col-12 team-players-container',
 
   initialize: function(options){
     this.options = options;

@@ -16,6 +16,35 @@
     .nav-divisions{
       padding: 0;
     }
+    .details{
+      padding-top: 20px;
+      .teams-list{
+        margin-bottom: 10px;
+        .team{
+          display: flex;
+          justify-content: left;
+          overflow: hidden;
+          padding: 0;
+          line-height: 47px;
+          .image{
+            height: 50px;
+            width: 50px;
+            flex-basis: 50px;
+            background-image: url(../images/empty_team.jpg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: 50% top;
+            margin-right: 10px;
+          }
+          .name{
+            text-decoration: underline;
+            &:hover {
+              color: $brend-blue-light;
+            }
+          }
+        }
+      }
+    }
   }
   .details{
     background-color: white;

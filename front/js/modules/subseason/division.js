@@ -8,13 +8,18 @@
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
 import Teams from '../../entities/teams';
+import TeamsView from './teamsList';
 
 let channelGlobal = Radio.channel('global');
 
 export default Marionette.View.extend({
     template: require('../../../templates/subseason/divisionDetails.hbs'),
     tagName: 'div',
-    className: 'details',
+    className: 'container details',
+    regions: {
+        teamsList: '.js-teamsList',
+        meetingsTable: '.js-meetingsTable'
+    },
     ui: {
         addTeamBtn: '.js-addTeam'
     },
@@ -26,19 +31,27 @@ export default Marionette.View.extend({
         this.options = options;
         this.user = channelGlobal.request('get:user');
         this.teams = new Teams();
+        this.registeredTeams = new Teams();
     },
 
-    showTeamSelector: function (){
-        console.log('user', this.user);
-        this.teams.fetch({data: {owner: this.user.id}})
+    onRender: function () {
+        this.registeredTeams.fetch({data: {division: this.model.id}})
             .then(() => {
-                channelGlobal.trigger('modal:show',{view:'teamSelector', collection: this.teams});
-                channelGlobal.off('team:selected');
-                channelGlobal.on('team:selected',team => this.addTeam(team));
+                this.showChildView('teamsList', new TeamsView({collection: this.registeredTeams}));
             })
     },
 
-    addTeam: function(team) {
+    showTeamSelector: function () {
+        console.log('user', this.user);
+        this.teams.fetch({data: {owner: this.user.id}})
+            .then(() => {
+                channelGlobal.trigger('modal:show', {view: 'teamSelector', collection: this.teams});
+                channelGlobal.off('team:selected');
+                channelGlobal.on('team:selected', team => this.addTeam(team));
+            })
+    },
+
+    addTeam: function (team) {
         console.log('team', team);
         team.set('division', this.model.id);
         team.save();
