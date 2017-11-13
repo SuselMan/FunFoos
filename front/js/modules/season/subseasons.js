@@ -112,14 +112,14 @@ const SubseasonLayout = Marionette.View.extend({
 
     onRender: function () {
         Promise.all([this.fetchSubseasons(), this.cities.fetch()])
-            .then(function () {
+            .then(() => {
                 this.showChildView('listRegion', new SubseasonsView({
                     season: this.model.toJSON(),
                     cities: this.cities,
                     collection: this.collection
                 }));
                 this.triggerMethod('fetch:complete');
-            }.bind(this))
+            })
             .catch(function (err) {
                 console.error(err);
             })
