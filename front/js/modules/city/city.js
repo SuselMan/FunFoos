@@ -2,8 +2,6 @@
  * Created by pavluhin on 03.10.2017.
  */
 
-"use strict";
-
 
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
@@ -14,7 +12,7 @@ import moment from 'moment';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import PlacesView from './places';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const LogoView = Marionette.View.extend({
   template: require('../../../templates/city/logo.hbs'),
@@ -31,7 +29,7 @@ export default Marionette.View.extend({
     logoRegion: '.js-logoRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     this.model = new this.collection.model({ _id: this.options.id });
     this.user = channelGlobal.request('get:user');
@@ -45,21 +43,21 @@ export default Marionette.View.extend({
       );
   },
 
-  onRender: function (model) {
+  onRender(model) {
     if (this.fetched) {
       const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
       new ModelBinder().bind(this.model, this.el, bindings);
       this.places = new Places();
-      this.places.fetch({data: {city: this.model.id}})
+      this.places.fetch({ data: { city: this.model.id } })
         .then(() => {
-          this.showChildView('placesRegion', new PlacesView({ collection: this.places, city:this.model}));
-        })
+          this.showChildView('placesRegion', new PlacesView({ collection: this.places, city: this.model }));
+        });
 
       this.setLogoRegion();
     }
   },
 
-  setLogoRegion: function () {
+  setLogoRegion() {
     if (this.uploadView) {
       this.uploadView.off('load:complete');
       channelGlobal.off('image:selected');
@@ -75,19 +73,19 @@ export default Marionette.View.extend({
     }
   },
 
-  callImageCropper: function (image) {
-    channelGlobal.trigger('modal:show', { view: 'imageCropper', image: image });
+  callImageCropper(image) {
+    channelGlobal.trigger('modal:show', { view: 'imageCropper', image });
     channelGlobal.on('modal:imageCropped', this.saveImage.bind(this));
   },
 
-  saveImage: function (image) {
-    this.model.save({ image: image })
+  saveImage(image) {
+    this.model.save({ image })
       .then(() => {
         this.showChildView('logoRegion', new LogoView({ model: this.model }));
-      })
+      });
   },
 
-  showLogo: function (url) {
+  showLogo(url) {
     this.model.set('image', url);
     this.model.update();
     this.showChildView('logoRegion', new LogoView({ model: this.model }));

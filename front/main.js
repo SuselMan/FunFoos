@@ -2,7 +2,6 @@
  * Created by pavluhin on 07.02.2017.
  */
 
-"use strict";
 
 import './sass/main.scss';
 import 'babel-polyfill';
@@ -15,15 +14,14 @@ import Radio from 'backbone.radio';
 
 const channelGlobal = Radio.channel('global');
 
-App.on('start', function() {
-    App.Router = new AppRouter({
-        controller: AppController
-    });
-    Backbone.history.start({ pushState:true });
-    App.navigate(App.getCurrentRoute(), {trigger: true, replace: true});
-
+App.on('start', () => {
+  App.Router = new AppRouter({
+    controller: AppController
+  });
+  Backbone.history.start({ pushState: true });
+  App.navigate(App.getCurrentRoute(), { trigger: true, replace: true });
 });
 
-window.onload = function() {
-    App.start();
+window.onload = function () {
+  App.start();
 };

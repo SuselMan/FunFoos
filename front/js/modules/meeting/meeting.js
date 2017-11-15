@@ -2,8 +2,6 @@
  * Created by ilya on 08.03.2017.
  */
 
-"use strict";
-
 
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
@@ -11,11 +9,11 @@ import Radio from 'backbone.radio';
 import Teams from '../../entities/teams';
 import Players from '../../entities/players';
 import Meetings from '../../entities/meetings';
-import Places from '../../entities/places'
+import Places from '../../entities/places';
 import ProtocolView from './protocol';
 import moment from 'moment';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const MeetingLayout = Marionette.View.extend({
   template: require('../../../templates/meeting/meeting.hbs'),
@@ -35,60 +33,60 @@ const MeetingLayout = Marionette.View.extend({
     protocolRegion: '.js-protocolRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
-    this.model = new this.collection.model({_id: this.options.id});
+    this.model = new this.collection.model({ _id: this.options.id });
     this.model.fetch().then(this.showMeeting.bind(this));
   },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
 
-    let date = this.model.get('date');
+    const date = this.model.get('date');
     console.log('Model', this.model);
     console.log('date', date);
     console.log('el', this.el.querySelector('.js-date'));
-    console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
+    console.log('moment', moment.unix(date).format('DD MMMM YYYY, hh:mm:ss'));
     if (date) {
-      this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
+      this.el.querySelector('.js-date').textContent = moment.unix(date).format('DD MMMM YYYY, hh:mm:ss');
       console.log('el', this.el.querySelector('.js-date'));
     }
   },
 
-  showDateSelector: function() {
+  showDateSelector() {
     console.log('showDateSelector');
-    channelGlobal.trigger('modal:show', {view: 'dateSelector', collection: this.places});
+    channelGlobal.trigger('modal:show', { view: 'dateSelector', collection: this.places });
   },
 
-  callPlaceSelector: function () {
+  callPlaceSelector() {
     this.places.fetch()
       .then(() => {
-        channelGlobal.trigger('modal:show', {view: 'placeSelector', collection: this.places});
+        channelGlobal.trigger('modal:show', { view: 'placeSelector', collection: this.places });
         channelGlobal.on('place:selected', this.changePlace.bind(this));
-      })
+      });
   },
 
-  changePlace: function (model) {
-    this.model.save({place: model.id})
-      .then(()=> {
+  changePlace(model) {
+    this.model.save({ place: model.id })
+      .then(() => {
         this.setPlace();
-      })
+      });
   },
 
-  setPlace: function () {
-    var place = this.places.get(this.model.get('place')).toJSON();
+  setPlace() {
+    const place = this.places.get(this.model.get('place')).toJSON();
     this.model.set('placeName', place.name);
     this.model.set('placeImage', place.image);
     this.el.querySelector('.js-placeImage').src = place.image;
   },
 
-  showMeeting: function () {
-    var teams = new Teams();
+  showMeeting() {
+    const teams = new Teams();
     this.places = new Places();
-    //TODO: refactor;
+    // TODO: refactor;
     Promise.all([teams.fetch(), this.places.fetch()])
-      .then(function () {
+      .then(() => {
         this.model.set('hostTeam', teams.get(this.model.get('host')).toJSON());
         this.model.set('guestTeam', teams.get(this.model.get('guest')).toJSON());
         this.model.set('hostName', this.model.get('hostTeam').name);
@@ -104,7 +102,7 @@ const MeetingLayout = Marionette.View.extend({
         this.showChildView('protocolRegion', new ProtocolView({
           model: this.model
         }));
-      }.bind(this));
+      });
   }
 });
 

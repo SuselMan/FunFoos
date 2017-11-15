@@ -2,16 +2,15 @@
  * Created by pavluhin on 05.07.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
 import Players from '../../entities/players';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import BaseModalView from './baseModal'
+import BaseModalView from './baseModal';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const PlayerView = Marionette.View.extend({
   template: require('../../../templates/modals/components/playerCard.hbs'),
@@ -24,21 +23,21 @@ const PlayerView = Marionette.View.extend({
 
   events: {
     'click @ui.deleteBtn': 'deletePlayer',
-    'click': 'navigate'
+    click: 'navigate'
   },
 
-  deletePlayer: function (e) {
+  deletePlayer(e) {
     e.stopPropagation();
     this.model.destroy();
   },
 
-  navigate: function () {
-    channelGlobal.trigger('player:selected',this.model);
+  navigate() {
+    channelGlobal.trigger('player:selected', this.model);
     channelGlobal.trigger('modal:close');
   },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
   }
 });
@@ -53,11 +52,11 @@ const PlayersView = Marionette.CollectionView.extend({
   emptyView: EmptyView,
   className: 'col-12 team-players-container',
 
-  initialize: function(options){
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
 
   }
 });
@@ -69,11 +68,11 @@ const SelectPlayerView = BaseModalView.extend({
     playersRegion: '.js-playersRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
     this.showChildView('playersRegion', new PlayersView({
       collection: this.collection
     }));

@@ -2,8 +2,6 @@
  * Created by pavluhin on 10.10.2017.
  */
 
-"use strict";
-
 
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
@@ -14,7 +12,7 @@ import moment from 'moment';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import DivisionsView from './divisions';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const LogoView = Marionette.View.extend({
   template: require('../../../templates/subseason/logo.hbs'),
@@ -39,7 +37,7 @@ const SubseasonLayout = Marionette.View.extend({
     logoRegion: '.js-logoRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     this.model = new this.collection.model({ _id: this.options.id });
     this.cities = new Cities();
@@ -53,7 +51,7 @@ const SubseasonLayout = Marionette.View.extend({
       );
   },
 
-  onRender: function () {
+  onRender() {
     if (this.fetched) {
       const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
       new ModelBinder().bind(this.model, this.el, bindings);
@@ -62,7 +60,7 @@ const SubseasonLayout = Marionette.View.extend({
     }
   },
 
-  setLogoRegion: function () {
+  setLogoRegion() {
     const city = this.model.get('city');
     const image = this.cities.get(city).get('image');
     if (image) {
@@ -70,14 +68,14 @@ const SubseasonLayout = Marionette.View.extend({
     }
   },
 
-  saveImage: function (image) {
-    this.model.save({ image: image })
+  saveImage(image) {
+    this.model.save({ image })
       .then(() => {
         this.showChildView('logoRegion', new LogoView({ model: this.model }));
-      })
+      });
   },
 
-  showDateSelector: function () {
+  showDateSelector() {
     console.log('showDateSelector');
     channelGlobal.trigger('modal:show', { view: 'dateSelector', collection: this.places });
   }

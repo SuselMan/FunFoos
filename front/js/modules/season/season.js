@@ -2,8 +2,6 @@
  * Created by pavluhin on 03.10.2017.
  */
 
-"use strict";
-
 
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
@@ -13,7 +11,7 @@ import moment from 'moment';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import SubseasonsView from './subseasons';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const LogoView = Marionette.View.extend({
   template: require('../../../templates/season/logo.hbs'),
@@ -36,7 +34,7 @@ const SeasonLayout = Marionette.View.extend({
     'click @ui.dateSelector': 'showDateSelector',
     'click @ui.startBtn': 'startSeason',
     'click @ui.closeBtn': 'closeSeason',
-    'click @ui.openBtn': 'openSeason',
+    'click @ui.openBtn': 'openSeason'
   },
 
   regions: {
@@ -44,7 +42,7 @@ const SeasonLayout = Marionette.View.extend({
     logoRegion: '.js-logoRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     this.model = new this.collection.model({ _id: this.options.id });
     this.user = channelGlobal.request('get:user');
@@ -63,28 +61,28 @@ const SeasonLayout = Marionette.View.extend({
         this.showStateButtons();
       });
   },
-  closeSeason: function () {
+  closeSeason() {
     this.setState(0);
   },
-  openSeason: function () {
+  openSeason() {
     this.setState(1);
   },
-  startSeason: function () {
+  startSeason() {
     this.setState(2);
   },
 
-  onRender: function (model) {
+  onRender(model) {
     if (this.fetched) {
       const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
       new ModelBinder().bind(this.model, this.el, bindings);
 
-      let date = this.model.get('startDate');
+      const date = this.model.get('startDate');
       console.log('Model', this.model);
       console.log('date', date);
       console.log('el', this.el.querySelector('.js-date'));
-      console.log('moment', moment.unix(date).format("DD MMMM YYYY, hh:mm:ss"));
+      console.log('moment', moment.unix(date).format('DD MMMM YYYY, hh:mm:ss'));
       if (date) {
-        this.el.querySelector('.js-date').textContent = moment.unix(date).format("DD MMMM YYYY, hh:mm:ss");
+        this.el.querySelector('.js-date').textContent = moment.unix(date).format('DD MMMM YYYY, hh:mm:ss');
         console.log('el', this.el.querySelector('.js-date'));
       }
       this.setLogoRegion();
@@ -94,7 +92,7 @@ const SeasonLayout = Marionette.View.extend({
     }
   },
 
-  showStateButtons: function () {
+  showStateButtons() {
     console.log('this.user', this.user);
     if (this.user && this.user.get('isAdmin')) {
       const state = this.model.get('state');
@@ -117,11 +115,11 @@ const SeasonLayout = Marionette.View.extend({
     }
   },
 
-  addSubseason: function () {
+  addSubseason() {
     channelGlobal.trigger('modal:show', { view: 'citySelector', collection: this.places });
   },
 
-  setLogoRegion: function () {
+  setLogoRegion() {
     if (this.uploadView) {
       this.uploadView.off('load:complete');
       channelGlobal.off('image:selected');
@@ -137,24 +135,24 @@ const SeasonLayout = Marionette.View.extend({
     }
   },
 
-  callImageCropper: function (image) {
-    channelGlobal.trigger('modal:show', { view: 'imageCropper', image: image });
+  callImageCropper(image) {
+    channelGlobal.trigger('modal:show', { view: 'imageCropper', image });
     channelGlobal.on('modal:imageCropped', this.saveImage.bind(this));
   },
 
-  saveImage: function (image) {
-    this.model.save({ image: image })
+  saveImage(image) {
+    this.model.save({ image })
       .then(() => {
         this.showChildView('logoRegion', new LogoView({ model: this.model }));
-      })
+      });
   },
 
-  showDateSelector: function () {
+  showDateSelector() {
     console.log('showDateSelector');
     channelGlobal.trigger('modal:show', { view: 'dateSelector', collection: this.places });
   },
 
-  showLogo: function (url) {
+  showLogo(url) {
     this.model.set('image', url);
     this.model.update();
     this.showChildView('logoRegion', new LogoView({ model: this.model }));

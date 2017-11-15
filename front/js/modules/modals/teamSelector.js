@@ -2,16 +2,15 @@
  * Created by pavluhin on 05.07.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
 import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import BaseModalView from './baseModal'
+import BaseModalView from './baseModal';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const TeamView = Marionette.View.extend({
   template: require('../../../templates/modals/components/teamCard.hbs'),
@@ -24,20 +23,20 @@ const TeamView = Marionette.View.extend({
 
   events: {
     'click @ui.deleteBtn': 'deleteTeam',
-    'click': 'navigate'
+    click: 'navigate'
   },
 
-  deleteTeam: function (e) {
+  deleteTeam(e) {
     e.stopPropagation();
     this.model.destroy();
   },
 
-  navigate: function () {
-    channelGlobal.trigger('team:selected',this.model);
+  navigate() {
+    channelGlobal.trigger('team:selected', this.model);
     channelGlobal.trigger('modal:close');
   },
 
-  onRender: function () {
+  onRender() {
     const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
   }
@@ -53,11 +52,11 @@ const TeamsView = Marionette.CollectionView.extend({
   emptyView: EmptyView,
   className: 'col-12 team-players-container',
 
-  initialize: function(options){
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
 
   }
 });
@@ -69,11 +68,11 @@ const SelectTeamView = BaseModalView.extend({
     teamsRegion: '.js-teamsRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
     this.showChildView('teamsRegion', new TeamsView({
       collection: this.collection
     }));

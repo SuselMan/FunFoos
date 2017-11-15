@@ -3,20 +3,18 @@
  */
 
 
-"use strict";
-
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
 import Teams from '../../entities/teams';
 import Meetings from '../../entities/meetings';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const MeetingsTableItem = Backbone.Model.extend({
   defaults: {
     meetings: null
-  },
+  }
 });
 
 const MeetingsTableCollection = Backbone.Collection.extend({
@@ -27,17 +25,17 @@ const MeetingItem = Marionette.View.extend({
   template: require('../../../templates/subseason/meetings/meetingItem.hbs'),
   className: 'meeting-item',
   events: {
-    'click': 'navigate'
+    click: 'navigate'
   },
-  navigate: function () {
-    channelGlobal.request('navigate', 'meeting/' + this.model.id, { trigger: true, replace: true });
+  navigate() {
+    channelGlobal.request('navigate', `meeting/${this.model.id}`, { trigger: true, replace: true });
   }
 });
 
 const MeetingsItemList = Marionette.CollectionView.extend({
   childView: MeetingItem,
   className: 'meetings-item-list',
-  initialize: function () {
+  initialize() {
     console.log('coll', this.collection);
     this.render();
   }
@@ -49,29 +47,28 @@ const TableItem = Marionette.View.extend({
   regions: {
     meetingsItemRegion: '.js-itemMeetingsRegion'
   },
-  getTemplate: function () {
+  getTemplate() {
     if (this.mode === 'team') {
       return require('../../../templates/subseason/meetings/teamItem.hbs');
     } else if (this.mode === 'empty') {
       return require('../../../templates/subseason/meetings/emptyItem.hbs');
-    } else {
-      return require('../../../templates/subseason/meetings/tableItem.hbs');
     }
+    return require('../../../templates/subseason/meetings/tableItem.hbs');
   },
 
-  initialize: function () {
-    this.basis = this.model.get('basis')
+  initialize() {
+    this.basis = this.model.get('basis');
     if (this.model.get('team')) {
       this.model = this.model.get('team');
       this.mode = 'team';
     } else if (this.model.get('meetings')) {
       this.mode = 'meeting';
     } else {
-      this.mode = 'empty'
+      this.mode = 'empty';
     }
   },
 
-  onRender: function () {
+  onRender() {
     this.el.setAttribute('style', `flex-basis:${this.basis}%`);
     if (this.mode === 'team') {
       this.el.classList.add('teamItem');
@@ -89,7 +86,7 @@ const TableItem = Marionette.View.extend({
 const MeetingsTable = Marionette.CollectionView.extend({
   childView: TableItem,
   className: 'meetings-table',
-  initialize: function () {
+  initialize() {
     console.log('initialize MeetingsTable');
     this.render();
   }
@@ -103,7 +100,7 @@ export default Marionette.View.extend({
     meetingsTableRegion: '.js-meetingsTableRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     this.teams = options.teams;
     this.meetings = options.meetings;
@@ -111,17 +108,17 @@ export default Marionette.View.extend({
     this.render();
   },
 
-  onRender: function () {
+  onRender() {
     console.log('HEY BRO', this.meetingsColl);
     this.showChildView('meetingsTableRegion', new MeetingsTable({ collection: this.meetingsColl }));
   },
 
-  generateMeetingsCollection: function () {
+  generateMeetingsCollection() {
     this.meetingsColl = new MeetingsTableCollection();
     const basis = Math.floor(100 / (this.teams.length + 1));
     this.meetingsColl.add(new MeetingsTableItem({ basis }));
     this.teams.forEach((team) => {
-      this.meetingsColl.add(new MeetingsTableItem({ basis, team: team }));
+      this.meetingsColl.add(new MeetingsTableItem({ basis, team }));
     });
     this.teams.forEach((team1) => {
       this.meetingsColl.add(new MeetingsTableItem({ basis, team: team1 }));
@@ -135,6 +132,6 @@ export default Marionette.View.extend({
           this.meetingsColl.add(new MeetingsTableItem({ basis }));
         }
       });
-    })
+    });
   }
 });

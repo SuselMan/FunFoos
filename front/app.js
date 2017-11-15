@@ -2,45 +2,35 @@
  * Created by pavluhin on 10.11.2016.
  */
 
-"use strict";
 
 import Backbone from 'backbone';
-import Marionette  from 'backbone.marionette';
+import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
 
-var channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 
+const App = Marionette.Application.extend({
+  region: '#js-app',
 
-var App = Marionette.Application.extend({
-    region: '#js-app',
+  initialize() {
+    this.root = '/';
+  },
 
-    initialize: function (options) {
-        console.info('App Initialized');
-        this.root = '/';
-    },
-
-    onStart: function () {
-        console.info('App started');
-    },
-
-    navigate: function (route, options) {
-        console.info('App navigated to', route);
-        Backbone.history.navigate(route, options || {});
-    },
-
-    getCurrentRoute: function () {
-        return Backbone.history.fragment;
-    }
-
-});
-
-channelGlobal.reply('navigate', function (route, options) {
-    console.info('channelGlobal app:navigate: ', arguments);
+  navigate(route, options) {
     Backbone.history.navigate(route, options || {});
+  },
+
+  getCurrentRoute() {
+    return Backbone.history.fragment;
+  }
 
 });
 
-var app = new App();
+channelGlobal.reply('navigate', (route, options) => {
+  Backbone.history.navigate(route, options || {});
+});
+
+const app = new App();
 
 export default app;

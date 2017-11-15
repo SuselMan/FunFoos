@@ -3,8 +3,6 @@
  */
 
 
-"use strict";
-
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Seasons from '../../entities/seasons';
@@ -12,7 +10,7 @@ import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Preloader from '../../behaviors/preloader';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 
 const SeasonView = Marionette.View.extend({
@@ -25,11 +23,11 @@ const SeasonView = Marionette.View.extend({
   },
 
   events: {
-    'click': 'navigateToSeason',
+    click: 'navigateToSeason'
   },
 
-  onRender: function () {
-    let bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
     const state = this.model.get('state');
     const stateElm = this.el.querySelector('.js-state');
@@ -49,15 +47,15 @@ const SeasonView = Marionette.View.extend({
     }
   },
 
-  navigateToSeason: function () {
-    channelGlobal.request('navigate', 'season/' + this.model.id, { trigger: true, replace: true });
+  navigateToSeason() {
+    channelGlobal.request('navigate', `season/${this.model.id}`, { trigger: true, replace: true });
   }
 });
 
 const EmptyView = Marionette.View.extend({
   template: require('../../../templates/seasons/empty.hbs'),
   tagName: 'li',
-  className: 'list-group-item',
+  className: 'list-group-item'
 });
 
 const SeasonsView = Marionette.CollectionView.extend({
@@ -79,16 +77,16 @@ const SeasonsLayout = Marionette.View.extend({
   },
 
   ui: {
-    addSeason: ".js-addSeasonBtn",
+    addSeason: '.js-addSeasonBtn'
   },
 
   events: {
     'click @ui.addSeason': 'addSeason'
   },
 
-  onRender: function () {
+  onRender() {
     this.collection.fetch()
-      .then(function () {
+      .then(() => {
         this.showChildView('listRegion', new SeasonsView({
           collection: this.collection
         }));
@@ -96,15 +94,15 @@ const SeasonsLayout = Marionette.View.extend({
         //   collection: this.collection
         // }));
         this.triggerMethod('fetch:complete');
-      }.bind(this))
-      .catch(function (err) {
-        //TODO: notification
-        console.error(err);
       })
+      .catch((err) => {
+        // TODO: notification
+        console.error(err);
+      });
   },
 
 
-  addSeason: function () {
+  addSeason() {
     channelGlobal.trigger('modal:show', { view: 'newSeason' });
   }
 });

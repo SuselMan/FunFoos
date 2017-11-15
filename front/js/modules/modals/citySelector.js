@@ -2,16 +2,15 @@
  * Created by pavluhin on 05.07.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
 import Places from '../../entities/places';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import BaseModalView from './baseModal'
+import BaseModalView from './baseModal';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const CityView = Marionette.View.extend({
   template: require('../../../templates/modals/components/cityCard.hbs'),
@@ -23,16 +22,16 @@ const CityView = Marionette.View.extend({
   },
 
   events: {
-    'click': 'navigate'
+    click: 'navigate'
   },
 
-  navigate: function () {
-    channelGlobal.trigger('city:selected',this.model);
+  navigate() {
+    channelGlobal.trigger('city:selected', this.model);
     channelGlobal.trigger('modal:close');
   },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
   }
 });
@@ -47,7 +46,7 @@ const CitiesView = Marionette.CollectionView.extend({
   emptyView: EmptyView,
   className: 'col-12 team-players-container',
 
-  initialize: function(options){
+  initialize(options) {
     this.options = options;
   }
 });
@@ -59,11 +58,11 @@ const SelectCityView = BaseModalView.extend({
     citiesRegion: '.js-citiesRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
     this.showChildView('citiesRegion', new CitiesView({
       collection: this.collection
     }));

@@ -2,49 +2,48 @@
  * Created by pavluhin on 26.07.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
 import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import BaseModalView from './baseModal'
+import BaseModalView from './baseModal';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const LoginView = BaseModalView.extend({
   template: require('../../../templates/modals/login.hbs'),
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
   },
 
-  submit: function () {
+  submit() {
     this.model.signin()
-      .then(function (result) {
-        channelGlobal.trigger("done:signin", this.model);
-      }.bind(this))
-      .catch(function (e) {
-
+      .then((result) => {
+        channelGlobal.trigger('done:signin', this.model);
       })
+      .catch((e) => {
+
+      });
   },
 
-  fetch: function () {
+  fetch() {
     return new Promise((resolve) => {
       this.model.updateSignin()
         .then((result) => {
-          channelGlobal.trigger("done:signin", this.model);
+          channelGlobal.trigger('done:signin', this.model);
           resolve(this.model);
         })
-        .catch(function (e) {
+        .catch((e) => {
           resolve(null);
-        })
-    })
+        });
+    });
   }
 });
 

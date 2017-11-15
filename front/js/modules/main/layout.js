@@ -2,7 +2,6 @@
  * Created by ilya on 24.02.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
 import User from '../../entities/user';
@@ -32,14 +31,13 @@ import SigninView from '../modals/login';
 import RegistrationView from '../modals/registration';
 import DateSelector from '../modals/dateSelector';
 import ImageCropper from '../modals/imageCropper';
-import AdminView from '../admin/admin';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 
-//TODO: separate it to few files
+// TODO: separate it to few files
 
-let Layout = Marionette.View.extend({
+const Layout = Marionette.View.extend({
   template: require('../../../templates/main/layout.hbs'),
   className: 'app',
 
@@ -49,8 +47,8 @@ let Layout = Marionette.View.extend({
   },
 
   ui: {
-    nav: ".main > a.nav-link",
-    logo: ".js-logo",
+    nav: '.main > a.nav-link',
+    logo: '.js-logo',
     registration: '.js-registration'
   },
 
@@ -60,14 +58,14 @@ let Layout = Marionette.View.extend({
     'click @ui.registration': 'registration'
   },
 
-  initialize: function () {
+  initialize() {
     this.user = new User();
   },
 
-  navigateTo: function (e) {
-    let url = e.currentTarget.dataset.url;
+  navigateTo(e) {
+    const url = e.currentTarget.dataset.url;
     if (url) {
-      let items = this.el.querySelectorAll('a');
+      const items = this.el.querySelectorAll('a');
       for (let i = 0; i < items.length; i++) {
         items[i].classList.remove('active');
       }
@@ -76,10 +74,9 @@ let Layout = Marionette.View.extend({
     } else {
       this.showSignin();
     }
-
   },
 
-  registration: function () {
+  registration() {
     this.startModal({ view: 'registration', user: this.user });
   },
 
@@ -134,10 +131,10 @@ let Layout = Marionette.View.extend({
             this.showChildView('modalRegion', new ImageCropper(options));
             break;
         }
-      })
+      });
   },
 
-  start: function (view, option) {
+  start(view, option) {
     this.signin.fetch()
       .then(() => {
         this.minimizeHeader();
@@ -183,60 +180,57 @@ let Layout = Marionette.View.extend({
             this.el.querySelector('.sign-up').classList.toggle('big-header', true);
             this.showChildView('contentRegion', new MeetingView({ id: option }));
             break;
-          case 'admin':
-            this.showChildView('contentRegion', new AdminView());
-            break;
         }
-      })
+      });
   },
 
-  closeModal: function () {
+  closeModal() {
     this.getRegion('modalRegion').reset();
     this.el.querySelector('.js-ModalRegion').classList.add('hide');
   },
 
-  onRender: function () {
-    channelGlobal.on("close:signin", this.closeSignin.bind(this));
-    channelGlobal.on("done:signin", this.doneSignin.bind(this));
-    channelGlobal.on("done:signup", this.doneSignup.bind(this));
-    channelGlobal.on("modal:show", this.startModal.bind(this));
-    channelGlobal.on("modal:close", this.closeModal.bind(this));
+  onRender() {
+    channelGlobal.on('close:signin', this.closeSignin.bind(this));
+    channelGlobal.on('done:signin', this.doneSignin.bind(this));
+    channelGlobal.on('done:signup', this.doneSignup.bind(this));
+    channelGlobal.on('modal:show', this.startModal.bind(this));
+    channelGlobal.on('modal:close', this.closeModal.bind(this));
 
     this.signin = new SigninView({ model: this.user });
     this.signin.fetch();
     // this.el.querySelector('.app-footer').textContent = VERSION;
   },
 
-  minimizeHeader: function () {
+  minimizeHeader() {
     this.el.querySelector('.sign-up').classList.add('done');
   },
 
-  closeSignin: function () {
-    channelGlobal.trigger("modal:close");
+  closeSignin() {
+    channelGlobal.trigger('modal:close');
   },
 
-  doneSignin: function (user) {
+  doneSignin(user) {
     this.closeSignin();
     this.minimizeHeader();
     this.user = user;
     this.el.querySelector('.js-login').innerText = user.get('email');
     if (user.get('isAdmin')) {
-      this.el.querySelector('.js-login').innerText += ' (администратор)'
+      this.el.querySelector('.js-login').innerText += ' (администратор)';
     }
     channelGlobal.reply('get:user', this.getUser.bind(this));
-    //channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
+    // channelGlobal.request('navigate', 'user', {trigger: true, replace: true});
   },
 
-  showSignin: function () {
+  showSignin() {
     this.startModal({ view: 'login', user: this.user });
   },
 
-  doneSignup: function () {
+  doneSignup() {
     this.doneSignin(this.user);
     this.el.classList.add('done');
   },
 
-  getUser: function () {
+  getUser() {
     return this.user || null;
   }
 });
