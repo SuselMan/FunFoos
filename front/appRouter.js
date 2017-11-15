@@ -18,7 +18,6 @@ var routes = {
     'seasons(/)': 'seasonsWindow',
     'meetings(/)': 'meetingsWindow',
     'meeting(/:id)': 'meetingWindow',
-    'places(/)': 'placesWindow',
     'admin(/)': 'adminWindow',
     '(/)': 'index'
 };

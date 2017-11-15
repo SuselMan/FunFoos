@@ -73,11 +73,6 @@ const appController = {
     App.mainModule.setView('meeting', id);
   },
 
-  placesWindow: function () {
-    this.checkMainModule();
-    App.mainModule.setView('places');
-  },
-
   adminWindow: function () {
     this.checkMainModule();
     App.mainModule.setView('admin');
