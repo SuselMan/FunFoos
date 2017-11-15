@@ -8,7 +8,9 @@
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
 import Teams from '../../entities/teams';
+import Meetings from '../../entities/meetings';
 import TeamsView from './teamsList';
+import MeetingsView from './meetings';
 
 let channelGlobal = Radio.channel('global');
 
@@ -38,6 +40,14 @@ export default Marionette.View.extend({
         this.registeredTeams.fetch({data: {division: this.model.id}})
             .then(() => {
                 this.showChildView('teamsList', new TeamsView({collection: this.registeredTeams}));
+                this.meetings = new Meetings();
+                return this.meetings.fetch({data: {owner: this.model.id}})
+            })
+            .then(() => {
+                this.showChildView('meetingsTable', new MeetingsView({
+                    meetings: this.meetings,
+                    teams: this.registeredTeams
+                }));
             })
     },
 

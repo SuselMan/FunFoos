@@ -44,6 +44,16 @@
           }
         }
       }
+      .meetings-table{
+        display: flex;
+        flex-wrap: wrap;
+        background-color: #a5e256;
+        .tableItem{
+          background-color: red;
+          flex-grow: 1;
+          flex-shrink: 1;
+        }
+      }
     }
   }
   .details{
