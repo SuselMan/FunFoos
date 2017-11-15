@@ -17,6 +17,7 @@ const GameSchema = new Schema({
     hostScore1  : { type: Number},
     guestScore1  : { type: Number},
     season  : { type: Number, required:true},
+    division  : { type: Number, required:true},
     type:{ type: Number},
     approved:{type:Boolean}, // game doesn't participate in statictics if false
     hostApproved:{type:Boolean},

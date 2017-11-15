@@ -4,11 +4,11 @@
 
 import Marionette from 'backbone.marionette';
 
-var Preloader = Marionette.Behavior.extend({
+const Preloader = Marionette.Behavior.extend({
 
-    onFetchComplete:function(){
-        this.el.querySelector('.preloader').style.display = 'none'
-    }
+  onFetchComplete() {
+    this.el.querySelector('.preloader').style.display = 'none';
+  }
 
 });
 

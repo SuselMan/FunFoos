@@ -23,6 +23,7 @@ import user from './routes/user';
 import meetings from './routes/meetings';
 import games from './routes/games';
 import cities from './routes/cities';
+import divisions from './routes/divisions';
 import fileUpload from 'express-fileupload';
 
 const app = express();
@@ -63,6 +64,7 @@ app.use('/api/meetings', meetings);
 app.use('/api/games', games);
 app.use('/api/cities', cities);
 app.use('/api/subseasons', subseasons);
+app.use('/api/divisions', divisions);
 
 
 app.get('/favicon.ico', function(req, res) {

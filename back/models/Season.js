@@ -12,7 +12,7 @@ const SeasonSchema = new Schema({
     image: {type: String},
     startDate: {type: Date},
     endDate: {type: Date},
-    state: {type: Number} // 0-closed, 1-registration is opened, 2-games is started
+    state: {type: Number} // 0-closed, 1-registration is opened, 2-games is started, 3 - finished
 });
 SeasonSchema.plugin(autoIncrement, 'SeasonSchema');
 const Season = mongoose.model('Season', SeasonSchema);

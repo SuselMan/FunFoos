@@ -31,7 +31,7 @@ router.put('/:id', (req, res) => {
             res.status(200).send(result);
         })
         .catch(function(err){
-            res.status(err.status).send(err)
+            res.status(err.status || 500).send(err)
         })
 });
 

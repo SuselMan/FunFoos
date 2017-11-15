@@ -14,7 +14,8 @@ const PlaceSchema = new Schema({
     address  : { type: String},
     image:{type:String},
     link:{type:String},
-    comment:{type:String}
+    comment:{type:String},
+    city:{type:Number, required: true}
 });
 PlaceSchema.plugin(autoIncrement, 'PlaceSchema');
 

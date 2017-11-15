@@ -3,19 +3,14 @@
  */
 
 
-"use strict";
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import Preloader from '../../behaviors/preloader';
+import Teams from '../../entities/teams';
 import TeamView from './team';
 
 
-//TODO: remove this layout as unnecessary
-let channelGlobal = Radio.channel('global');
+// TODO: remove this layout as unnecessary
+const channelGlobal = Radio.channel('global');
 
 const TeamLayout = Marionette.View.extend({
   template: require('../../../templates/team/layout.hbs'),
@@ -23,25 +18,25 @@ const TeamLayout = Marionette.View.extend({
     newTeamRegion: '.js-newTeamRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     channelGlobal.on('user:updated', this.showTeam.bind(this));
   },
 
-  showTeam: function (team, collection) {
-    this.showChildView('newTeamRegion', new TeamView({model: team, owner: team.id, collection: collection}));
+  showTeam(team, collection) {
+    this.showChildView('newTeamRegion', new TeamView({ model: team, owner: team.id, collection }));
   },
 
-  onRender: function () {
+  onRender() {
     this.user = channelGlobal.request('get:user');
-    var collection = new Teams();
-    var model = new collection.model({_id: this.options.id});
+    const collection = new Teams();
+    let model = new collection.model({ _id: this.options.id });
     collection.fetch()
-      .then(function () {
+      .then(() => {
         model = collection.get(this.options.id);
         this.model = model;
         this.showTeam(model, collection);
-      }.bind(this))
+      });
   }
 });
 

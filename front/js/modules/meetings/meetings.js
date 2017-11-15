@@ -1,17 +1,13 @@
-"use strict";
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Meetings from '../../entities/meetings';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import Preloader from '../../behaviors/preloader';
-
-import Teams from '../../entities/teams';
-import Places from '../../entities/places'
+import ModelBinder from 'backbone.modelbinder';
 import moment from 'moment';
+import Meetings from '../../entities/meetings';
+import Preloader from '../../behaviors/preloader';
+import Teams from '../../entities/teams';
+import Places from '../../entities/places';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const MeetingView = Marionette.View.extend({
   template: require('../../../templates/meetings/meeting.hbs'),
@@ -29,60 +25,57 @@ const MeetingView = Marionette.View.extend({
     'click @ui.guest': 'navigateToGuest'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     this.hostTeam = this.options.teams.get(this.model.get('host')).get('name');
     this.guestTeam = this.options.teams.get(this.model.get('guest')).get('name');
-    this.model.set('hostTeam',  this.hostTeam);
-    this.model.set('guestTeam',  this.guestTeam);
-    let date = this.model.get('date');
-    if(date){
-      this.model.set('date', moment.unix(date , "YYYYMMDD").fromNow());
+    this.model.set('hostTeam', this.hostTeam);
+    this.model.set('guestTeam', this.guestTeam);
+    const date = this.model.get('date');
+    if (date) {
+      this.model.set('date', moment.unix(date, 'YYYYMMDD').fromNow());
     } else {
       this.model.set('date', '—');
     }
-
   },
 
-  onRender: function () {
-    let bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
-    console.log('this.hostTeam ',this.hostTeam );
 
-    let hostImage = this.options.teams.get(this.model.get('host')).get('image');
+    const hostImage = this.options.teams.get(this.model.get('host')).get('image');
     if (hostImage) {
-      this.el.querySelector('.hostImage').setAttribute('style', 'background-image:url(' + hostImage + ')');
+      this.el.querySelector('.hostImage').setAttribute('style', `background-image:url(${hostImage})`);
     }
-    let guestImage = this.options.teams.get(this.model.get('guest')).get('image');
+    const guestImage = this.options.teams.get(this.model.get('guest')).get('image');
     if (guestImage) {
-      this.el.querySelector('.guestImage').setAttribute('style', 'background-image:url(' + guestImage + ')');
+      this.el.querySelector('.guestImage').setAttribute('style', `background-image:url(${guestImage})`);
     }
-
   },
 
-  navigateToMeeting: function () {
-    channelGlobal.request('navigate', 'meeting/' + this.model.id, {trigger: true, replace: true});
+  navigateToMeeting() {
+    channelGlobal.request('navigate', `meeting/${this.model.id}`, { trigger: true, replace: true });
   },
 
-  navigateToHost: function () {
-    channelGlobal.request('navigate', 'team/' + this.model.get('host'), {trigger: true, replace: true});
+  navigateToHost() {
+    channelGlobal.request('navigate', `team/${this.model.get('host')}`, { trigger: true, replace: true });
   },
 
-  navigateToGuest: function () {
-    channelGlobal.request('navigate', 'team/' + this.model.get('guest'), {trigger: true, replace: true});
+  navigateToGuest() {
+    channelGlobal.request('navigate', `team/${this.model.get('guest')}`, { trigger: true, replace: true });
   }
 });
 
 const EmptyView = Marionette.View.extend({
   template: require('../../../templates/meetings/empty.hbs'),
   tagName: 'li',
-  className: 'list-group-item',
+  className: 'list-group-item'
 });
 
 const MeetingsView = Marionette.CollectionView.extend({
   childView: MeetingView,
   emptyView: EmptyView,
-  initialize: function (options) {
+  initialize(options) {
     this.childViewOptions = options;
   }
 });
@@ -99,7 +92,7 @@ const MeetingsLayout = Marionette.View.extend({
     }
   },
 
-  onRender: function () {
+  onRender() {
     this.teams = new Teams();
     this.places = new Places();
     Promise.all([
@@ -107,17 +100,17 @@ const MeetingsLayout = Marionette.View.extend({
       this.places.fetch(),
       this.collection.fetch()
     ])
-      .then(function () {
+      .then(() => {
         this.showChildView('listRegion', new MeetingsView({
           collection: this.collection,
           teams: this.teams,
           places: this.places
         }));
         this.triggerMethod('fetch:complete');
-      }.bind(this))
-      .catch(function (e) {
-        //TODO: notification
       })
+      .catch(() => {
+        // TODO: throw error
+      });
   }
 });
 

@@ -8,10 +8,12 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const DivisionSchema = new Schema({
-  rounds: {type: Number},
+  name: {type: String},
+  rounds: {type: Number, required:true},
   meetingStructure: {type: Array},
-  subSeason:{type:Number, required: true},
+  subseason:{type:Number, required: true},
+  season:{type:Number, required: true},
   penalty: {type:Boolean}
 });
 DivisionSchema.plugin(autoIncrement, 'DivisionSchema');
-const Division = mongoose.model('Division', SeasonSchema);
+const Division = mongoose.model('Division', DivisionSchema);

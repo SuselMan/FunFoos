@@ -2,34 +2,29 @@
  * Created by pavluhin on 04.04.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
-const BaseModalView = Marionette.View.extend({
-    
-    ui:{
-        closeBtn: '.js-closeBtn',
-        submitBtn:'.js-submitBtn'
-    },
+export default Marionette.View.extend({
 
-    events: {
-        'click @ui.closeBtn': 'close',
-        'click @ui.submitBtn': 'submit'
-    },
+  ui: {
+    closeBtn: '.js-closeBtn',
+    submitBtn: '.js-submitBtn'
+  },
 
-    close: function () {
-        channelGlobal.trigger('modal:close');
-    },
+  events: {
+    'click @ui.closeBtn': 'close',
+    'click @ui.submitBtn': 'submit'
+  },
 
-    submit:function(){
-        console.info('baseModel submit function is not overriden');
-    }
+  close() {
+    channelGlobal.trigger('modal:close');
+  },
+
+  submit() {
+    // TODO: add some default behaviour
+  }
 });
-
-export default BaseModalView;
