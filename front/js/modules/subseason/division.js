@@ -52,8 +52,11 @@ export default Marionette.View.extend({
     },
 
     showTeamSelector: function () {
-        console.log('user', this.user);
-        this.teams.fetch({data: {owner: this.user.id}})
+        let opts = {data: {owner: this.user.id}};
+        if(this.user.get('isAdmin')){
+          opts ={};
+        }
+        this.teams.fetch(opts)
             .then(() => {
                 channelGlobal.trigger('modal:show', {view: 'teamSelector', collection: this.teams});
                 channelGlobal.off('team:selected');
