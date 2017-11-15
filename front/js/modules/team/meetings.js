@@ -3,14 +3,13 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Meetings from '../../entities/meetings';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import Preloader from '../../behaviors/preloader';
 import moment from 'moment';
 import pikaday from 'pikaday';
+import Meetings from '../../entities/meetings';
+import Preloader from '../../behaviors/preloader';
 
 moment.locale('ru');
 
@@ -33,8 +32,7 @@ const MeetingView = Marionette.View.extend({
 
   initialize(options) {
     this.options = options;
-    let id;
-    id = options.owner === this.model.get('host') ? this.model.get('guest') : this.model.get('host');
+    const id = options.owner === this.model.get('host') ? this.model.get('guest') : this.model.get('host');
     const name = this.options.teamsCollection.get(id).get('name');
     const image = this.options.teamsCollection.get(id).get('image');
     this.model.set('name', name);
@@ -54,11 +52,12 @@ const MeetingView = Marionette.View.extend({
   onRender() {
     const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
+    // eslint-disable-next-line no-unused-vars
     const picker = new pikaday({
       field: this.el,
-      onSelect: function (date) {
+      onSelect: (date) => {
         this.model.save({ date: moment(date).unix() });
-      }.bind(this)
+      }
     });
   }
 });
@@ -66,8 +65,6 @@ const MeetingView = Marionette.View.extend({
 const EmptyView = Marionette.View.extend({
   template: require('../../../templates/team/emptyMeetings.hbs'),
   tagName: 'div'
-
-  // className: 'list-group-item',
 });
 
 const MeetingsView = Marionette.CollectionView.extend({
@@ -118,8 +115,8 @@ const MeetingsLayout = Marionette.View.extend({
         }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+      // TODO: throw error
       });
   }
 });

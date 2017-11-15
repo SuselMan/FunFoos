@@ -8,7 +8,6 @@ import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Cities from '../../entities/cities';
 import Places from '../../entities/places';
-import moment from 'moment';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import PlacesView from './places';
 
@@ -43,7 +42,7 @@ export default Marionette.View.extend({
       );
   },
 
-  onRender(model) {
+  onRender() {
     if (this.fetched) {
       const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
       new ModelBinder().bind(this.model, this.el, bindings);

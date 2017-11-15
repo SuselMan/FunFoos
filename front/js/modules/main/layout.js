@@ -4,8 +4,8 @@
 
 
 import Marionette from 'backbone.marionette';
-import User from '../../entities/user';
 import Radio from 'backbone.radio';
+import User from '../../entities/user';
 import TeamsView from '../teams/teams';
 import CitiesView from '../cities/cities';
 import TeamView from '../team/layout';
@@ -130,6 +130,8 @@ const Layout = Marionette.View.extend({
           case 'imageCropper':
             this.showChildView('modalRegion', new ImageCropper(options));
             break;
+          default:
+            break;
         }
       });
   },
@@ -179,6 +181,8 @@ const Layout = Marionette.View.extend({
           case 'meeting':
             this.el.querySelector('.sign-up').classList.toggle('big-header', true);
             this.showChildView('contentRegion', new MeetingView({ id: option }));
+            break;
+          default:
             break;
         }
       });

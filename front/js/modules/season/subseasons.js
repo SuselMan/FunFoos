@@ -2,12 +2,10 @@
  * Created by pavluhin on 09.10.2017.
  */
 
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Subseasons from '../../entities/subseasons';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Subseasons from '../../entities/subseasons';
 import Preloader from '../../behaviors/preloader';
 import Cities from '../../entities/cities';
 
@@ -118,8 +116,8 @@ const SubseasonLayout = Marionette.View.extend({
         }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // TODO: throw error
       });
   }
 });

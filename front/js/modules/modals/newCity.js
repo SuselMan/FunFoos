@@ -4,9 +4,9 @@
 
 
 import Marionette from 'backbone.marionette';
-import Cities from '../../entities/cities';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Cities from '../../entities/cities';
 import BaseModalView from './baseModal';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import ImageCropper from '../../widgets/imageCropper/imageCropper';
@@ -52,8 +52,8 @@ const NewCityView = BaseModalView.extend({
             channelGlobal.trigger('player:created');
             channelGlobal.trigger('modal:close');
           })
-          .catch((err) => {
-            console.error(err);
+          .catch(() => {
+            // TODO: throw error
           });
       });
   },

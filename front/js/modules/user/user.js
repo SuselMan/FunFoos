@@ -2,13 +2,7 @@
  * Created by pavluhin on 27.03.2017.
  */
 
-/**
- * Created by ilya on 08.03.2017.
- */
-
-
 import Marionette from 'backbone.marionette';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import TeamsView from './teams';
 
@@ -32,18 +26,18 @@ const UserLayout = Marionette.View.extend({
   initialize(options) {
     this.options = options;
     this.model = options.model;
-    console.info(this.model);
   },
 
   onRender() {
     this.model.updateSignin()
-      .then((res) => {
+      .then(() => {
         this.showChildView('teamsRegion', new TeamsView({
           owner: this.model.id
         }));
       })
-      .catch((error) => {
-        console.error('Need autintificate', error);
+      .catch(() => {
+        // console.error('Need autintificate', error);
+        // TODO: throw error or warning
       });
   },
 

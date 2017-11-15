@@ -77,9 +77,8 @@ const CitiesLayout = Marionette.View.extend({
         // }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
+      .catch(() => {
         // TODO: notification
-        console.error(err);
       });
   },
 

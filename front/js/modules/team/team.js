@@ -4,8 +4,8 @@
 
 
 import Marionette from 'backbone.marionette';
-import Seasons from '../../entities/seasons';
 import Radio from 'backbone.radio';
+import Seasons from '../../entities/seasons';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import Players from './players';
 import Meetings from './meetings';
@@ -54,7 +54,7 @@ const TeamLayout = Marionette.View.extend({
 
     this.seasons = new Seasons();
     this.seasons.fetch({ data: { state: 1 } })
-      .then((result) => {
+      .then(() => {
         this.createSeasonSelector();
       });
   },

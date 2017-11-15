@@ -3,15 +3,13 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import User from '../../entities/user';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
 const channelGlobal = Radio.channel('global');
 
-const Login = Marionette.View.extend({
+export default Marionette.View.extend({
   template: require('../../../templates/login/signup.hbs'),
   className: 'form-inline header-form',
   tagName: 'div',
@@ -31,15 +29,12 @@ const Login = Marionette.View.extend({
 
   save() {
     this.model.signup()
-      .then(function (result) {
+      .then(() => {
         channelGlobal.trigger('done:signup', this.model);
       })
-      .catch((e) => {
-
+      .catch(() => {
+        // TODO: throw error
       });
   }
 
 });
-
-
-export default Login;

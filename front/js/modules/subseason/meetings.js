@@ -6,7 +6,6 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
-import Teams from '../../entities/teams';
 import Meetings from '../../entities/meetings';
 
 const channelGlobal = Radio.channel('global');
@@ -36,7 +35,6 @@ const MeetingsItemList = Marionette.CollectionView.extend({
   childView: MeetingItem,
   className: 'meetings-item-list',
   initialize() {
-    console.log('coll', this.collection);
     this.render();
   }
 });
@@ -87,7 +85,6 @@ const MeetingsTable = Marionette.CollectionView.extend({
   childView: TableItem,
   className: 'meetings-table',
   initialize() {
-    console.log('initialize MeetingsTable');
     this.render();
   }
 });
@@ -109,7 +106,6 @@ export default Marionette.View.extend({
   },
 
   onRender() {
-    console.log('HEY BRO', this.meetingsColl);
     this.showChildView('meetingsTableRegion', new MeetingsTable({ collection: this.meetingsColl }));
   },
 
@@ -123,7 +119,6 @@ export default Marionette.View.extend({
     this.teams.forEach((team1) => {
       this.meetingsColl.add(new MeetingsTableItem({ basis, team: team1 }));
       this.teams.forEach((team2) => {
-        const item = new MeetingsTableItem();
         const meetings = this.meetings.where({ host: team1.id, guest: team2.id });
         if (team1 !== team2 && meetings.length) {
           const collection = new Meetings(meetings);

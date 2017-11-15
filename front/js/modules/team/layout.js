@@ -3,12 +3,9 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import Preloader from '../../behaviors/preloader';
+import Teams from '../../entities/teams';
 import TeamView from './team';
 
 

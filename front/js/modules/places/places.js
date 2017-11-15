@@ -2,12 +2,10 @@
  * Created by pavluhin on 01.03.2017.
  */
 
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Places from '../../entities/places';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Places from '../../entities/places';
 import Preloader from '../../behaviors/preloader';
 
 const channelGlobal = Radio.channel('global');
@@ -58,8 +56,8 @@ const PlacesLayout = Marionette.View.extend({
         }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((e) => {
-        console.error('Something wrong', e);
+      .catch(() => {
+        // TODO: throw error;
       });
   },
   createPlace() {

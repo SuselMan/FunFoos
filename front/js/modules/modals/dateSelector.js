@@ -4,8 +4,8 @@
 
 
 import Radio from 'backbone.radio';
+import 'flatpickr';
 import BaseModalView from './baseModal';
-import flatpickr from 'flatpickr';
 
 const channelGlobal = Radio.channel('global');
 
@@ -37,7 +37,6 @@ const SelectDateView = BaseModalView.extend({
     });
   },
   changeDate(event) {
-    console.log('change', event[0].getTime() / 1000);
     this.date = event[0].getTime() / 1000;
     this.el.querySelector('.js-submitBtn').disabled = false;
   },

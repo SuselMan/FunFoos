@@ -3,7 +3,6 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
@@ -39,9 +38,6 @@ const PlaceView = Marionette.View.extend({
 
   events: {
     click: 'navigate'
-  },
-
-  initialize(options) {
   },
 
   navigate() {

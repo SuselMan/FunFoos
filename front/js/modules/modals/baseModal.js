@@ -4,14 +4,12 @@
 
 
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 
 const channelGlobal = Radio.channel('global');
 
-const BaseModalView = Marionette.View.extend({
-    
+export default Marionette.View.extend({
+
   ui: {
     closeBtn: '.js-closeBtn',
     submitBtn: '.js-submitBtn'
@@ -27,8 +25,6 @@ const BaseModalView = Marionette.View.extend({
   },
 
   submit() {
-    console.info('baseModel submit function is not overriden');
+    // TODO: add some default behaviour
   }
 });
-
-export default BaseModalView;

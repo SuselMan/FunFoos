@@ -63,7 +63,6 @@ export default Marionette.View.extend({
   },
 
   addTeam(team) {
-    console.log('team', team);
     team.set('division', this.model.id);
     team.save();
   }

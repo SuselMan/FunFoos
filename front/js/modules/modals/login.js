@@ -2,16 +2,13 @@
  * Created by pavluhin on 26.07.2017.
  */
 
-
-import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import BaseModalView from './baseModal';
 
 const channelGlobal = Radio.channel('global');
 
-const LoginView = BaseModalView.extend({
+export default BaseModalView.extend({
   template: require('../../../templates/modals/login.hbs'),
 
   initialize(options) {
@@ -25,26 +22,24 @@ const LoginView = BaseModalView.extend({
 
   submit() {
     this.model.signin()
-      .then((result) => {
+      .then(() => {
         channelGlobal.trigger('done:signin', this.model);
       })
-      .catch((e) => {
-
+      .catch(() => {
+        // TODO: throw error
       });
   },
 
   fetch() {
     return new Promise((resolve) => {
       this.model.updateSignin()
-        .then((result) => {
+        .then(() => {
           channelGlobal.trigger('done:signin', this.model);
           resolve(this.model);
         })
-        .catch((e) => {
+        .catch(() => {
           resolve(null);
         });
     });
   }
 });
-
-export default LoginView;

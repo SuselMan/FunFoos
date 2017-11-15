@@ -2,11 +2,9 @@
  * Created by pavluhin on 11.10.2017.
  */
 
-
-import Marionette from 'backbone.marionette';
-import Divisions from '../../entities/divisions';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Divisions from '../../entities/divisions';
 import BaseModalView from './baseModal';
 import MeetingStructure from './components/meetingStructure';
 
@@ -35,12 +33,12 @@ const NewSeasonView = BaseModalView.extend({
   submit() {
     this.collection.add(this.model);
     this.model.save()
-      .then((result) => {
+      .then(() => {
         channelGlobal.trigger('division:created');
         channelGlobal.trigger('modal:close');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // TODO: throw error;
       });
   }
 });

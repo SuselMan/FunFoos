@@ -3,16 +3,12 @@
  */
 
 
-import './sass/main.scss';
 import 'babel-polyfill';
 import Backbone from 'backbone';
-import _ from 'underscore';
 import App from './app';
 import AppRouter from './appRouter';
 import AppController from './appController';
-import Radio from 'backbone.radio';
-
-const channelGlobal = Radio.channel('global');
+import './sass/main.scss';
 
 App.on('start', () => {
   App.Router = new AppRouter({
@@ -22,6 +18,6 @@ App.on('start', () => {
   App.navigate(App.getCurrentRoute(), { trigger: true, replace: true });
 });
 
-window.onload = function () {
+window.onload = () => {
   App.start();
 };

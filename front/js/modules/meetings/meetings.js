@@ -1,15 +1,11 @@
-
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Meetings from '../../entities/meetings';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import ModelBinder from 'backbone.modelbinder';
+import moment from 'moment';
+import Meetings from '../../entities/meetings';
 import Preloader from '../../behaviors/preloader';
-
 import Teams from '../../entities/teams';
 import Places from '../../entities/places';
-import moment from 'moment';
 
 const channelGlobal = Radio.channel('global');
 
@@ -46,7 +42,6 @@ const MeetingView = Marionette.View.extend({
   onRender() {
     const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
-    console.log('this.hostTeam ', this.hostTeam);
 
     const hostImage = this.options.teams.get(this.model.get('host')).get('image');
     if (hostImage) {
@@ -113,8 +108,8 @@ const MeetingsLayout = Marionette.View.extend({
         }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((e) => {
-        // TODO: notification
+      .catch(() => {
+        // TODO: throw error
       });
   }
 });

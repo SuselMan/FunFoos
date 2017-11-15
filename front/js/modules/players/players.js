@@ -3,11 +3,10 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Players from '../../entities/players';
 import Preloader from '../../behaviors/preloader';
 
 const channelGlobal = Radio.channel('global');
@@ -72,14 +71,10 @@ const PlayersLayout = Marionette.View.extend({
         this.showChildView('listRegion', new PlayersView({
           collection: this.collection
         }));
-        // this.showChildView('addPlayerRegion', new NewPlayer({
-        //   collection: this.collection
-        // }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
+      .catch(() => {
         // TODO: notification
-        console.error(err);
       });
   }
 });

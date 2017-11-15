@@ -4,10 +4,6 @@
 
 
 import Marionette from 'backbone.marionette';
-import ModelBinder from 'backbone.modelbinder';
-import Radio from 'backbone.radio';
-
-const channelGlobal = Radio.channel('global');
 
 const MeetingStructure = Marionette.View.extend({
   template: require('../../../../templates/modals/components/meetingStructure.hbs'),
@@ -47,7 +43,7 @@ const MeetingStructure = Marionette.View.extend({
     this.render();
   },
 
-  addSingle(e) {
+  addSingle() {
     if (this.structure.length < 10) {
       this.structure.push(1);
     }
@@ -57,11 +53,11 @@ const MeetingStructure = Marionette.View.extend({
   getItem(type) {
     const elm = document.createElement('button');
     elm.classList.add('btn');
-    if (type == 1) {
+    if (type === 1) {
       elm.classList.add('btn-warning');
       elm.textContent = 'S';
     }
-    if (type == 2) {
+    if (type === 2) {
       elm.classList.add('btn-info');
       elm.textContent = 'D';
     }

@@ -4,11 +4,9 @@
 
 
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import BaseModalView from './baseModal';
-import UploadView from '../../widgets/fileUploader/fileUploader';
 
 const channelGlobal = Radio.channel('global');
 

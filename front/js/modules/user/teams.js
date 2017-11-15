@@ -2,13 +2,10 @@
  * Created by pavluhin on 31.03.2017.
  */
 
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
-import Seasons from '../../entities/seasons';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Teams from '../../entities/teams';
 import Preloader from '../../behaviors/preloader';
 
 const channelGlobal = Radio.channel('global');
@@ -81,8 +78,8 @@ const TeamsLayout = Marionette.View.extend({
         }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+      // TODO: throw error
       });
   }
 });

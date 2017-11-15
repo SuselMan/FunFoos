@@ -8,8 +8,6 @@ import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Subseasons from '../../entities/subseasons';
 import Cities from '../../entities/cities';
-import moment from 'moment';
-import UploadView from '../../widgets/fileUploader/fileUploader';
 import DivisionsView from './divisions';
 
 const channelGlobal = Radio.channel('global');
@@ -76,7 +74,6 @@ const SubseasonLayout = Marionette.View.extend({
   },
 
   showDateSelector() {
-    console.log('showDateSelector');
     channelGlobal.trigger('modal:show', { view: 'dateSelector', collection: this.places });
   }
 });

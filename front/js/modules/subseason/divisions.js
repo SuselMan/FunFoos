@@ -5,9 +5,8 @@
 
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Divisions from '../../entities/divisions';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Divisions from '../../entities/divisions';
 import Preloader from '../../behaviors/preloader';
 import Division from './division';
 
@@ -72,7 +71,6 @@ const DivisionsView = Marionette.CollectionView.extend({
     // TODO: refactor;
     channelGlobal.trigger('division:select', childView.model);
     this.collection.forEach((model) => {
-      console.log('model', model);
       model.set('active', false);
     });
     childView.model.set('active', true);
@@ -89,7 +87,6 @@ const DivisionsView = Marionette.CollectionView.extend({
   },
 
   onRender() {
-    console.log('render', this.collection.toJSON());
     this.addChildView(new ButtonView(this.options), this.length - 1);
   }
 });
@@ -133,8 +130,8 @@ const DivisionsLayout = Marionette.View.extend({
         this.showChildView('listRegion', this.divisions);
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // TODO: throw error;
       });
   }
 });

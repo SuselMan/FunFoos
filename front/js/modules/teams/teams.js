@@ -3,11 +3,10 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Teams from '../../entities/teams';
 import Preloader from '../../behaviors/preloader';
 
 const channelGlobal = Radio.channel('global');
@@ -72,14 +71,10 @@ const TeamsLayout = Marionette.View.extend({
         this.showChildView('listRegion', new TeamsView({
           collection: this.collection
         }));
-        // this.showChildView('addTeamRegion', new NewTeam({
-        //   collection: this.collection
-        // }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
+      .catch(() => {
         // TODO: notification
-        console.error(err);
       });
   }
 });

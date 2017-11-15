@@ -1,7 +1,4 @@
 import Marionette from 'backbone.marionette';
-import Radio from 'backbone.radio';
-
-const channelGlobal = Radio.channel('global');
 
 const TeamView = Marionette.View.extend({
   template: require('../../../templates/subseason/team.hbs'),

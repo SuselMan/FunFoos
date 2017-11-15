@@ -2,12 +2,10 @@
  * Created by pavluhin on 08.10.2017.
  */
 
-
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Seasons from '../../entities/seasons';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Seasons from '../../entities/seasons';
 import Preloader from '../../behaviors/preloader';
 
 const channelGlobal = Radio.channel('global');
@@ -41,8 +39,10 @@ const SeasonView = Marionette.View.extend({
       case 2:
         stateElm.textContent = 'В процессе';
         break;
-      case 0:
+      case 3:
         stateElm.textContent = 'Окончен';
+        break;
+      default:
         break;
     }
   },
@@ -90,14 +90,10 @@ const SeasonsLayout = Marionette.View.extend({
         this.showChildView('listRegion', new SeasonsView({
           collection: this.collection
         }));
-        // this.showChildView('addTeamRegion', new NewTeam({
-        //   collection: this.collection
-        // }));
         this.triggerMethod('fetch:complete');
       })
-      .catch((err) => {
+      .catch(() => {
         // TODO: notification
-        console.error(err);
       });
   },
 

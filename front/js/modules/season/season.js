@@ -6,8 +6,8 @@
 import Marionette from 'backbone.marionette';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import Seasons from '../../entities/seasons';
 import moment from 'moment';
+import Seasons from '../../entities/seasons';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import SubseasonsView from './subseasons';
 
@@ -71,19 +71,14 @@ const SeasonLayout = Marionette.View.extend({
     this.setState(2);
   },
 
-  onRender(model) {
+  onRender() {
     if (this.fetched) {
       const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
       new ModelBinder().bind(this.model, this.el, bindings);
 
       const date = this.model.get('startDate');
-      console.log('Model', this.model);
-      console.log('date', date);
-      console.log('el', this.el.querySelector('.js-date'));
-      console.log('moment', moment.unix(date).format('DD MMMM YYYY, hh:mm:ss'));
       if (date) {
         this.el.querySelector('.js-date').textContent = moment.unix(date).format('DD MMMM YYYY, hh:mm:ss');
-        console.log('el', this.el.querySelector('.js-date'));
       }
       this.setLogoRegion();
       this.showChildView('subSeasonsRegion', new SubseasonsView({ model: this.model }));
@@ -93,10 +88,8 @@ const SeasonLayout = Marionette.View.extend({
   },
 
   showStateButtons() {
-    console.log('this.user', this.user);
     if (this.user && this.user.get('isAdmin')) {
       const state = this.model.get('state');
-      console.log('state', state);
       this.el.querySelector('.js-openBtn').classList.remove('visible');
       this.el.querySelector('.js-startBtn').classList.remove('visible');
       this.el.querySelector('.js-closeBtn').classList.remove('visible');
@@ -110,6 +103,8 @@ const SeasonLayout = Marionette.View.extend({
           break;
         case 3:
           this.el.querySelector('.js-closeBtn').classList.add('visible');
+          break;
+        default:
           break;
       }
     }
@@ -148,7 +143,6 @@ const SeasonLayout = Marionette.View.extend({
   },
 
   showDateSelector() {
-    console.log('showDateSelector');
     channelGlobal.trigger('modal:show', { view: 'dateSelector', collection: this.places });
   },
 

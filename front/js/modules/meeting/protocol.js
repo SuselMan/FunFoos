@@ -4,7 +4,6 @@
 
 
 import Marionette from 'backbone.marionette';
-import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
 import Games from '../../entities/games';
 import Players from '../../entities/players';
@@ -42,7 +41,7 @@ const GameView = Marionette.View.extend({
     const type = this.model.get('type');
     this.hostSelectors = [];
     this.guestSelectors = [];
-    for (var i = 0; i < type; i++) {
+    for (let i = 0; i < type; i++) {
       this.hostSelectors.push(new dataSelector({ data: this.options.hostPlayers, index: i }));
       this.guestSelectors.push(new dataSelector({ data: this.options.guestPlayers, index: i }));
       this.showChildView(`host${i}`, this.hostSelectors[i]);
@@ -51,7 +50,7 @@ const GameView = Marionette.View.extend({
       this.guestSelectors[i].on('change:player', this.changeGuestPlayer.bind(this));
     }
     const scores = this.el.querySelectorAll('input');
-    for (var i = 0; i < scores.length; i++) {
+    for (let i = 0; i < scores.length; i++) {
       scores[i].onchange = this.changeScore.bind(this);
     }
     this.setItems();
@@ -109,10 +108,6 @@ const GamesView = Marionette.CollectionView.extend({
 
   initialize(options) {
     this.childViewOptions = options;
-  },
-
-  onRender() {
-    console.log('PROTOCOL RENDERED');
   }
 });
 
@@ -165,7 +160,7 @@ const ProtocolView = Marionette.View.extend({
   },
 
   checkParticipant(user) {
-    if (user && (this.model.get('guest') == user.id || this.model.get('guest') == user.id || user.get('isAdmin'))) {
+    if (user && (this.model.get('guest') === user.id || this.model.get('guest') === user.id || user.get('isAdmin'))) {
       this.ui.approve.show();
     } else {
       this.ui.approve.hide();

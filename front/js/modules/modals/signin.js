@@ -2,16 +2,14 @@
  * Created by ipavl on 09.06.2017.
  */
 
-
-import Marionette from 'backbone.marionette';
-import Teams from '../../entities/teams';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Teams from '../../entities/teams';
 import BaseModalView from './baseModal';
 
 const channelGlobal = Radio.channel('global');
 
-const NewTeamView = BaseModalView.extend({
+export default BaseModalView.extend({
   template: require('../../../templates/modals/newTeam.hbs'),
 
   initialize(options) {
@@ -29,15 +27,12 @@ const NewTeamView = BaseModalView.extend({
   submit() {
     this.collection.add(this.model);
     this.model.save()
-      .then((result) => {
-        console.info('new team was created with owner', this.options.user.id);
+      .then(() => {
         channelGlobal.trigger('team:created');
         channelGlobal.trigger('modal:close');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // TODO:throw error;
       });
   }
 });
-
-export default NewTeamView;

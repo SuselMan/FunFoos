@@ -2,9 +2,6 @@
  * Created by ilya on 24.02.2017.
  */
 
-
-import Backbone from 'backbone';
-import Marionette from 'backbone.marionette';
 import App from '../../../app';
 
 import Layout from './layout';
@@ -20,7 +17,7 @@ class MainWindow {
     try {
       App.showView(this.layout);
     } catch (e) {
-      console.error('e', e);
+      // TODO: trow error;
     }
   }
 

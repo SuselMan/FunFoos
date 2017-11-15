@@ -7,9 +7,9 @@
 
 
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
+import Players from '../../entities/players';
 import BaseModalView from './baseModal';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 
@@ -49,13 +49,12 @@ const NewTeamView = BaseModalView.extend({
   submit() {
     this.collection.add(this.model);
     this.model.save()
-      .then((result) => {
-        console.info('new player was created with owner', this.options.user.id);
+      .then(() => {
         channelGlobal.trigger('player:created');
         channelGlobal.trigger('modal:close');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // TODO: throws error
       });
   },
 

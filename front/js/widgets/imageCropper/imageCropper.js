@@ -3,13 +3,9 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Radio from 'backbone.radio';
 import Cropper from 'cropperjs';
 import File from '../../entities/files';
-
-const channelGlobal = Radio.channel('global');
 
 
 const ImageCropper = Marionette.View.extend({
@@ -30,7 +26,7 @@ const ImageCropper = Marionette.View.extend({
   onRender() {
     if (FileReader) {
       const fr = new FileReader();
-      fr.onload = function () {
+      fr.onload = () => {
         document.getElementById('testImage').src = fr.result;
         const image = document.getElementById('testImage');
         this.cropper = new Cropper(image, {
@@ -40,12 +36,9 @@ const ImageCropper = Marionette.View.extend({
           movable: false,
           rotatable: false,
           scalable: false,
-          zoomable: false,
-          crop(e) {
-            // TODO: remove this callback if we will not find to reason for it;
-          }
+          zoomable: false
         });
-      }.bind(this);
+      };
       fr.readAsDataURL(this.options.file);
     }
   },
@@ -64,7 +57,7 @@ const ImageCropper = Marionette.View.extend({
             });
         });
       } else {
-        reject({ msg: 'Cropper is not defined' });
+        reject(new Error({ msg: 'Cropper is not defined' }));
       }
     }));
   },
