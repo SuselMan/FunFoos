@@ -1,0 +1,117 @@
+.subseason {
+  .divisions {
+    .add-button {
+      cursor: pointer;
+      background-color: $brend-blue-light;
+      color: white;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border: none;
+      border-bottom: 1px solid $brend-blue;
+      &:hover {
+        background-color: $brend-blue;
+        border-bottom: 1px solid black;
+      }
+    }
+    .nav-divisions {
+      padding: 0;
+    }
+    .details {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      .teams-list {
+        margin-bottom: 10px;
+        .team {
+          display: flex;
+          justify-content: left;
+          overflow: hidden;
+          padding: 0;
+          line-height: 47px;
+          .image {
+            height: 50px;
+            width: 50px;
+            flex-basis: 50px;
+            background-image: url(../images/empty_team.jpg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: 50% top;
+            margin-right: 10px;
+          }
+          .name {
+            text-decoration: underline;
+            &:hover {
+              color: $brend-blue-light;
+            }
+          }
+        }
+      }
+      .meetings-table {
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid $soft-white;
+        .tableItem {
+          overflow: hidden;
+          background-color: $soft-white;
+          flex-grow: 1;
+          flex-shrink: 1;
+          padding: 5px;
+          border-bottom: 1px solid white;
+          border-right: 1px solid white;
+          &.teamItem {
+            background-color: white;
+            border-bottom: 1px solid $soft-white;
+            border-right: 1px solid $soft-white;
+            .shortName {
+              display: none;
+            }
+          }
+          &.emptyItem {
+            background-color: $dark-gray;
+            &:first-child {
+              background-color: white;
+            }
+          }
+          &.meetingItem {
+            color: $brend-blue-light;
+            text-decoration: underline;
+          }
+          .meeting-item {
+            cursor: pointer;
+            &:hover {
+              color: $brend-blue;
+            }
+          }
+        }
+      }
+    }
+  }
+  .details {
+    background-color: white;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .subseason {
+    .divisions {
+      .details {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        .teams-list {
+          margin-bottom: 10px;
+        }
+        .meetings-table {
+          .tableItem {
+            &.teamItem {
+              .shortName {
+                display: block;
+              }
+              .name {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

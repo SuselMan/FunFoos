@@ -1,4 +1,9 @@
-<div name="_id"></div>
-<div name="name"></div>
-<div><button class="js-openSeasonBtn">Открыть регестрацию</button></div>
-<div><button class="js-startSeasonBtn">Начать сезон</button></div>
+<div class="img"  {{#if image}} style="background-image: url({{image}})" {{/if}}>
+    <!--<img src="{{image}}">-->
+</div>
+
+<div class="footer">
+    <span class="name" name="name"></span>
+    <br>
+    <span class="name js-state"></span>
+</div>

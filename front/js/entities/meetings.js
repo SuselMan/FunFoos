@@ -1,31 +1,30 @@
 /**
  * Created by pavluhin on 24.04.2017.
  */
-'use strict';
+
 
 import Backbone from 'backbone';
-import Marionette from 'backbone.marionette';
 
 const Meeting = Backbone.Model.extend({
-  idAttribute: "_id",
+  idAttribute: '_id',
   urlRoot: '/api/meetings',
 
-  initialize: function(attrs,options){
+  initialize(attrs, options) {
     this.options = options;
   },
   defaults: {
-    owner  : null,
-    date     : null,
-    place  : null,
-    host  : null,
-    guest  : null
+    owner: null,
+    date: null,
+    place: null,
+    host: null,
+    guest: null
   },
 
-  update:function(){
-    return fetch('/api/meetings/'+this.id,{
+  update() {
+    return fetch(`/api/meetings/${this.id}`, {
       headers: { 'Content-Type': 'application/json' },
-      method:'put',
-      body:JSON.stringify(this.toJSON())
+      method: 'put',
+      body: JSON.stringify(this.toJSON())
     });
   }
 });

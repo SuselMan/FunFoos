@@ -50,7 +50,8 @@ export function changeMeeting(req) {
 
 export function listMeetings(req) {
   if(req.query.owner){
-    return Meeting.find({}).or([{ guest:  req.query.owner  }, { host:  req.query.owner  }])
+    // return Meeting.find({}).or([{ guest:  req.query.owner  }, { host:  req.query.owner  }])
+    return Meeting.find({ owner: req.query.owner  });
   }
   return Meeting.find();
 }

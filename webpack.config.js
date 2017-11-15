@@ -1,5 +1,6 @@
  var path = require('path')
  var webpack = require('webpack')
+ var package = require('./package.json')
 // var NpmInstallPlugin = require('npm-install-webpack-plugin')
 // var autoprefixer = require('autoprefixer');
 // var precss = require('precss');
@@ -14,6 +15,11 @@ module.exports = {
         filename: '[name].js'
     },
     module: {
+        plugins: [
+            new webpack.DefinePlugin({
+                "VERSION": JSON.stringify( package.version )
+            })
+        ],
         loaders: [
             {
                 test   : /\.js$/,

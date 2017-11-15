@@ -1,35 +1,31 @@
 /**
  * Created by ilya on 24.02.2017.
  */
-'use strict';
 
-import Backbone from 'backbone';
-import Marionette from 'backbone.marionette';
 import App from '../../../app';
 
 import Layout from './layout';
 
 
 class MainWindow {
-    constructor(name) {
-        this.name = name;
-        this.layout = new Layout();
-    }
+  constructor(name) {
+    this.name = name;
+    this.layout = new Layout();
+  }
 
-    start() {
-        try{
-        App.showView(this.layout);
-        }
-        catch(e){
-            console.error('e',e);
-        }
+  start() {
+    try {
+      App.showView(this.layout);
+    } catch (e) {
+      // TODO: trow error;
     }
+  }
 
-    setView(view,option){
-        this.layout.start(view,option);
-    }
+  setView(view, option) {
+    this.layout.start(view, option);
+  }
 }
 
-var module = new MainWindow();
+const module = new MainWindow();
 
-export default module
+export default module;

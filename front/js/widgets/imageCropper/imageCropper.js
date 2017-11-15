@@ -3,13 +3,9 @@
  */
 
 
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import Radio from 'backbone.radio';
-import Cropper from 'cropperjs'
+import Cropper from 'cropperjs';
 import File from '../../entities/files';
-
-let channelGlobal = Radio.channel('global');
 
 
 const ImageCropper = Marionette.View.extend({
@@ -23,16 +19,16 @@ const ImageCropper = Marionette.View.extend({
     'click @ui.delete': 'delete'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
     if (FileReader) {
-      var fr = new FileReader();
-      fr.onload = function () {
+      const fr = new FileReader();
+      fr.onload = () => {
         document.getElementById('testImage').src = fr.result;
-        var image = document.getElementById('testImage');
+        const image = document.getElementById('testImage');
         this.cropper = new Cropper(image, {
           aspectRatio: 1,
           viewMode: 1,
@@ -40,39 +36,34 @@ const ImageCropper = Marionette.View.extend({
           movable: false,
           rotatable: false,
           scalable: false,
-          zoomable: false,
-          crop: function (e) {
-            //TODO: remove this callback if we will not find to reason for it;
-          }
+          zoomable: false
         });
-      }.bind(this);
+      };
       fr.readAsDataURL(this.options.file);
     }
   },
 
-  getCroppedImage: function () {
-    return new Promise(function (resolve, reject) {
+  getCroppedImage() {
+    return new Promise(((resolve, reject) => {
       if (this.cropper) {
         this.cropper.getCroppedCanvas({
           width: 400,
           height: 400
         }).toBlob((blob) => {
-          var image = new File({blob: blob});
-          image.saveImage().then((res)=> {
-            return res.json()
-          })
-            .then((res)=> {
+          const image = new File({ blob });
+          image.saveImage().then(res => res.json())
+            .then((res) => {
               resolve(res);
-            })
-        })
+            });
+        });
       } else {
-        reject({msg: 'Cropper is not defined'});
+        reject(new Error({ msg: 'Cropper is not defined' }));
       }
-    }.bind(this))
+    }));
   },
 
-  delete: function () {
-    this.trigger('cropper:cancel')
+  delete() {
+    this.trigger('cropper:cancel');
   }
 
 });

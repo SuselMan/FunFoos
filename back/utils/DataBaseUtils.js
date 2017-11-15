@@ -18,6 +18,9 @@ export * from './games';
 export * from './seasons';
 export * from './meetings';
 export * from './places';
+export * from './cities';
+export * from './subseasons';
+export * from './divisions';
 
 
 //TODO think about baseUtil class and just extend it

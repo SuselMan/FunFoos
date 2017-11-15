@@ -2,17 +2,16 @@
  * Created by pavluhin on 31.03.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
-import Players from '../../entities/players';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import BaseModalView from './baseModal'
+import Players from '../../entities/players';
+import BaseModalView from './baseModal';
 import UploadView from '../../widgets/fileUploader/fileUploader';
 import ImageCropper from '../../widgets/imageCropper/imageCropper';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const ImageView = Marionette.View.extend({
   template: require('../../../templates/modals/image.hbs')
@@ -25,7 +24,7 @@ const NewTeamView = BaseModalView.extend({
     imageRegion: '.js-imageRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
     this.collection = new Players();
     this.model = new this.collection.model();
@@ -33,51 +32,57 @@ const NewTeamView = BaseModalView.extend({
     channelGlobal.off('image:selected');
   },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
 
     if (this.model.get('image')) {
-      this.showChildView('imageRegion', new ImageView({model: this.model}));
+      this.showChildView('imageRegion', new ImageView({ model: this.model }));
     } else {
       this.showUploader();
     }
   },
 
-  submit: function () {
-    this.cropper.getCroppedImage()
-      .then((image)=> {
-        this.model.set('image', image);
-        this.collection.add(this.model);
-        this.model.save()
-          .then(function () {
-            console.info('new player was created with owner', this.options.team.id);
-            channelGlobal.trigger('player:created');
-            channelGlobal.trigger('modal:close');
-          }.bind(this))
-          .catch(function (err) {
-            console.error(err);
-          })
+  submit() {
+    if (this.cropper) {
+      this.cropper.getCroppedImage()
+        .then((image) => {
+          this.model.set('image', image);
+          this.saveNewPlayer();
+        });
+    } else {
+      this.saveNewPlayer();
+    }
+  },
+  saveNewPlayer() {
+    this.collection.add(this.model);
+    this.model.save()
+      .then(() => {
+        channelGlobal.trigger('player:created');
+        channelGlobal.trigger('modal:close');
       })
+      .catch(() => {
+        // TODO: throw error;
+      });
   },
 
-  showUploader: function () {
+  showUploader() {
     this.uploadView = null;
     this.uploadView = new UploadView();
     this.showChildView('imageRegion', this.uploadView);
     channelGlobal.on('image:selected', this.showCropper, this);
   },
 
-  showCropper: function (file) {
+  showCropper(file) {
     this.cropper = null;
-    this.cropper = new ImageCropper({file: file});
+    this.cropper = new ImageCropper({ file });
     this.showChildView('imageRegion', this.cropper);
     this.cropper.on('cropper:cancel', this.showUploader.bind(this));
   },
 
-  showImage: function (url) {
+  showImage(url) {
     this.model.set('image', url);
-    this.showChildView('imageRegion', new ImageView({model: this.model}));
+    this.showChildView('imageRegion', new ImageView({ model: this.model }));
   }
 });
 

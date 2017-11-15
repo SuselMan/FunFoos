@@ -2,16 +2,13 @@
  * Created by pavluhin on 05.07.2017.
  */
 
-"use strict";
 
 import Marionette from 'backbone.marionette';
-import Places from '../../entities/places';
 import ModelBinder from 'backbone.modelbinder';
 import Radio from 'backbone.radio';
-import BaseModalView from './baseModal'
-import UploadView from '../../widgets/fileUploader/fileUploader';
+import BaseModalView from './baseModal';
 
-let channelGlobal = Radio.channel('global');
+const channelGlobal = Radio.channel('global');
 
 const PlaceView = Marionette.View.extend({
   template: require('../../../templates/modals/components/placeCard.hbs'),
@@ -24,21 +21,21 @@ const PlaceView = Marionette.View.extend({
 
   events: {
     'click @ui.deleteBtn': 'deletePlace',
-    'click': 'navigate'
+    click: 'navigate'
   },
 
-  deletePlace: function (e) {
+  deletePlace(e) {
     e.stopPropagation();
     this.model.destroy();
   },
 
-  navigate: function () {
-    channelGlobal.trigger('place:selected',this.model);
+  navigate() {
+    channelGlobal.trigger('place:selected', this.model);
     channelGlobal.trigger('modal:close');
   },
 
-  onRender: function () {
-    var bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+  onRender() {
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
   }
 });
@@ -53,11 +50,11 @@ const PlacesView = Marionette.CollectionView.extend({
   emptyView: EmptyView,
   className: 'col-12 team-places-container',
 
-  initialize: function(options){
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
 
   }
 });
@@ -69,11 +66,11 @@ const SelectPlaceView = BaseModalView.extend({
     placesRegion: '.js-placesRegion'
   },
 
-  initialize: function (options) {
+  initialize(options) {
     this.options = options;
   },
 
-  onRender: function () {
+  onRender() {
     this.showChildView('placesRegion', new PlacesView({
       collection: this.collection
     }));

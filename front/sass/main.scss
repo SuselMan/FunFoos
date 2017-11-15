@@ -9,6 +9,7 @@
 @import "./settings.scss";
 @import "./mixins.scss";
 @import "./views/*";
+@import "./views/modals/*";
 @import "./widgets/*";
 
 @font-face {
@@ -79,10 +80,12 @@ body {
 }
 
 .modal-input {
+  margin-bottom: 5px;
   border: none;
   border-radius: 0;
   border-bottom: 1px solid #CCC;
   height: 50px;
+  border-left: 1px solid $soft-white;
 }
 
 .small-header {
@@ -98,5 +101,20 @@ body {
     &.admin {
       background-color: white;
     }
+  }
+}
+
+.app-footer{
+  background-color: #d2d6d8;
+  bottom: 0;
+  height: 16px;
+  width: 100%;
+  position: fixed;
+  color: #f0f0f0;
+  span{
+    right: 5px;
+    position: absolute;
+    color: #999;
+    font-size: 12px;
   }
 }

@@ -10,6 +10,9 @@ export function listTeams(req) {
     if(req && req.query.owner){
         return Team.find({ owner: req.query.owner })
     }
+    if(req && req.query.division){
+        return Team.find({ division: req.query.division })
+    }
     return Team.find();
 }
 

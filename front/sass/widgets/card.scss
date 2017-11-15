@@ -4,6 +4,7 @@
   min-width: 90px;
   height: 200px;
   margin: 2px;
+  cursor: pointer;
   background-color: white;
   .img {
     width: 100%;
@@ -33,5 +34,12 @@
     width: 100%;
     height: 50px;
     text-align: center;
+  }
+  &:hover{
+    background-color: $hover-yellow;
+    .img{
+      background-blend-mode: luminosity;
+      background-color: $hover-yellow;
+    }
   }
 }

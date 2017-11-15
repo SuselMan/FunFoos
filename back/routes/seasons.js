@@ -11,6 +11,16 @@ router.get('/', (req, res) => {
     db.listSeasons(req).then(data => res.send(data));
 });
 
+router.get('/:id', (req, res) => {
+    db.getSeason(req)
+      .then(function(result){
+          res.status(200).send(result);
+      })
+      .catch(function(err){
+          res.status(err.status).send(err)
+      })
+});
+
 router.post('/', (req, res) => {
     db.createSeason(req.body).then(data => res.send(data));
 });
@@ -21,7 +31,7 @@ router.put('/:id', (req, res) => {
             res.status(200).send(result);
         })
         .catch(function(err){
-            res.status(err.status).send(err)
+            res.status(err.status || 500).send(err)
         })
 });
 

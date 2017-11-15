@@ -4,28 +4,27 @@
 
 // TODO: move it to another directory like 'helpers'
 
-'use strict';
 
 import Backbone from 'backbone';
-import Marionette from 'backbone.marionette';
 
 const File = Backbone.Model.extend({
-  idAttribute: "_id",
+  idAttribute: '_id',
   urlRoot: '/api/files',
 
-  initialize: function (attrs, options) {
+  initialize(attrs, options) {
     this.options = options;
   },
 
-  saveImage: function () {
-    if(this.get('blob')){
-      var formData = new FormData();
+  saveImage() {
+    if (this.get('blob')) {
+      const formData = new FormData();
       formData.append('imageFiles', this.get('blob'), 'image.png');
       return fetch(this.urlRoot, {
         method: 'POST',
         body: formData
       });
     }
+    return null;
   }
 });
 

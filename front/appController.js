@@ -2,73 +2,77 @@
  * Created by pavluhin on 07.02.2017.
  */
 
-"use strict";
-
 import App from './app';
-import Radio from 'backbone.radio';
-
 import MainModule from './js/modules/main/module';
-
-const channelGlobal = Radio.channel('global');
 
 const appController = {
 
-    index: function() {
-        this.checkMainModule();
-        //channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
-    },
+  index() {
+    this.checkMainModule();
+    // channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
+  },
 
-    userWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('user');
-    },
+  userWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('user');
+  },
 
-    seasonsWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('seasons');
-    },
+  seasonsWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('seasons');
+  },
 
-    playersWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('players');
-    },
+  seasonWindow(id) {
+    this.checkMainModule();
+    App.mainModule.setView('season', id);
+  },
 
-    teamsWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('teams');
-    },
+  subseasonWindow(id) {
+    this.checkMainModule();
+    App.mainModule.setView('subseason', id);
+  },
 
-    teamWindow: function(id) {
-        this.checkMainModule();
-        App.mainModule.setView('team',id);
-    },
+  playersWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('players');
+  },
 
-    meetingsWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('meetings');
-    },
+  teamsWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('teams');
+  },
 
-    meetingWindow: function(id) {
-        this.checkMainModule();
-        App.mainModule.setView('meeting',id);
-    },
+  teamWindow(id) {
+    this.checkMainModule();
+    App.mainModule.setView('team', id);
+  },
 
-    placesWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('places');
-    },
+  cityWindow(id) {
+    this.checkMainModule();
+    App.mainModule.setView('city', id);
+  },
 
-    adminWindow: function() {
-        this.checkMainModule();
-        App.mainModule.setView('admin');
-    },
+  citiesWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('cities');
+  },
 
-    checkMainModule:function(){
-        if(!App.mainModule){
-            App.mainModule = MainModule;
-            App.mainModule.start();
-        }
+  meetingsWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('meetings');
+  },
+
+  meetingWindow(id) {
+    this.checkMainModule();
+    App.mainModule.setView('meeting', id);
+  },
+
+  checkMainModule() {
+    if (!App.mainModule) {
+      App.mainModule = MainModule;
+      App.mainModule.start();
     }
+  }
 };
 
 export default appController;

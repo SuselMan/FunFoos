@@ -1,0 +1,3 @@
+back/**/*.js
+build/**/*.js
+node_modules/**/*.js
