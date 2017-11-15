@@ -126,9 +126,9 @@ export default Marionette.View.extend({
     this.teams.forEach((team1) => {
       this.meetingsColl.add(new MeetingsTableItem({ basis, team: team1 }));
       this.teams.forEach((team2) => {
-        if (team1 !== team2) {
-          const item = new MeetingsTableItem();
-          const meetings = this.meetings.where({ host: team1.id, guest: team2.id });
+        const item = new MeetingsTableItem();
+        const meetings = this.meetings.where({ host: team1.id, guest: team2.id });
+        if (team1 !== team2 && meetings.length) {
           const collection = new Meetings(meetings);
           this.meetingsColl.add(new MeetingsTableItem({ meetings: collection, basis }));
         } else {

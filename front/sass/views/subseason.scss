@@ -74,12 +74,12 @@
           &.meetingItem {
             color: $brend-blue-light;
             text-decoration: underline;
-            &:hover {
-              color: $brend-blue;
-            }
           }
           .meeting-item {
             cursor: pointer;
+            &:hover {
+              color: $brend-blue;
+            }
           }
         }
       }

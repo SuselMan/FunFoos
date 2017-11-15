@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 
 const DivisionSchema = new Schema({
   name: {type: String},
-  rounds: {type: Number},
+  rounds: {type: Number, required:true},
   meetingStructure: {type: Array},
   subseason:{type:Number, required: true},
   season:{type:Number, required: true},
