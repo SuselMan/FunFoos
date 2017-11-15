@@ -56,6 +56,7 @@ const NewTeamView = BaseModalView.extend({
   },
   saveNewPlace() {
     this.collection.add(this.model);
+
     this.model.save()
       .then(() => {
         channelGlobal.trigger('place:created');

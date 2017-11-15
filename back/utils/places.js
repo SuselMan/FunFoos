@@ -46,7 +46,8 @@ export function createPlace(data) {
         name:data.name,
         address  : data.address,
         image:data.image,
-        comment:data.comment
+        comment:data.comment,
+        city: data.city
 
     });
 
