@@ -24,7 +24,7 @@ const CityView = Marionette.View.extend({
     },
 
     events: {
-        'click @ui.name': 'navigateToTeam',
+        'click': 'navigate',
     },
 
     onRender: function () {
@@ -32,8 +32,8 @@ const CityView = Marionette.View.extend({
         new ModelBinder().bind(this.model, this.el, bindings);
     },
 
-    navigateToTeam: function () {
-        channelGlobal.request('navigate', 'team/' + this.model.id, {trigger: true, replace: true});
+    navigate: function () {
+        channelGlobal.request('navigate', 'city/' + this.model.id, {trigger: true, replace: true});
     }
 });
 
