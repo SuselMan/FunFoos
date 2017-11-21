@@ -22,6 +22,7 @@ const ButtonView = Marionette.View.extend({
 
   initialize(options) {
     this.options = options;
+    // it view without model appended to collectionView marionette breaks with render
     this.model = new Backbone.Model.extend({});
   },
 
@@ -106,6 +107,8 @@ const DivisionsLayout = Marionette.View.extend({
 
   initialize(options) {
     this.options = options;
+    channelGlobal.off('division:created');
+    channelGlobal.off('division:select');
     channelGlobal.on('division:created', this.fetchDivisions.bind(this));
     channelGlobal.on('division:select', model => this.showDivision(model));
   },
@@ -126,7 +129,6 @@ const DivisionsLayout = Marionette.View.extend({
           subseason: this.model.toJSON(),
           collection: this.collection
         });
-        this.divisions.on();
         this.showChildView('listRegion', this.divisions);
         this.triggerMethod('fetch:complete');
       })
