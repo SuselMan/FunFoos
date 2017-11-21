@@ -23,6 +23,7 @@ const DataSelector = Marionette.View.extend({
   },
 
   setSelected(model, silent) {
+    console.log('setSelected');
     this.current = model;
     this.el.querySelector('span').innerHTML = `${model.get('firstName')} ${model.get('secondName')}`;
     const image = model.get('image');
@@ -38,10 +39,8 @@ const DataSelector = Marionette.View.extend({
   },
 
   navigate() {
-    channelGlobal.on('player:selected', this.setSelected.bind(this));
-    channelGlobal.on('modal:close', () => {
-      channelGlobal.off('player:selected');
-    });
+    channelGlobal.off('player:selected');
+    channelGlobal.on('player:selected', (model) => this.setSelected(model));
     channelGlobal.trigger('modal:show', { view: 'playerSelector', collection: this.data });
   }
 });

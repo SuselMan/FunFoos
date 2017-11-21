@@ -30,6 +30,7 @@ const PlayerView = Marionette.View.extend({
   },
 
   navigate() {
+    console.log('navigate','player:selected');
     channelGlobal.trigger('player:selected', this.model);
     channelGlobal.trigger('modal:close');
   },
