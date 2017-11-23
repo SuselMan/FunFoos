@@ -140,7 +140,7 @@ const ProtocolView = Marionette.View.extend({
     this.checkParticipant(this.user);
     this.hostPlayers = new Players();
     this.guestPlayers = new Players();
-    this.collection = new Games();
+    this.collection = new Games({ settings: this.model });
     this.collection.on('sync', this.updateResult.bind(this));
     // TODO: use websockets istead of this shit
     // setInterval(function () {

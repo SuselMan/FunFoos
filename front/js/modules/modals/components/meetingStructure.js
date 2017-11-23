@@ -20,8 +20,8 @@ const MeetingStructure = Marionette.View.extend({
     'click @ui.deleteBtn': 'delete'
   },
 
-  initialize() {
-    this.structure = [];
+  initialize(options) {
+    this.structure = options.structure || [];
   },
 
   onRender() {
@@ -62,6 +62,11 @@ const MeetingStructure = Marionette.View.extend({
       elm.textContent = 'D';
     }
     return elm;
+  },
+
+  setStructure(structure) {
+    this.structure = structure;
+    this.render();
   },
 
   getStructure() {

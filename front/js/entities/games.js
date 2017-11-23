@@ -19,11 +19,24 @@ const Game = Backbone.Model.extend({
 
   validateGame() {
     const errors = [];
-    if (this.get('hostScore0') >= 5 && this.get('guestScore0') >= 5) {
+    if (this.get('hostScore0') === 5 && this.get('guestScore0') === 5) {
       errors.push('Wrong score');
     }
-    if (this.get('hostScore1') >= 5 && this.get('guestScore1') >= 5) {
+    if (this.get('hostScore1') === 5 && this.get('guestScore1') === 5) {
       errors.push('Wrong score');
+    }
+    if (this.get('hostScore0') > 5 || this.get('guestScore0') > 5
+      || this.get('hostScore1') > 5 || this.get('guestScore1') > 5) {
+      errors.push('Score cannot be more then 5');
+    }
+    if (this.get('hostPlayer0') && this.get('hostPlayer1') && this.get('hostPlayer0') === this.get('hostPlayer1')) {
+      errors.push('Wrong team');
+    }
+    if (this.get('guestPlayer0') && this.get('guestPlayer1') && this.get('guestPlayer0') === this.get('guestPlayer1')) {
+      errors.push('Wrong team');
+    }
+    if (errors.length) {
+      this.isInvalid = true;
     }
     return errors;
   },
@@ -37,6 +50,32 @@ const Game = Backbone.Model.extend({
     return false;
   },
 
+  isHostFilled() {
+    if (this.get('type') === 1) {
+      if (this.get('hostPlayer0')) {
+        return true;
+      }
+    } else if (this.get('hostPlayer0') && this.get('hostPlayer1')) {
+      return true;
+    }
+    return false;
+  },
+
+  isGuestFilled() {
+    if (this.get('type') === 1) {
+      if (this.get('guestPlayer0')) {
+        return true;
+      }
+    } else if (this.get('guestPlayer0') && this.get('guestPlayer1')) {
+      return true;
+    }
+    return false;
+  },
+
+  isFullfilled() {
+    return this.isHostFilled() && this.isGuestFilled();
+  },
+
   getScore() {
     if (this.get('hostScore0') >= 5 && this.get('hostScore1') >= 5) {
       return 0;
@@ -48,10 +87,18 @@ const Game = Backbone.Model.extend({
 
   combibePlayers() {
     const players = [];
-    if (this.get('hostPlayer0')) { players.push(this.get('hostPlayer0')); }
-    if (this.get('hostPlayer1')) { players.push(this.get('hostPlayer1')); }
-    if (this.get('guestPlayer0')) { players.push(this.get('guestPlayer0')); }
-    if (this.get('guestPlayer1')) { players.push(this.get('guestPlayer1')); }
+    if (this.get('hostPlayer0')) {
+      players.push(this.get('hostPlayer0'));
+    }
+    if (this.get('hostPlayer1')) {
+      players.push(this.get('hostPlayer1'));
+    }
+    if (this.get('guestPlayer0')) {
+      players.push(this.get('guestPlayer0'));
+    }
+    if (this.get('guestPlayer1')) {
+      players.push(this.get('guestPlayer1'));
+    }
     return players;
   }
 });
@@ -59,7 +106,11 @@ const Game = Backbone.Model.extend({
 const Games = Backbone.Collection.extend({
   url: '/api/games',
   model: Game,
-  protocolStructure: [DOUBLE, DOUBLE, SINGLE, SINGLE, DOUBLE, DOUBLE], // double, double, single, single;
+  protocolStructure: [DOUBLE, DOUBLE, SINGLE, SINGLE, DOUBLE, DOUBLE],
+
+  initialize(opt) {
+    this.settings = opt.settings.toJSON();
+  },
 
   getScore() {
     const score = [0, 0];
@@ -72,15 +123,47 @@ const Games = Backbone.Collection.extend({
   },
 
   isValid() {
-    return !this.validateGames.length;
+    return !this.validateGames().length;
+  },
+
+  isSameGames(game1, game2) {
+    if (game1.isHostFilled() && game2.isHostFilled()) {
+      if (game1.get('hostPlayer0') === game2.get('hostPlayer0')
+        && game1.get('hostPlayer1') === game2.get('hostPlayer1')) {
+        return true;
+      }
+      if (game1.get('hostPlayer0') === game2.get('hostPlayer1')
+        && game1.get('hostPlayer1') === game2.get('hostPlayer0')) {
+        return true;
+      }
+    }
+    if (game1.isGuestFilled() && game2.isGuestFilled()) {
+      if (game1.get('guestPlayer0') === game2.get('guestPlayer0')
+        && game1.get('guestPlayer1') === game2.get('guestPlayer1')) {
+        return true;
+      }
+      if (game1.get('guestPlayer0') === game2.get('guestPlayer1')
+        && game1.get('guestPlayer1') === game2.get('guestPlayer0')) {
+        return true;
+      }
+    }
+    return false;
   },
 
   validateGames() {
-    const errors = [];
+    let errors = [];
     let players = [];
     const playersHash = {};
-    this.each((game) => {
-      players = players.concat(game.combibePlayers());
+    this.each((game1) => {
+      errors = errors.concat(game1.validateGame());
+      players = players.concat(game1.combibePlayers());
+      this.each((game2) => {
+        if (game1 !== game2) {
+          if (this.isSameGames(game1, game2)) {
+            errors.push('Cannot are same games');
+          }
+        }
+      });
     });
     for (let i = 0; i < players.length; i++) {
       if (!playersHash[players[i]]) {

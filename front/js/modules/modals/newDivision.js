@@ -27,7 +27,8 @@ const NewSeasonView = BaseModalView.extend({
   onRender() {
     const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
     new ModelBinder().bind(this.model, this.el, bindings);
-    this.showChildView('meetingStructure', new MeetingStructure());
+    this.meetingStructure = new MeetingStructure({ structure: this.model.get('meetingStructure') });
+    this.showChildView('meetingStructure', this.meetingStructure);
   },
 
   submit() {

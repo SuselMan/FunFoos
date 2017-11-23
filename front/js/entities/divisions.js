@@ -16,7 +16,9 @@ const Division = Backbone.Model.extend({
     meetingStructure: [2, 2, 1, 1, 2, 2],
     subseason: null,
     penalty: false,
-    season: null
+    season: null,
+    maxScore: 5,
+    maxGames: 2
   }
 });
 

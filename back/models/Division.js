@@ -13,7 +13,9 @@ const DivisionSchema = new Schema({
   meetingStructure: {type: Array},
   subseason:{type:Number, required: true},
   season:{type:Number, required: true},
-  penalty: {type:Boolean}
+  penalty: {type:Boolean},
+  maxScore:{type:Number},
+  maxGames:{type: Number}
 });
 DivisionSchema.plugin(autoIncrement, 'DivisionSchema');
 const Division = mongoose.model('Division', DivisionSchema);

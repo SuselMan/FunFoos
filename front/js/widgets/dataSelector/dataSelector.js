@@ -40,7 +40,7 @@ const DataSelector = Marionette.View.extend({
 
   navigate() {
     channelGlobal.off('player:selected');
-    channelGlobal.on('player:selected', (model) => this.setSelected(model));
+    channelGlobal.on('player:selected', model => this.setSelected(model));
     channelGlobal.trigger('modal:show', { view: 'playerSelector', collection: this.data });
   }
 });
