@@ -39,6 +39,10 @@ const GameView = Marionette.View.extend({
 
   onRender() {
     const type = this.model.get('type');
+    const isPenalty = this.model.get('isPenalty');
+    if(isPenalty){
+      this.el.classList.add('penalty');
+    }
     this.hostSelectors = [];
     this.guestSelectors = [];
     for (let i = 0; i < type; i++) {
@@ -124,7 +128,8 @@ const ProtocolView = Marionette.View.extend({
   },
 
   regions: {
-    gamesRegion: '.js-gamesRegion'
+    gamesRegion: '.js-gamesRegion',
+    penaltyRegion: '.js-penaltyRegion'
   },
 
   collectionEvents: {
@@ -156,7 +161,19 @@ const ProtocolView = Marionette.View.extend({
         guestPlayers: this.guestPlayers,
         hostPlayers: this.hostPlayers
       }));
+    })
+  },
+
+  addPenalty() {
+    const copy = this.collection.at(0).toJSON();
+    const penlty = new this.collection.model({
+      meeting: copy.meeting,
+      season: copy.season,
+      division: copy.division,
+      type: 1,
+      isPenalty: true
     });
+    this.collection.add(penlty);
   },
 
   checkParticipant(user) {
@@ -174,9 +191,14 @@ const ProtocolView = Marionette.View.extend({
   updateResult() {
     const score = this.collection.getScore();
     const errors = this.collection.validateGames();
+    const isGamesEnd = this.collection.isEnd();
     this.el.querySelector('.js-hostScore').textContent = score[0];
     this.el.querySelector('.js-guestScore').textContent = score[1];
-    this.el.querySelector('.js-approve').disabled = !(this.collection.isEnd() && !errors.length);
+    this.el.querySelector('.js-approve').disabled = !(isGamesEnd && !errors.length);
+    if (isGamesEnd) {
+      this.addPenalty();
+      this.addPenalty();
+    }
     if (errors.length) {
       this.el.querySelector('.js-errors').textContent = errors[0];
     } else {

@@ -1,13 +1,12 @@
 /**
- * Created by ipavl on 15.06.2017.
+ * Created by ipavl on 2.06.2017.
  */
 
 
 import Backbone from 'backbone';
 
-// TODO: move it out to separate ENUM file
-const DOUBLE = 2;
-const SINGLE = 1;
+let maxScore = 5;
+let maxGames = 2;
 
 const Game = Backbone.Model.extend({
   idAttribute: '_id',
@@ -15,19 +14,20 @@ const Game = Backbone.Model.extend({
 
   initialize(attrs, options) {
     this.options = options;
+
   },
 
   validateGame() {
     const errors = [];
-    if (this.get('hostScore0') === 5 && this.get('guestScore0') === 5) {
+    if (this.get('hostScore0') === maxScore && this.get('guestScore0') === maxScore) {
       errors.push('Wrong score');
     }
-    if (this.get('hostScore1') === 5 && this.get('guestScore1') === 5) {
+    if (this.get('hostScore1') === maxScore && this.get('guestScore1') === maxScore) {
       errors.push('Wrong score');
     }
-    if (this.get('hostScore0') > 5 || this.get('guestScore0') > 5
-      || this.get('hostScore1') > 5 || this.get('guestScore1') > 5) {
-      errors.push('Score cannot be more then 5');
+    if (this.get('hostScore0') > maxScore || this.get('guestScore0') > maxScore
+      || this.get('hostScore1') > maxScore || this.get('guestScore1') > maxScore) {
+      errors.push('Score cannot be more then maxScore');
     }
     if (this.get('hostPlayer0') && this.get('hostPlayer1') && this.get('hostPlayer0') === this.get('hostPlayer1')) {
       errors.push('Wrong team');
@@ -42,8 +42,8 @@ const Game = Backbone.Model.extend({
   },
 
   isEnd() {
-    if (this.get('hostScore0') >= 5 || this.get('guestScore0') >= 5) {
-      if (this.get('hostScore1') >= 5 || this.get('guestScore1') >= 5) {
+    if (this.get('hostScore0') >= maxScore || this.get('guestScore0') >= maxScore) {
+      if (this.get('hostScore1') >= maxScore || this.get('guestScore1') >= maxScore) {
         return true;
       }
     }
@@ -77,9 +77,9 @@ const Game = Backbone.Model.extend({
   },
 
   getScore() {
-    if (this.get('hostScore0') >= 5 && this.get('hostScore1') >= 5) {
+    if (this.get('hostScore0') >= maxScore && this.get('hostScore1') >= maxScore) {
       return 0;
-    } else if (this.get('guestScore0') >= 5 && this.get('guestScore1') >= 5) {
+    } else if (this.get('guestScore0') >= maxScore && this.get('guestScore1') >= maxScore) {
       return 1;
     }
     return null;
@@ -106,10 +106,12 @@ const Game = Backbone.Model.extend({
 const Games = Backbone.Collection.extend({
   url: '/api/games',
   model: Game,
-  protocolStructure: [DOUBLE, DOUBLE, SINGLE, SINGLE, DOUBLE, DOUBLE],
 
   initialize(opt) {
     this.settings = opt.settings.toJSON();
+    console.log('this.settings', this.settings);
+    maxScore = this.settings.maxScore || 5;
+    maxGames = this.settings.maxGames || 2;
   },
 
   getScore() {
@@ -168,11 +170,21 @@ const Games = Backbone.Collection.extend({
     for (let i = 0; i < players.length; i++) {
       if (!playersHash[players[i]]) {
         playersHash[players[i]] = 1;
-      } else if (++playersHash[players[i]] > 2) {
-        errors.push('One player cannot play more then two games');
+      } else if (++playersHash[players[i]] > maxGames) {
+        errors.push(`One player cannot play more then ${maxGames} games`);
       }
     }
     return errors;
+  },
+
+  isGamesComplete(){
+    let isEnd = true;
+    this.each((game) => {
+      if(!game.isFullfilled() || !game.isEnd()){
+        isEnd = false;
+      }
+    });
+    return isEnd;
   },
 
   isEnd() {
