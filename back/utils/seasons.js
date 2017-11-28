@@ -72,7 +72,8 @@ function getGames(meetings, structure, divisionID, seasonID) {
         meeting: meetings[i]._id,
         division: divisionID,
         season: seasonID,
-        type: structure[j]
+        type: structure[j],
+        isPenalty: false
       })
     }
   }

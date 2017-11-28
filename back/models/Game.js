@@ -19,7 +19,7 @@ const GameSchema = new Schema({
     season  : { type: Number, required:true},
     division  : { type: Number, required:true},
     type:{ type: Number},
-    isPenalty: {type: Boolean},
+    isPenalty: {type: Boolean, required:true},
     approved:{type:Boolean}, // game doesn't participate in statictics if false
     hostApproved:{type:Boolean},
     guestApproved:{type:Boolean}

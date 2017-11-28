@@ -5,7 +5,7 @@
 
 import Backbone from 'backbone';
 
-let maxScore = 5;
+let maxScore = 1;
 let maxGames = 2;
 
 const Game = Backbone.Model.extend({
@@ -14,7 +14,6 @@ const Game = Backbone.Model.extend({
 
   initialize(attrs, options) {
     this.options = options;
-    this.valid = true;
   },
 
   validateGame() {
@@ -38,7 +37,11 @@ const Game = Backbone.Model.extend({
     if (errors.length) {
       this.isInvalid = true;
     }
-    this.valid = errors.length ? false : true;
+    return errors;
+  },
+
+  validatePenalty() {
+    const errors = [];
     return errors;
   },
 
@@ -86,6 +89,10 @@ const Game = Backbone.Model.extend({
     return null;
   },
 
+  getPenaltyScore() {
+
+  },
+
   combibePlayers() {
     const players = [];
     if (this.get('hostPlayer0')) {
@@ -117,10 +124,14 @@ const Games = Backbone.Collection.extend({
     }
   },
 
+  comparator(game) {
+    return game.id;
+  },
+
   getScore() {
     const score = [0, 0];
     this.each((game) => {
-      if (game.getScore() != null) {
+      if (game.getScore() != null && !game.get('isPenalty')) {
         score[game.getScore()]++;
       }
     });
@@ -160,15 +171,19 @@ const Games = Backbone.Collection.extend({
     let players = [];
     const playersHash = {};
     this.each((game1) => {
-      errors = errors.concat(game1.validateGame());
-      players = players.concat(game1.combibePlayers());
-      this.each((game2) => {
-        if (game1 !== game2) {
-          if (this.isSameGames(game1, game2)) {
-            errors.push('Cannot are same games');
+      if (!game1.get('isPenalty')) {
+        errors = errors.concat(game1.validateGame());
+        players = players.concat(game1.combibePlayers());
+        this.each((game2) => {
+          if (!game1.get('isPenalty')) {
+            if (game1 !== game2) {
+              if (this.isSameGames(game1, game2)) {
+                errors.push('Cannot are same games');
+              }
+            }
           }
-        }
-      });
+        });
+      }
     });
     for (let i = 0; i < players.length; i++) {
       if (!playersHash[players[i]]) {
@@ -177,36 +192,21 @@ const Games = Backbone.Collection.extend({
         errors.push(`One player cannot play more then ${maxGames} games`);
       }
     }
+    if(errors.length){
+      this.valid = false;
+    } else {
+      this.valid = true;
+    }
     return errors;
-  },
-
-  isHostFilled() {
-    let isEnd = true;
-    this.each((game) => {
-      if (!game.isHostFilled()) {
-        isEnd = false;
-      }
-    });
-    this.hostIsFilled = isEnd;
-    return isEnd;
-  },
-
-  isGuestFilled() {
-    let isEnd = true;
-    this.each((game) => {
-      if (!game.isGuestFilled()) {
-        isEnd = false;
-      }
-    });
-    this.guestIsFilled = isEnd;
-    return isEnd;
   },
 
   isGamesComplete() {
     let isEnd = true;
     this.each((game) => {
-      if (!game.isFullfilled() || !game.isEnd()) {
-        isEnd = false;
+      if (!game.get('isPenalty')) {
+        if (!game.isFullfilled() || !game.isEnd()) {
+          isEnd = false;
+        }
       }
     });
     return isEnd;
@@ -215,8 +215,10 @@ const Games = Backbone.Collection.extend({
   isEnd() {
     let validGames = 0;
     this.each((game) => {
-      if (game.isEnd()) {
-        validGames++;
+      if (!game.get('isPenalty')) {
+        if (game.isEnd()) {
+          validGames++;
+        }
       }
     });
     return validGames === this.length;

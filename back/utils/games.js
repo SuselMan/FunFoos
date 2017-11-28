@@ -11,28 +11,28 @@ const Game = mongoose.model('Game');
 //TODO: Refactor
 
 export function getGame(req) {
-  return new Promise(function(resolve, reject) {
-    Game.findById(req.params.id,function(err,game){
-      if(game){
+  return new Promise(function (resolve, reject) {
+    Game.findById(req.params.id, function (err, game) {
+      if (game) {
         resolve(game);
       } else {
-        reject({status:500,message:'Game not found'});
+        reject({ status: 500, message: 'Game not found' });
       }
     });
   });
 }
 
 export function changeGame(req) {
-  return new Promise(function(resolve, reject) {
-    Game.findById(req.params.id,function(err,game){
-      if(game){
-        Game.update({_id:req.params.id},req.body)
+  return new Promise(function (resolve, reject) {
+    Game.findById(req.params.id, function (err, game) {
+      if (game) {
+        Game.update({ _id: req.params.id }, req.body)
           .then(function (isOk) {
             Game.findById(req.params.id)
-              .then(function(game){
+              .then(function (game) {
                 resolve(game);
               })
-              .catch(function(err){
+              .catch(function (err) {
                 console.error(err);
                 reject(err);
               })
@@ -41,7 +41,7 @@ export function changeGame(req) {
             reject(err);
           })
       } else {
-        reject({status:500,message:'Game not found'});
+        reject({ status: 500, message: 'Game not found' });
       }
     });
   });
@@ -49,26 +49,28 @@ export function changeGame(req) {
 
 export function listGames(req) {
   //TODO: use all params if it will need;
-  if(req.query.meeting){
-    return Game.find({ meeting:  req.query.meeting })
+  if (req.query.meeting) {
+    return Game.find(req.query)
   }
   return Game.find();
 }
 
 export function createGame(data) {
   const game = new Game({
-    meeting  : data.meeting,
-    season  : data.season,
+    meeting: data.meeting,
+    season: data.season,
+    division: data.division,
     type: data.type,
-    approved:false
+    isPenalty: data.isPenalty || false,
+    approved: false
   });
   return game.save();
 }
 
 export function createGames(dataArr) {
-  return new Promise ((resolve, reject) => {
-    Game.create(dataArr,(err, res) =>{
-      if(err){
+  return new Promise((resolve, reject) => {
+    Game.create(dataArr, (err, res) => {
+      if (err) {
         reject(err);
       } else {
         resolve(res)

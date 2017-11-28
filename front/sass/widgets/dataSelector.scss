@@ -11,7 +11,7 @@
   background-blend-mode: luminosity;
   background-size: auto 100%;
   background-repeat: no-repeat;
-  background-position: left top;
+  background-position: right top;
 
   option {
     height: 40px;
@@ -27,8 +27,27 @@
   }
 }
 
+.disabled {
+  .data-selector{
+    cursor: not-allowed;
+    background-color: $medium-gray;
+    span{
+      color: $gray-light;
+    }
+  }
+}
+
+.error {
+  .data-selector{
+    background-color: $light-color;
+    span{
+      color: white;
+    }
+  }
+}
+
 .guest{
   .data-selector{
-    background-position: right top;
+    background-position: left top;
   }
 }

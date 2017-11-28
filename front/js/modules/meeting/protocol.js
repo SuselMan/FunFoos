@@ -6,6 +6,7 @@
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
 import Games from '../../entities/games';
+import Penalty from '../../entities/penalty';
 import Players from '../../entities/players';
 import dataSelector from '../../widgets/dataSelector/dataSelector';
 
@@ -16,7 +17,8 @@ const GameView = Marionette.View.extend({
   className: 'game',
 
   modelEvents: {
-    sync: 'setItems'
+    sync: 'setItems',
+    change: 'setItems'
   },
 
   regions: {
@@ -40,7 +42,7 @@ const GameView = Marionette.View.extend({
   onRender() {
     const type = this.model.get('type');
     const isPenalty = this.model.get('isPenalty');
-    if(isPenalty){
+    if (isPenalty) {
       this.el.classList.add('penalty');
     }
     this.hostSelectors = [];
@@ -61,6 +63,7 @@ const GameView = Marionette.View.extend({
   },
 
   setItems() {
+    console.log('setItems');
     const type = this.model.get('type');
     for (let i = 0; i < type; i++) {
       const hostPlayer = this.model.get(`hostPlayer${i}`);
@@ -76,6 +79,20 @@ const GameView = Marionette.View.extend({
     if (this.model.get('hostScore1')) this.ui.game1ScoreHost.val(this.model.get('hostScore1'));
     if (this.model.get('guestScore0')) this.ui.game0ScoreGuest.val(this.model.get('guestScore0'));
     if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.val(this.model.get('guestScore1'));
+    if(!this.collection.guestIsFilled){
+      this.el.querySelector('.js-firstHost').classList.add('disabled');
+      this.el.querySelector('.js-secondHost').classList.add('disabled');
+    } else {
+      this.el.querySelector('.js-firstHost').classList.remove('disabled');
+      this.el.querySelector('.js-secondHost').classList.remove('disabled');
+    }
+    if(this.model.valid){
+      this.el.classList.remove('error');
+      this.el.classList.remove('error');
+    } else {
+      this.el.classList.add('error');
+      this.el.classList.add('error');
+    }
   },
 
   isHostPlayer(id) {
@@ -132,10 +149,6 @@ const ProtocolView = Marionette.View.extend({
     penaltyRegion: '.js-penaltyRegion'
   },
 
-  collectionEvents: {
-    sync: 'updateResult'
-  },
-
   initialize(options) {
     this.options = options;
   },
@@ -145,19 +158,29 @@ const ProtocolView = Marionette.View.extend({
     this.checkParticipant(this.user);
     this.hostPlayers = new Players();
     this.guestPlayers = new Players();
-    this.collection = new Games({ settings: this.model });
+    this.penaltyCollection = new Penalty();
+    this.collection = new Games(null, { settings: this.model });
     this.collection.on('sync', this.updateResult.bind(this));
     // TODO: use websockets istead of this shit
-    // setInterval(function () {
-    //     this.collection.fetch({data: {meeting: this.model.id}})
-    // }.bind(this), 2000);
+    setInterval(function () {
+        this.collection.fetch({data: {meeting: this.model.id, isPenalty:false}})
+    }.bind(this), 500);
     Promise.all([
       this.collection.fetch({ data: { meeting: this.model.id } }),
       this.guestPlayers.fetch({ data: { owner: this.model.get('guest') } }),
       this.hostPlayers.fetch({ data: { owner: this.model.get('host') } })
     ]).then(() => {
+      const penaltys = this.collection.where({ isPenalty: true });
+      this.penaltyCollection.add(penaltys);
+      this.collection.remove(penaltys);
+      // this.addPenaltyList();
       this.showChildView('gamesRegion', new GamesView({
         collection: this.collection,
+        guestPlayers: this.guestPlayers,
+        hostPlayers: this.hostPlayers
+      }));
+      this.showChildView('penaltyRegion', new GamesView({
+        collection: this.penaltyCollection,
         guestPlayers: this.guestPlayers,
         hostPlayers: this.hostPlayers
       }));
@@ -166,14 +189,20 @@ const ProtocolView = Marionette.View.extend({
 
   addPenalty() {
     const copy = this.collection.at(0).toJSON();
-    const penlty = new this.collection.model({
+    const penlaty = new this.penaltyCollection.model({
       meeting: copy.meeting,
       season: copy.season,
       division: copy.division,
       type: 1,
       isPenalty: true
     });
-    this.collection.add(penlty);
+    this.penaltyCollection.add(penlaty);
+  },
+
+  addPenaltyList(){
+    for (let i = this.penaltyCollection.length; i < 5; i++) {
+      this.addPenalty();
+    }
   },
 
   checkParticipant(user) {
@@ -189,16 +218,17 @@ const ProtocolView = Marionette.View.extend({
   },
 
   updateResult() {
+    this.collection.isGuestFilled();
     const score = this.collection.getScore();
     const errors = this.collection.validateGames();
     const isGamesEnd = this.collection.isEnd();
     this.el.querySelector('.js-hostScore').textContent = score[0];
     this.el.querySelector('.js-guestScore').textContent = score[1];
     this.el.querySelector('.js-approve').disabled = !(isGamesEnd && !errors.length);
-    if (isGamesEnd) {
-      this.addPenalty();
-      this.addPenalty();
+    if (isGamesEnd && this.penaltyCollection.length < 5) {
+      this.addPenaltyList();
     }
+    console.log('this.collection.isGuestFilled()', this.collection.isGuestFilled());
     if (errors.length) {
       this.el.querySelector('.js-errors').textContent = errors[0];
     } else {
