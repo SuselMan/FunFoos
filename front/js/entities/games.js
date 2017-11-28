@@ -38,7 +38,6 @@ const Game = Backbone.Model.extend({
     if (errors.length) {
       this.isInvalid = true;
     }
-    this.valid = errors.length ? false : true;
     return errors;
   },
 
@@ -157,26 +156,33 @@ const Games = Backbone.Collection.extend({
 
   validateGames() {
     let errors = [];
-    let players = [];
     const playersHash = {};
     this.each((game1) => {
+      game1.set('invalid', false);
+      let gameErr = game1.validateGame();
+      if(gameErr.length){
+        game1.set('invalid', true);
+      }
       errors = errors.concat(game1.validateGame());
-      players = players.concat(game1.combibePlayers());
+      let players = game1.combibePlayers();
+      for(let i =0; i < players.length; i++){
+        if (!playersHash[players[i]]) {
+          playersHash[players[i]] = 1;
+        } else if (++playersHash[players[i]] > maxGames) {
+          game1.set('invalid', true);
+          errors.push(`One player cannot play more then ${maxGames} games`);
+        }
+      }
       this.each((game2) => {
         if (game1 !== game2) {
           if (this.isSameGames(game1, game2)) {
             errors.push('Cannot are same games');
+            game1.set('invalid', true);
+            game2.set('invalid', true);
           }
         }
       });
     });
-    for (let i = 0; i < players.length; i++) {
-      if (!playersHash[players[i]]) {
-        playersHash[players[i]] = 1;
-      } else if (++playersHash[players[i]] > maxGames) {
-        errors.push(`One player cannot play more then ${maxGames} games`);
-      }
-    }
     return errors;
   },
 

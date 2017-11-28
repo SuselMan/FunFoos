@@ -86,12 +86,12 @@ const GameView = Marionette.View.extend({
       this.el.querySelector('.js-firstHost').classList.remove('disabled');
       this.el.querySelector('.js-secondHost').classList.remove('disabled');
     }
-    if(this.model.valid){
-      this.el.classList.remove('error');
-      this.el.classList.remove('error');
+    if(this.model.get('invalid')){
+      this.el.classList.add('error');
+      this.el.classList.add('error');
     } else {
-      this.el.classList.add('error');
-      this.el.classList.add('error');
+      this.el.classList.remove('error');
+      this.el.classList.remove('error');
     }
   },
 
@@ -164,7 +164,7 @@ const ProtocolView = Marionette.View.extend({
     // TODO: use websockets istead of this shit
     setInterval(function () {
         this.collection.fetch({data: {meeting: this.model.id, isPenalty:false}})
-    }.bind(this), 500);
+    }.bind(this), 5000);
     Promise.all([
       this.collection.fetch({ data: { meeting: this.model.id } }),
       this.guestPlayers.fetch({ data: { owner: this.model.get('guest') } }),
@@ -230,7 +230,7 @@ const ProtocolView = Marionette.View.extend({
     }
     console.log('this.collection.isGuestFilled()', this.collection.isGuestFilled());
     if (errors.length) {
-      this.el.querySelector('.js-errors').textContent = errors[0];
+      this.el.querySelector('.js-errors').textContent = errors.join(', ');
     } else {
       this.el.querySelector('.js-errors').textContent = '';
     }
