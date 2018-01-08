@@ -13,6 +13,7 @@ import CityView from '../city/city';
 import SeasonView from '../season/season';
 import SubseasonView from '../subseason/subseason';
 import NewTeamView from '../modals/newTeam';
+import RequestTeamView from '../modals/requestTeam';
 import NewPlayerView from '../modals/newPlayer';
 import NewCityView from '../modals/newCity';
 import NewSeasonView from '../modals/newSeason';
@@ -89,6 +90,9 @@ const Layout = Marionette.View.extend({
         switch (options.view) {
           case 'newTeam':
             this.showChildView('modalRegion', new NewTeamView(options));
+            break;
+          case 'requestTeam':
+            this.showChildView('modalRegion', new RequestTeamView(options));
             break;
           case 'newCity':
             this.showChildView('modalRegion', new NewCityView(options));

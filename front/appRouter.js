@@ -13,7 +13,7 @@ const routes = {
   'city(/:id)': 'cityWindow',
   'season(/:id)': 'seasonWindow',
   'subseason(/:id)': 'subseasonWindow',
-  'user(/)': 'userWindow',
+  // 'user(/)': 'userWindow',
   'seasons(/)': 'seasonsWindow',
   'meetings(/)': 'meetingsWindow',
   'meeting(/:id)': 'meetingWindow',

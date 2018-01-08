@@ -65,6 +65,14 @@ const TeamsLayout = Marionette.View.extend({
     addTeamRegion: '.js-newTeamRegion'
   },
 
+  ui: {
+    createTeamBtn: '.js-createTeam'
+  },
+
+  events: {
+    'click @ui.createTeamBtn': 'createTeam'
+  },
+
   onRender() {
     this.collection.fetch()
       .then(() => {
@@ -76,7 +84,12 @@ const TeamsLayout = Marionette.View.extend({
       .catch(() => {
         // TODO: notification
       });
+  },
+
+  createTeam() {
+    channelGlobal.trigger('modal:show', { view: 'newTeam', user: this.model });
   }
+
 });
 
 export default TeamsLayout;

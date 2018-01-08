@@ -21,6 +21,7 @@ export * from './places';
 export * from './cities';
 export * from './subseasons';
 export * from './divisions';
+export * from './requests';
 
 
 //TODO think about baseUtil class and just extend it

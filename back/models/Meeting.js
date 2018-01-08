@@ -12,7 +12,8 @@ const MeetingSchema = new Schema({
     host: {type: Number, required: true},
     guest: {type: Number, required: true},
     owner: {type: Number, required: true}, //owner is division
-    score: {type:Array}
+    score: {type:Array},
+    secret:{type:String}
 });
 
 MeetingSchema.plugin(autoIncrement, 'MeetingSchema');

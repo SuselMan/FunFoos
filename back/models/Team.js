@@ -7,9 +7,9 @@ import autoIncrement from 'mongoose-autoincrement';
 const Schema = mongoose.Schema;
 
 const TeamSchema = new Schema({
-    name     : { type: String,required: true },
+    name     : { type: String,required: true, unique: true },
     shortName     : { type: String,required: true },
-    owner  : { type: Number, required: true}, // it is user
+    owner  : { type: Number, unique: true}, // it is user
     image  : { type: String},
     divisions: {type: Array},
     division: {type:Number}

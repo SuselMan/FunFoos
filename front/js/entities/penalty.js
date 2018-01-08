@@ -192,7 +192,7 @@ const Games = Backbone.Collection.extend({
         errors.push(`One player cannot play more then ${maxGames} games`);
       }
     }
-    if(errors.length){
+    if (errors.length) {
       this.valid = false;
     } else {
       this.valid = true;

@@ -50,16 +50,17 @@ export default Marionette.View.extend({
   },
 
   showTeamSelector() {
-    let opts = { data: { owner: this.user.id } };
-    if (this.user.get('isAdmin')) {
-      opts = {};
+    if (this.user && this.user.get('isAdmin')) {
+      this.teams.fetch({})
+        .then(() => {
+          channelGlobal.trigger('modal:show', { view: 'teamSelector', collection: this.teams });
+          channelGlobal.off('team:selected');
+          channelGlobal.on('team:selected', team => this.addTeam(team));
+        });
+    } else {
+      console.log(this.options);
+      channelGlobal.trigger('modal:show', { view: 'requestTeam', division: this.model.toJSON() });
     }
-    this.teams.fetch(opts)
-      .then(() => {
-        channelGlobal.trigger('modal:show', { view: 'teamSelector', collection: this.teams });
-        channelGlobal.off('team:selected');
-        channelGlobal.on('team:selected', team => this.addTeam(team));
-      });
   },
 
   addTeam(team) {

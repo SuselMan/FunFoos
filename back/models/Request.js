@@ -4,13 +4,18 @@
 
 import mongoose from "mongoose";
 import autoIncrement from 'mongoose-autoincrement';
+
 const Schema = mongoose.Schema;
 
+// ALLOWED TYPES:
+// addTeam;
+
 const RequestSchema = new Schema({
-    date     : { type: Date,required: true },
-    to  : { type: Number,required: true},
-    meeting : {type:Number,required: true}
+  type: {type: String, required: true},
+  target: {type: Number, required: true},
+  body: {type: Object},
+  author: {type: Number}
 });
 
 RequestSchema.plugin(autoIncrement, 'RequestSchema');
-const Request = mongoose.model('Meeting', RequestSchema);
+const Request = mongoose.model('Request', RequestSchema);

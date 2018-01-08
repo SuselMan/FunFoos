@@ -8,11 +8,11 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  db.listTeams(req).then(data => res.send(data));
+  db.listRequests(req).then(data => res.send(data));
 });
 
 router.get('/:id', (req, res) => {
-  db.getTeam(req)
+  db.getRequest(req)
     .then(function (result) {
       res.status(200).send(result);
     })
@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  db.createTeam(req.body)
+  db.createRequest(req.body)
     .then(data => res.send(data))
     .catch((err) => {
       res.status(500).send(err)
@@ -30,11 +30,11 @@ router.post('/', (req, res) => {
 });
 
 // router.delete('/:id', (req, res) => {
-//   db.deleteTeam(req.params.id).then(data => res.send(data));
+//   db.deleteRequest(req.params.id).then(data => res.send(data));
 // });
 
 router.put('/:id', (req, res) => {
-  db.changeTeam(req)
+  db.changeRequest(req)
     .then(function (result) {
       res.status(200).send(result);
     })

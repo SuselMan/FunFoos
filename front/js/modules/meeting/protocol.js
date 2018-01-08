@@ -79,14 +79,14 @@ const GameView = Marionette.View.extend({
     if (this.model.get('hostScore1')) this.ui.game1ScoreHost.val(this.model.get('hostScore1'));
     if (this.model.get('guestScore0')) this.ui.game0ScoreGuest.val(this.model.get('guestScore0'));
     if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.val(this.model.get('guestScore1'));
-    if(!this.collection.guestIsFilled){
+    if (!this.collection.guestIsFilled) {
       this.el.querySelector('.js-firstHost').classList.add('disabled');
       this.el.querySelector('.js-secondHost').classList.add('disabled');
     } else {
       this.el.querySelector('.js-firstHost').classList.remove('disabled');
       this.el.querySelector('.js-secondHost').classList.remove('disabled');
     }
-    if(this.model.get('invalid')){
+    if (this.model.get('invalid')) {
       this.el.classList.add('error');
       this.el.classList.add('error');
     } else {
@@ -162,9 +162,9 @@ const ProtocolView = Marionette.View.extend({
     this.collection = new Games(null, { settings: this.model });
     this.collection.on('sync', this.updateResult.bind(this));
     // TODO: use websockets istead of this shit
-    setInterval(function () {
-        this.collection.fetch({data: {meeting: this.model.id, isPenalty:false}})
-    }.bind(this), 5000);
+    setInterval(() => {
+      this.collection.fetch({ data: { meeting: this.model.id, isPenalty: false } });
+    }, 5000);
     Promise.all([
       this.collection.fetch({ data: { meeting: this.model.id } }),
       this.guestPlayers.fetch({ data: { owner: this.model.get('guest') } }),
@@ -184,7 +184,7 @@ const ProtocolView = Marionette.View.extend({
         guestPlayers: this.guestPlayers,
         hostPlayers: this.hostPlayers
       }));
-    })
+    });
   },
 
   addPenalty() {
@@ -199,7 +199,7 @@ const ProtocolView = Marionette.View.extend({
     this.penaltyCollection.add(penlaty);
   },
 
-  addPenaltyList(){
+  addPenaltyList() {
     for (let i = this.penaltyCollection.length; i < 5; i++) {
       this.addPenalty();
     }

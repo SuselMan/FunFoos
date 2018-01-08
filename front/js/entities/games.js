@@ -159,13 +159,13 @@ const Games = Backbone.Collection.extend({
     const playersHash = {};
     this.each((game1) => {
       game1.set('invalid', false);
-      let gameErr = game1.validateGame();
-      if(gameErr.length){
+      const gameErr = game1.validateGame();
+      if (gameErr.length) {
         game1.set('invalid', true);
       }
       errors = errors.concat(game1.validateGame());
-      let players = game1.combibePlayers();
-      for(let i =0; i < players.length; i++){
+      const players = game1.combibePlayers();
+      for (let i = 0; i < players.length; i++) {
         if (!playersHash[players[i]]) {
           playersHash[players[i]] = 1;
         } else if (++playersHash[players[i]] > maxGames) {
