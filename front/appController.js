@@ -12,10 +12,10 @@ const appController = {
     // channelGlobal.request('navigate', 'main', {trigger: true, replace: true});
   },
 
-  // userWindow() {
-  //   this.checkMainModule();
-  //   App.mainModule.setView('user');
-  // },
+  userWindow() {
+    this.checkMainModule();
+    App.mainModule.setView('user');
+  },
 
   seasonsWindow() {
     this.checkMainModule();

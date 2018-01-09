@@ -25,6 +25,15 @@
       color:$brend-blue;
     }
   }
+  &.non-selectable{
+    cursor: auto;
+    span {
+      text-decoration: none;
+    }
+    &:hover {
+      background-color: initial;
+    }
+  }
 }
 
 .disabled {

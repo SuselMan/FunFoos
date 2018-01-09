@@ -239,7 +239,7 @@ const Layout = Marionette.View.extend({
   },
 
   getUser() {
-    return this.user || null;
+    return this.user || {};
   }
 });
 

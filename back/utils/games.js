@@ -16,7 +16,7 @@ export function getGame(req) {
       if (game) {
         resolve(game);
       } else {
-        reject({ status: 500, message: 'Game not found' });
+        reject({status: 500, message: 'Game not found'});
       }
     });
   });
@@ -26,7 +26,7 @@ export function changeGame(req) {
   return new Promise(function (resolve, reject) {
     Game.findById(req.params.id, function (err, game) {
       if (game) {
-        Game.update({ _id: req.params.id }, req.body)
+        Game.update({_id: req.params.id}, req.body)
           .then(function (isOk) {
             Game.findById(req.params.id)
               .then(function (game) {
@@ -41,18 +41,52 @@ export function changeGame(req) {
             reject(err);
           })
       } else {
-        reject({ status: 500, message: 'Game not found' });
+        reject({status: 500, message: 'Game not found'});
       }
     });
   });
 }
 
-export function listGames(req) {
+export function listGames(req, user) {
   //TODO: use all params if it will need;
+  let meetingObj;
   if (req.query.meeting) {
-    return Game.find(req.query)
+    return this.getMeeting({params: {id: req.query.meeting}})
+      .then((meeting) => {
+        meetingObj = meeting;
+        return Promise.all([this.getTeam({params: {id: meeting.host}}), this.getTeam({params: {id: meeting.guest}})])
+      })
+      .then(([host, guest]) => {
+        //TODO: if user is admin return all;
+        if (user && user._id === host.owner) {
+          if (meetingObj.guestApproved) {
+            return Game.find({meeting: req.query.meeting});
+          } else {
+            return Game.find({meeting: req.query.meeting}, {guestPlayer0: 0, guestPlayer1: 0});
+          }
+        }
+        else if (user && user._id === guest.owner) {
+          if (meetingObj.guestApproved && meetingObj.hostApproved) {
+            return Game.find({meeting: req.query.meeting});
+          } else {
+            return Game.find({meeting: req.query.meeting}, {hostPlayer0: 0, hostPlayer1: 0});
+          }
+        } else {
+          if (meetingObj.guestApproved && meetingObj.hostApproved) {
+            return Game.find({meeting: req.query.meeting});
+          } else {
+            return Game.find({meeting: req.query.meeting}, {
+              hostPlayer0: 0,
+              hostPlayer1: 0,
+              guestPlayer0: 0,
+              guestPlayer1: 0
+            });
+          }
+        }
+      });
+  } else {
+    return Game.find();
   }
-  return Game.find();
 }
 
 export function createGame(data) {

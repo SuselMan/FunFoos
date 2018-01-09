@@ -42,7 +42,9 @@ export function listPlayers(req) {
 }
 
 export function createPlayer(data, user) {
-  if (user._id === data.owner || user.isAdmin) {
+  // if (user._id === data.owner || user.isAdmin) {
+  // TODO: only admin
+  if (true) {
     const team = new Player({
       firstName: data.firstName,
       secondName: data.secondName,

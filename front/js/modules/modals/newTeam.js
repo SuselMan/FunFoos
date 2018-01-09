@@ -16,7 +16,7 @@ const NewTeamView = BaseModalView.extend({
     this.options = options;
     this.collection = new Teams();
     this.model = new this.collection.model();
-    // this.model.set('owner', options.user.id);
+    this.model.set('owner', options.user.id);
   },
 
   onRender() {

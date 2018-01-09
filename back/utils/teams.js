@@ -22,7 +22,7 @@ export function getTeam(req) {
             if(team){
                 resolve(team);
             } else {
-                reject({status:500,message:'User not found'});
+                reject({status:500,message:'Team is not found'});
             }
         });
     });

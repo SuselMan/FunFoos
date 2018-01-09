@@ -47,9 +47,18 @@ const GameView = Marionette.View.extend({
     }
     this.hostSelectors = [];
     this.guestSelectors = [];
+    console.log('options',this.options.meeting.get('guestTeam'), this.options);
+    const isHostOwner = this.options.meeting.get('hostTeam').owner === this.options.user.id;
+    const isGuestOwner = this.options.meeting.get('guestTeam').owner === this.options.user.id;
     for (let i = 0; i < type; i++) {
-      this.hostSelectors.push(new dataSelector({ data: this.options.hostPlayers, index: i }));
-      this.guestSelectors.push(new dataSelector({ data: this.options.guestPlayers, index: i }));
+      this.hostSelectors.push(new dataSelector({
+        selectable: isHostOwner && !this.options.meeting.get('hostApproved'),
+        data: this.options.hostPlayers,
+        index: i }));
+      this.guestSelectors.push(new dataSelector({
+        selectable: isGuestOwner && !this.options.meeting.get('guestApproved'),
+        data: this.options.guestPlayers,
+        index: i }));
       this.showChildView(`host${i}`, this.hostSelectors[i]);
       this.showChildView(`guest${i}`, this.guestSelectors[i]);
       this.hostSelectors[i].on('change:player', this.changeHostPlayer.bind(this));
@@ -60,6 +69,7 @@ const GameView = Marionette.View.extend({
       scores[i].onchange = this.changeScore.bind(this);
     }
     this.setItems();
+    channelGlobal.on('meeting:updated', () => {this.setItems()});
   },
 
   setItems() {
@@ -74,18 +84,24 @@ const GameView = Marionette.View.extend({
       if (guestPlayer && this.isGuestPlayer(guestPlayer)) {
         this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get(`guestPlayer${i}`)), true);
       }
+      if(this.options.meeting.get('hostApproved')){
+        this.hostSelectors[i].block();
+      }
+      if(this.options.meeting.get('guestApproved')){
+        this.guestSelectors[i].block();
+      }
     }
     if (this.model.get('hostScore0')) this.ui.game0ScoreHost.val(this.model.get('hostScore0'));
     if (this.model.get('hostScore1')) this.ui.game1ScoreHost.val(this.model.get('hostScore1'));
     if (this.model.get('guestScore0')) this.ui.game0ScoreGuest.val(this.model.get('guestScore0'));
     if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.val(this.model.get('guestScore1'));
-    if (!this.collection.guestIsFilled) {
-      this.el.querySelector('.js-firstHost').classList.add('disabled');
-      this.el.querySelector('.js-secondHost').classList.add('disabled');
-    } else {
-      this.el.querySelector('.js-firstHost').classList.remove('disabled');
-      this.el.querySelector('.js-secondHost').classList.remove('disabled');
-    }
+    // if (!this.collection.guestIsFilled) {
+    //   this.el.querySelector('.js-firstHost').classList.add('disabled');
+    //   this.el.querySelector('.js-secondHost').classList.add('disabled');
+    // } else {
+    //   this.el.querySelector('.js-firstHost').classList.remove('disabled');
+    //   this.el.querySelector('.js-secondHost').classList.remove('disabled');
+    // }
     if (this.model.get('invalid')) {
       this.el.classList.add('error');
       this.el.classList.add('error');
@@ -120,7 +136,6 @@ const GameView = Marionette.View.extend({
     obj[e.target.dataset.name] = e.target.value;
     this.model.save(obj);
   }
-
 });
 
 const GamesView = Marionette.CollectionView.extend({
@@ -151,6 +166,7 @@ const ProtocolView = Marionette.View.extend({
 
   initialize(options) {
     this.options = options;
+    console.log('this.options', this.options);
   },
 
   onRender() {
@@ -177,14 +193,20 @@ const ProtocolView = Marionette.View.extend({
       this.showChildView('gamesRegion', new GamesView({
         collection: this.collection,
         guestPlayers: this.guestPlayers,
-        hostPlayers: this.hostPlayers
+        hostPlayers: this.hostPlayers,
+        user: this.user,
+        meeting: this.model
       }));
       this.showChildView('penaltyRegion', new GamesView({
         collection: this.penaltyCollection,
         guestPlayers: this.guestPlayers,
-        hostPlayers: this.hostPlayers
+        hostPlayers: this.hostPlayers,
+        user: this.user,
+        meeting: this.model
       }));
     });
+    // this.model.save({hostApproved: 0});
+    // this.model.save({guestApproved: 0});
   },
 
   addPenalty() {
@@ -206,7 +228,8 @@ const ProtocolView = Marionette.View.extend({
   },
 
   checkParticipant(user) {
-    if (user && (this.model.get('guest') === user.id || this.model.get('guest') === user.id || user.get('isAdmin'))) {
+    //TODO: must return booolean remove logi from here
+    if (user && (this.model.get('guestTeam').owner === user.id || this.model.get('hostTeam').owner === user.id || user.get('isAdmin'))) {
       this.ui.approve.show();
     } else {
       this.ui.approve.hide();
@@ -214,7 +237,20 @@ const ProtocolView = Marionette.View.extend({
   },
 
   approveMeeting() {
-
+    let savePromise;
+    if(this.user && this.model.get('guestTeam').owner === this.user.id && !this.model.get('guestApproved')) {
+      savePromise = this.model.save({guestApproved: 1});
+    } else if(this.user && this.model.get('guestTeam').owner === this.user.id && this.model.get('guestApproved')) {
+      savePromise = this.model.save({guestApproved: 2});
+    } else if(this.user && this.model.get('hostTeam').owner === this.user.id && !this.model.get('hostApproved')) {
+      savePromise = this.model.save({hostApproved: 1});
+    } else if(this.user && this.model.get('hostTeam').owner === this.user.id && this.model.get('hostApproved') ) {
+      savePromise = this.model.save({hostApproved: 2});
+    }
+    savePromise.then(() => {
+      channelGlobal.trigger('meeting:updated');
+      this.updateResult();
+    })
   },
 
   updateResult() {
@@ -224,7 +260,24 @@ const ProtocolView = Marionette.View.extend({
     const isGamesEnd = this.collection.isEnd();
     this.el.querySelector('.js-hostScore').textContent = score[0];
     this.el.querySelector('.js-guestScore').textContent = score[1];
-    this.el.querySelector('.js-approve').disabled = !(isGamesEnd && !errors.length);
+    if(this.user && this.model.get('guestTeam').owner === this.user.id){
+      if(!this.model.get('guestApproved') && this.collection.isGuestFilled()) {
+        this.el.querySelector('.js-approve').disabled = false;
+        this.el.querySelector('.js-approve').textContent = 'Подтвердить состав'
+      } else {
+        this.el.querySelector('.js-approve').disabled = !(isGamesEnd && !errors.length);
+        this.el.querySelector('.js-approve').textContent = 'Подтвердить встречу'
+      }
+    }
+    if(this.user && this.model.get('hostTeam').owner === this.user.id){
+      if(!this.model.get('hostApproved') && this.collection.isHostFilled()) {
+        this.el.querySelector('.js-approve').disabled = false;
+        this.el.querySelector('.js-approve').textContent = 'Подтвердить состав'
+      } else {
+        this.el.querySelector('.js-approve').disabled = !(isGamesEnd && !errors.length);
+        this.el.querySelector('.js-approve').textContent = 'Подтвердить встречу'
+      }
+    }
     if (isGamesEnd && this.penaltyCollection.length < 5) {
       this.addPenaltyList();
     }

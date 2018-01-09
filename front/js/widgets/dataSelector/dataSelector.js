@@ -22,6 +22,17 @@ const DataSelector = Marionette.View.extend({
     this.current = null;
   },
 
+  onRender(){
+    if(!this.options.selectable){
+      this.el.querySelector('span').textContent = 'Игрок не выбран';
+      this.block();
+    }
+  },
+
+  block(){
+    this.el.classList.add('non-selectable');
+  },
+
   setSelected(model, silent) {
     console.log('setSelected');
     this.current = model;
@@ -39,9 +50,11 @@ const DataSelector = Marionette.View.extend({
   },
 
   navigate() {
-    channelGlobal.off('player:selected');
-    channelGlobal.on('player:selected', model => this.setSelected(model));
-    channelGlobal.trigger('modal:show', { view: 'playerSelector', collection: this.data });
+    if(this.options.selectable){
+      channelGlobal.off('player:selected');
+      channelGlobal.on('player:selected', model => this.setSelected(model));
+      channelGlobal.trigger('modal:show', { view: 'playerSelector', collection: this.data });
+    }
   }
 });
 
