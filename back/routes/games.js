@@ -8,7 +8,8 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  db.checkSession(req.session.user.id)
+  const session = req.session.user ? req.session.user.id : null;
+  db.checkSession(session)
     .then(function (user) {
       return db.listGames(req, user)
         .then(data => res.send(data));

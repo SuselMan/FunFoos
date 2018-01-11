@@ -1,0 +1,34 @@
+.app-modal {
+  z-index: 100000;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  &.hide {
+    display: none;
+    opacity: 0;
+  }
+  .modal-block {
+    background-color: $soft-white;
+    width: 600px;
+    height: 800px;
+    @include strict-center();
+    position: absolute;
+    padding: 40px;
+  }
+}
+
+@media screen and (min-resolution: 2dppx) {
+  .app-modal {
+    .modal-block {
+      background-color: $soft-white;
+      width: 98%;
+      height: 98%;
+      @include strict-center();
+      position: absolute;
+      padding: 40px;
+    }
+  }
+}

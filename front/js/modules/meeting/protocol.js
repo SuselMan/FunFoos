@@ -5,10 +5,12 @@
 
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
+import ModelBinder from 'backbone.modelbinder';
 import Games from '../../entities/games';
 import Penalty from '../../entities/penalty';
 import Players from '../../entities/players';
 import dataSelector from '../../widgets/dataSelector/dataSelector';
+
 
 const channelGlobal = Radio.channel('global');
 
@@ -29,10 +31,30 @@ const GameView = Marionette.View.extend({
   },
 
   ui: {
-    game0ScoreHost: '.js-game0 > input.host',
-    game1ScoreHost: '.js-game1 > input.host',
-    game0ScoreGuest: '.js-game0 > input.guest',
-    game1ScoreGuest: '.js-game1 > input.guest'
+    game0ScoreHost: '.js-game0 > .host',
+    game1ScoreHost: '.js-game1 > .host',
+    game0ScoreGuest: '.js-game0 > .guest',
+    game1ScoreGuest: '.js-game1 > .guest'
+  },
+
+  events: {
+    'click @ui.game0ScoreHost': 'showScoreSelector',
+    'click @ui.game1ScoreHost': 'showScoreSelector',
+    'click @ui.game0ScoreGuest': 'showScoreSelector',
+    'click @ui.game1ScoreGuest': 'showScoreSelector',
+  },
+
+  showScoreSelector(e){
+    channelGlobal.trigger('modal:show', { view: 'scoreSelector', score: 5, field: e.target.getAttribute('name'), id: this.model.id});
+    channelGlobal.on('score:selected', (opt) => {this.selectScore(opt)});
+  },
+
+  selectScore({field, value, id}) {
+    if (id === this.model.id) {
+      const obj = {};
+      obj[field] = value;
+      this.model.save(obj);
+    }
   },
 
   initialize(options) {
@@ -48,8 +70,8 @@ const GameView = Marionette.View.extend({
     this.hostSelectors = [];
     this.guestSelectors = [];
     console.log('options',this.options.meeting.get('guestTeam'), this.options);
-    const isHostOwner = this.options.meeting.get('hostTeam').owner === this.options.user.id;
-    const isGuestOwner = this.options.meeting.get('guestTeam').owner === this.options.user.id;
+    const isHostOwner = this.options.user && this.options.meeting.get('hostTeam').owner === this.options.user.id;
+    const isGuestOwner = this.options.user && this.options.meeting.get('guestTeam').owner === this.options.user.id;
     for (let i = 0; i < type; i++) {
       this.hostSelectors.push(new dataSelector({
         selectable: isHostOwner && !this.options.meeting.get('hostApproved'),
@@ -64,10 +86,8 @@ const GameView = Marionette.View.extend({
       this.hostSelectors[i].on('change:player', this.changeHostPlayer.bind(this));
       this.guestSelectors[i].on('change:player', this.changeGuestPlayer.bind(this));
     }
-    const scores = this.el.querySelectorAll('input');
-    for (let i = 0; i < scores.length; i++) {
-      scores[i].onchange = this.changeScore.bind(this);
-    }
+    const bindings = ModelBinder.createDefaultBindings(this.el, 'name');
+    new ModelBinder().bind(this.model, this.el, bindings);
     this.setItems();
     channelGlobal.on('meeting:updated', () => {this.setItems()});
   },
@@ -91,10 +111,10 @@ const GameView = Marionette.View.extend({
         this.guestSelectors[i].block();
       }
     }
-    if (this.model.get('hostScore0')) this.ui.game0ScoreHost.val(this.model.get('hostScore0'));
-    if (this.model.get('hostScore1')) this.ui.game1ScoreHost.val(this.model.get('hostScore1'));
-    if (this.model.get('guestScore0')) this.ui.game0ScoreGuest.val(this.model.get('guestScore0'));
-    if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.val(this.model.get('guestScore1'));
+    // if (this.model.get('hostScore0')) this.ui.game0ScoreHost.html(this.model.get('hostScore0'));
+    // if (this.model.get('hostScore1')) this.ui.game1ScoreHost.html(this.model.get('hostScore1'));
+    // if (this.model.get('guestScore0')) this.ui.game0ScoreGuest.html(this.model.get('guestScore0'));
+    // if (this.model.get('guestScore1')) this.ui.game1ScoreGuest.html(this.model.get('guestScore1'));
     // if (!this.collection.guestIsFilled) {
     //   this.el.querySelector('.js-firstHost').classList.add('disabled');
     //   this.el.querySelector('.js-secondHost').classList.add('disabled');
@@ -128,12 +148,6 @@ const GameView = Marionette.View.extend({
   changeGuestPlayer(model, index) {
     const obj = {};
     obj[`guestPlayer${index}`] = model.id;
-    this.model.save(obj);
-  },
-
-  changeScore(e) {
-    const obj = {};
-    obj[e.target.dataset.name] = e.target.value;
     this.model.save(obj);
   }
 });

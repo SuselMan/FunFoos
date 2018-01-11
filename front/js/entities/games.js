@@ -12,6 +12,13 @@ const Game = Backbone.Model.extend({
   idAttribute: '_id',
   urlRoot: '/api/games',
 
+  defaults: {
+    guestScore0: 0,
+    hostScore0: 0,
+    guestScore1: 0,
+    hostScore1: 0
+  },
+
   initialize(attrs, options) {
     this.options = options;
     this.valid = true;

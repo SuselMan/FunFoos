@@ -19,7 +19,13 @@ module.exports = {
       new webpack.DefinePlugin({
         "VERSION": JSON.stringify( package.version )
       }),
-      new UglifyJsPlugin()
+      new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        compress: {
+          properties: true,
+          drop_console:true
+        }
+      })
     ],
     module: {
       rules: [
@@ -51,7 +57,7 @@ module.exports = {
                 include: /images/,
                 loader : 'url-loader',
                 options: {
-                  limit: 500, // Convert images < ~5kb to base64 strings
+                  limit: 50000, // Convert images < ~50kb to base64 strings
                   name: 'resourses/[name].[ext]'
                 }
             },
@@ -60,7 +66,7 @@ module.exports = {
                 include: /fonts/,
                 loader: 'url-loader',
                 options: {
-                    limit: 500,
+                    limit: 50000,
                     name: 'resourses/[name].[ext]'
                 }
             },
@@ -70,3 +76,6 @@ module.exports = {
         fs: 'empty'
     }
 };
+
+
+

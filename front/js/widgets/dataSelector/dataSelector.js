@@ -24,7 +24,7 @@ const DataSelector = Marionette.View.extend({
 
   onRender(){
     if(!this.options.selectable){
-      this.el.querySelector('span').textContent = 'Игрок не выбран';
+      this.el.querySelector('span.secondName').textContent = '—';
       this.block();
     }
   },
@@ -36,7 +36,9 @@ const DataSelector = Marionette.View.extend({
   setSelected(model, silent) {
     console.log('setSelected');
     this.current = model;
-    this.el.querySelector('span').innerHTML = `${model.get('firstName')} ${model.get('secondName')}`;
+    // this.el.querySelector('span').innerHTML = `${model.get('firstName')} ${model.get('secondName')}`;
+    this.el.querySelector('span.firstName').innerHTML = model.get('firstName');
+    this.el.querySelector('span.secondName').innerHTML = model.get('secondName');
     const image = model.get('image');
     if (image) {
       this.el.setAttribute('style', `background-image:url(${image})`);

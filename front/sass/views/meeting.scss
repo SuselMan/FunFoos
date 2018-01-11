@@ -1,4 +1,5 @@
 //TODO add media query for small screens where will show only second name
+
 .protocol {
   .games {
     width: 100%;
@@ -96,7 +97,7 @@
         min-height: 50%;
         align-self: stretch;
 
-        input {
+        div {
           border: none;
           width: 50%;
           display: flex;
@@ -150,5 +151,53 @@
   button{
     flex-basis: 180px;
     border-radius: 0;
+  }
+}
+
+@media screen and (min-resolution: 2dppx) {
+  .protocol {
+    .meeting-team {
+      height: 140px;
+      .name {
+        font-size: 60px;
+        line-height: 140px;
+      }
+      .logo {
+        width: 138px;
+        height: 138px;
+      }
+    }
+    .game {
+      &.penalty{
+        &::before{
+          margin-right: -100%;
+          margin-top: -113px;
+          padding-left: calc(50% - 39px);
+          height: 30px;
+          line-height: 30px;
+        }
+        margin-top: 30px;
+      }
+      font-size: 40px;
+      line-height: 130px;
+      .team {
+        .player {
+          .data-selector {
+            height: 130px;
+          }
+        }
+      }
+      .score {
+        line-height: 65px;
+        min-height: 100%;
+      }
+    }
+  }
+
+  .result{
+    font-size: 60px;
+    .score{
+      height: 140px;
+    }
   }
 }

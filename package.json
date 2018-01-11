@@ -69,6 +69,7 @@
     "handlebars": "^4.0.11",
     "images-upload-middleware": "^1.1.1",
     "method-override": "^2.3.10",
+    "mobile-detect": "^1.4.1",
     "moment": "^2.19.2",
     "mongoose": "^4.13.2",
     "mongoose-auto-increment": "^5.0.1",

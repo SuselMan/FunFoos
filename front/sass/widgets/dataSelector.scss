@@ -18,6 +18,9 @@
   }
   span {
     text-decoration: underline;
+    &.firstName{
+
+    }
   }
   &:hover {
     background-color: #f8f2ce;
@@ -60,3 +63,14 @@
     background-position: left top;
   }
 }
+
+@media screen and (min-resolution: 2dppx) {
+  .data-selector {
+    span {
+      &.firstName{
+        display: none;
+      }
+    }
+  }
+}
+

@@ -25,6 +25,7 @@ import UserView from '../user/user';
 import MeetingsView from '../meetings/meetings';
 import MeetingView from '../meeting/meeting';
 import PlayerSelector from '../modals/playerSelector';
+import ScoreSelector from '../modals/scoreSelector';
 import TeamSelector from '../modals/teamSelector';
 import PlaceSelector from '../modals/placeSelector';
 import CitySelector from '../modals/citySelector';
@@ -48,19 +49,25 @@ const Layout = Marionette.View.extend({
   },
 
   ui: {
-    nav: '.main > a.nav-link',
+    nav: '.main a.nav-link',
     logo: '.js-logo',
-    registration: '.js-registration'
+    registration: '.js-registration',
+    menu:'.js-menuBtn'
   },
 
   events: {
     'click @ui.nav': 'navigateTo',
     'click @ui.logo': 'navigateTo',
-    'click @ui.registration': 'registration'
+    'click @ui.registration': 'registration',
+    'click @ui.menu': 'toggleMenu'
   },
 
   initialize() {
     this.user = new User();
+  },
+
+  toggleMenu(){
+    this.el.querySelector('.js-dropdown').classList.toggle('opened');
   },
 
   navigateTo(e) {
@@ -75,6 +82,7 @@ const Layout = Marionette.View.extend({
     } else {
       this.showSignin();
     }
+    this.el.querySelector('.js-dropdown').classList.remove('opened');
   },
 
   registration() {
@@ -82,6 +90,7 @@ const Layout = Marionette.View.extend({
   },
 
   startModal(options) {
+    this.el.querySelector('.js-dropdown').classList.remove('opened');
     this.signin.fetch()
       .then(() => {
         this.getRegion('modalRegion').empty();
@@ -112,6 +121,9 @@ const Layout = Marionette.View.extend({
           case 'playerSelector':
             this.showChildView('modalRegion', new PlayerSelector(options));
             break;
+          case 'scoreSelector':
+            this.showChildView('modalRegion', new ScoreSelector(options));
+            break;
           case 'teamSelector':
             this.showChildView('modalRegion', new TeamSelector(options));
             break;
@@ -141,6 +153,7 @@ const Layout = Marionette.View.extend({
   },
 
   start(view, option) {
+    this.el.querySelector('.js-dropdown').classList.remove('opened');
     this.signin.fetch()
       .then(() => {
         this.minimizeHeader();
