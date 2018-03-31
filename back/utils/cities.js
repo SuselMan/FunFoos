@@ -25,13 +25,22 @@ export function getCity(req) {
     });
 }
 
-export function createCity(data) {
-    const team = new City({
-        name: data.name,
-        image: data.image || null
-    });
+export function createCity(data, user) {
+  if(user.isAdmin) {
+      const team = new City({
+          name: data.name,
+          image: data.image || null
+      });
 
-    return team.save();
+      return team.save();
+  } else {
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
 }
 
 export function changeCity(req) {

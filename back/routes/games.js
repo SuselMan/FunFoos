@@ -31,7 +31,11 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    db.createGame(req.body).then(data => res.send(data));
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return  db.createGame(req.body, user).then(data => res.send(data));
+    })
+
 });
 
 router.delete('/:id', (req, res) => {
@@ -39,13 +43,16 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    db.changeGame(req)
-      .then(function(result){
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return db.changeGame(req, user)
+        .then(function (result) {
           res.status(200).send(result);
-      })
-      .catch(function(err){
+        })
+        .catch(function (err) {
           res.status(err.status).send(err)
-      })
+        })
+    });
 });
 
 export default router

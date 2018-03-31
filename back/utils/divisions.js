@@ -7,8 +7,14 @@ import '../models/Division';
 
 const Division = mongoose.model('Division');
 
-export function changeDivision(req) {
+export function changeDivision(req, user) {
     return new Promise(function (resolve, reject) {
+        if(!user.isAdmin){
+          reject({
+            status: 403,
+            msg: 'Forbidden'
+          });
+        }
         Division.findById(req.params.id, function (err, player) {
             if (player) {
                 Division.update({_id: req.params.id}, {image: req.body.image})

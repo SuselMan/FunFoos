@@ -22,7 +22,15 @@ export function getGame(req) {
   });
 }
 
-export function changeGame(req) {
+export function changeGame(req, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return new Promise(function (resolve, reject) {
     Game.findById(req.params.id, function (err, game) {
       if (game) {
@@ -57,39 +65,48 @@ export function listGames(req, user) {
         return Promise.all([this.getTeam({params: {id: meeting.host}}), this.getTeam({params: {id: meeting.guest}})])
       })
       .then(([host, guest]) => {
+        return Game.find({meeting: req.query.meeting});
         //TODO: if user is admin return all;
-        if (user && user._id === host.owner) {
-          if (meetingObj.guestApproved) {
-            return Game.find({meeting: req.query.meeting});
-          } else {
-            return Game.find({meeting: req.query.meeting}, {guestPlayer0: 0, guestPlayer1: 0});
-          }
-        }
-        else if (user && user._id === guest.owner) {
-          if (meetingObj.guestApproved && meetingObj.hostApproved) {
-            return Game.find({meeting: req.query.meeting});
-          } else {
-            return Game.find({meeting: req.query.meeting}, {hostPlayer0: 0, hostPlayer1: 0});
-          }
-        } else {
-          if (meetingObj.guestApproved && meetingObj.hostApproved) {
-            return Game.find({meeting: req.query.meeting});
-          } else {
-            return Game.find({meeting: req.query.meeting}, {
-              hostPlayer0: 0,
-              hostPlayer1: 0,
-              guestPlayer0: 0,
-              guestPlayer1: 0
-            });
-          }
-        }
+        // if (user && user._id === host.owner) {
+        //   if (meetingObj.guestApproved) {
+        //     return Game.find({meeting: req.query.meeting});
+        //   } else {
+        //     return Game.find({meeting: req.query.meeting}, {guestPlayer0: 0, guestPlayer1: 0});
+        //   }
+        // }
+        // else if (user && user._id === guest.owner) {
+        //   if (meetingObj.guestApproved && meetingObj.hostApproved) {
+        //     return Game.find({meeting: req.query.meeting});
+        //   } else {
+        //     return Game.find({meeting: req.query.meeting}, {hostPlayer0: 0, hostPlayer1: 0});
+        //   }
+        // } else {
+        //   if (meetingObj.guestApproved && meetingObj.hostApproved) {
+        //     return Game.find({meeting: req.query.meeting});
+        //   } else {
+        //     return Game.find({meeting: req.query.meeting}, {
+        //       hostPlayer0: 0,
+        //       hostPlayer1: 0,
+        //       guestPlayer0: 0,
+        //       guestPlayer1: 0
+        //     });
+        //   }
+        // }
       });
   } else {
     return Game.find();
   }
 }
 
-export function createGame(data) {
+export function createGame(data, user = {}) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   const game = new Game({
     meeting: data.meeting,
     season: data.season,

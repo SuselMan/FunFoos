@@ -22,7 +22,11 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    db.createCity(req.body).then(data => res.send(data));
+  db.checkSession(req.session.user.id)
+    .then(function (user) {
+      return  db.createCity(req.body, user).then(data => res.send(data));
+    })
+
 });
 
 router.put('/:id', (req, res) => {

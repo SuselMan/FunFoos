@@ -52,7 +52,7 @@ const Layout = Marionette.View.extend({
     nav: '.main a.nav-link',
     logo: '.js-logo',
     registration: '.js-registration',
-    menu:'.js-menuBtn'
+    menu: '.js-menuBtn'
   },
 
   events: {
@@ -66,7 +66,7 @@ const Layout = Marionette.View.extend({
     this.user = new User();
   },
 
-  toggleMenu(){
+  toggleMenu() {
     this.el.querySelector('.js-dropdown').classList.toggle('opened');
   },
 

@@ -4,19 +4,22 @@
 
 import mongoose from "mongoose";
 import autoIncrement from 'mongoose-autoincrement';
+
 const Schema = mongoose.Schema;
 
 const MeetingSchema = new Schema({
-    date: {type: Number},
-    place: {type: Number},
-    host: {type: Number, required: true},
-    guest: {type: Number, required: true},
-    owner: {type: Number, required: true}, //owner is division
-    score: {type:Array},
-    secret:{type:String},
-    hostApproved:{type:Number},
-    guestApproved:{type:Number},
-    approved:{type:Boolean}
+  date: {type: Number},
+  place: {type: Number},
+  host: {type: Number, required: true},
+  guest: {type: Number, required: true},
+  owner: {type: Number, required: true}, //owner is division
+  score: {type: Array},
+  secret: {type: String},
+  hostApproved: {type: Number},
+  guestApproved: {type: Number},
+  approved: {type: Boolean},
+  winner: {type: Number},
+  isEnd: {type: Boolean}
 });
 
 MeetingSchema.plugin(autoIncrement, 'MeetingSchema');

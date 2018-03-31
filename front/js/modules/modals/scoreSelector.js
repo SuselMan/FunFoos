@@ -19,7 +19,7 @@ const ScoreView = Marionette.View.extend({
   },
 
   navigate() {
-    channelGlobal.trigger('score:selected', {value:this.model.get('value'), field, id});
+    channelGlobal.trigger('score:selected', { value: this.model.get('value'), field, id });
     channelGlobal.trigger('modal:close');
   }
 });
@@ -50,8 +50,8 @@ const ScoresModal = BaseModalView.extend({
     this.collection = new Backbone.Collection();
     field = options.field || '';
     id = options.id || '';
-    for(let i = 0; i <= this.highScore; i++){
-      this.collection.add(new Backbone.Model({value: i}))
+    for (let i = 0; i <= this.highScore; i++) {
+      this.collection.add(new Backbone.Model({ value: i }));
     }
   },
 

@@ -92,13 +92,16 @@ router.post('/logout', (req, res) => {
 });
 
 router.put('/user/:id', (req, res) => {
-  db.changeUser(req)
-    .then(function (result) {
-      res.status(200).send(result);
-    })
-    .catch(function (err) {
-      res.status(err.status).send(err)
-    })
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      db.changeUser(req, user)
+        .then(function (result) {
+          res.status(200).send(result);
+        })
+        .catch(function (err) {
+          res.status(err.status).send(err)
+        })
+    });
 });
 
 export default router

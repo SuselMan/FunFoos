@@ -18,14 +18,14 @@ module.exports = {
     plugins: [
       new webpack.DefinePlugin({
         "VERSION": JSON.stringify( package.version )
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        minimize: true,
-        compress: {
-          properties: true,
-          drop_console:true
-        }
       })
+      // new webpack.optimize.UglifyJsPlugin({
+      //   minimize: true,
+      //   compress: {
+      //     properties: true,
+      //     drop_console:true
+      //   }
+      // })
     ],
     module: {
       rules: [

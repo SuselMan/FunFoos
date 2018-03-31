@@ -18,11 +18,18 @@ export function createUser(userData) {
   if (userData.email === 'SuselMan') {
     user.isSuperAdmin = true;
     user.isAdmin = true;
+    return new User(user).save();
   } else {
-    user.isSuperAdmin = false;
-    user.isAdmin = false;
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+    // user.isSuperAdmin = false;
+    // user.isAdmin = false;
   }
-  return new User(user).save()
+  return new User(user).save();
 }
 
 export function checkUser(userData) {
@@ -46,6 +53,14 @@ export function getUser(userData) {
 }
 
 export function changeUser(req) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return new Promise(function (resolve, reject) {
     User.findById(req.params.id, function (err, user) {
       if (user) {

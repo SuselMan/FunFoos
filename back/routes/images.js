@@ -8,7 +8,7 @@ import * as db from '../utils/DataBaseUtils';
 
 const router = express.Router();
 
-//TODO: check that returns available  path
+//TODO: big hole
 router.post('/', imagesUpload(
     './build/files',
     '/files'

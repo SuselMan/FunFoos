@@ -7,7 +7,15 @@ import '../models/Player';
 
 const Player = mongoose.model('Player');
 
-export function changePlayer(req) {
+export function changePlayer(req, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return new Promise(function (resolve, reject) {
     Player.findById(req.params.id, function (err, player) {
       if (player) {
@@ -42,28 +50,33 @@ export function listPlayers(req) {
 }
 
 export function createPlayer(data, user) {
-  // if (user._id === data.owner || user.isAdmin) {
-  // TODO: only admin
-  if (true) {
-    const team = new Player({
-      firstName: data.firstName,
-      secondName: data.secondName,
-      owner: data.owner,
-      image: data.image
-
-    });
-    return team.save();
-  } else {
+  if (!user.isAdmin) {
     return new Promise(function (resolve, reject) {
       reject({
         status: 403,
         msg: 'Forbidden'
       });
-    })
+    });
   }
+  const team = new Player({
+    firstName: data.firstName,
+    secondName: data.secondName,
+    owner: data.owner,
+    image: data.image
+
+  });
+  return team.save();
 }
 
-export function deletePlayer(id) {
+export function deletePlayer(id, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return Player.findById(id).remove();
 }
 

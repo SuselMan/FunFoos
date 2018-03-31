@@ -22,10 +22,13 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  db.createTeam(req.body)
-    .then(data => res.send(data))
-    .catch((err) => {
-      res.status(500).send(err)
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return db.createTeam(req.body, user)
+        .then(data => res.send(data))
+        .catch((err) => {
+          res.status(500).send(err)
+        });
     });
 });
 
@@ -34,13 +37,16 @@ router.post('/', (req, res) => {
 // });
 
 router.put('/:id', (req, res) => {
-  db.changeTeam(req)
-    .then(function (result) {
-      res.status(200).send(result);
-    })
-    .catch(function (err) {
-      res.status(err.status).send(err)
-    })
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+        return db.changeTeam(req, user)
+          .then(function (result) {
+            res.status(200).send(result);
+          })
+          .catch(function (err) {
+            res.status(err.status).send(err)
+          });
+    });
 });
 
 

@@ -16,7 +16,15 @@ export function listSeasons(req) {
   return Season.find();
 }
 
-export function createSeason(data) {
+export function createSeason(data, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   const team = new Season({
     name: data.name
   });
@@ -81,7 +89,15 @@ function getGames(meetings, structure, divisionID, seasonID) {
 }
 
 
-export function changeSeason(req) {
+export function changeSeason(req, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   if (req.body.state && req.body.state === 2) {
     return this.calculateSeason(req.params.id)
   }

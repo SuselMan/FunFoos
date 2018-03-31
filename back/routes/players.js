@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   db.checkSession(req.session.user.id)
     .then(function (user) {
-      return db.createPlayer(req.body,user)
+      return db.createPlayer(req.body, user)
     })
     .then(data => res.send(data))
     .catch(function (err) {
@@ -23,17 +23,23 @@ router.post('/', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  db.deletePlayer(req.params.id).then(data => res.send(data));
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return db.deletePlayer(req.params.id, user).then(data => res.send(data));
+    });
 });
 
 router.put('/:id', (req, res) => {
-  db.changePlayer(req)
-    .then(function (result) {
-      res.status(200).send(result);
-    })
-    .catch(function (err) {
-      res.status(err.status).send(err)
-    })
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return db.changePlayer(req, user)
+        .then(function (result) {
+          res.status(200).send(result);
+        })
+        .catch(function (err) {
+          res.status(err.status).send(err)
+        })
+    });
 });
 
 export default router

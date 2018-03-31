@@ -23,7 +23,15 @@ export function getMeeting(req) {
   });
 }
 
-export function changeMeeting(req) {
+export function changeMeeting(req, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return new Promise(function(resolve, reject) {
     Meeting.findById(req.params.id,function(err,meeting){
       if(meeting){
@@ -56,7 +64,15 @@ export function listMeetings(req) {
   return Meeting.find();
 }
 
-export function createMeeting(data) {
+export function createMeeting(data, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   const meeting = new Meeting({
     date: data.date,
     place: data.place,
@@ -80,5 +96,13 @@ export function createMeetings(dataArr) {
 }
 
 export function deleteMeeting(id) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return Meeting.findById(id).remove();
 }

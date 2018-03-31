@@ -22,14 +22,14 @@ const DataSelector = Marionette.View.extend({
     this.current = null;
   },
 
-  onRender(){
-    if(!this.options.selectable){
-      this.el.querySelector('span.secondName').textContent = '—';
+  onRender() {
+    if (!this.options.selectable) {
+      //this.el.querySelector('span.secondName').textContent = '—';
       this.block();
     }
   },
 
-  block(){
+  block() {
     this.el.classList.add('non-selectable');
   },
 
@@ -52,7 +52,7 @@ const DataSelector = Marionette.View.extend({
   },
 
   navigate() {
-    if(this.options.selectable){
+    if (this.options.selectable) {
       channelGlobal.off('player:selected');
       channelGlobal.on('player:selected', model => this.setSelected(model));
       channelGlobal.trigger('modal:show', { view: 'playerSelector', collection: this.data });

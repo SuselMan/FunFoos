@@ -7,7 +7,15 @@ import '../models/Subseason';
 
 const Subseason = mongoose.model('Subseason');
 
-export function changeSubseason(req) {
+export function changeSubseason(req, user) {
+  if(!user.isAdmin){
+    return new Promise(function (resolve, reject) {
+      reject({
+        status: 403,
+        msg: 'Forbidden'
+      });
+    });
+  }
   return new Promise(function (resolve, reject) {
     Subseason.findById(req.params.id, function (err, player) {
       if (player) {

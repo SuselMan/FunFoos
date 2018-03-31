@@ -12,7 +12,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    db.createPlace(req.body).then(data => res.send(data));
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return db.createPlace(req.body, user).then(data => res.send(data));
+    });
 });
 
 router.delete('/:id', (req, res) => {
@@ -20,13 +23,16 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    db.changePlace(req)
-        .then(function(result){
-            res.status(200).send(result);
+  db.checkSession(req.session.user.id)
+    .then((user) => {
+      return db.changePlace(req, user)
+        .then(function (result) {
+          res.status(200).send(result);
         })
-        .catch(function(err){
-            res.status(err.status).send(err)
-        })
+        .catch(function (err) {
+          res.status(err.status).send(err)
+        });
+    })
 });
 
 export default router
