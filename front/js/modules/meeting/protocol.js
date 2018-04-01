@@ -60,6 +60,9 @@ const GameView = Marionette.View.extend({
     if (id === this.model.id) {
       const obj = {};
       obj[field] = value;
+      if(this.model.getWinner()){
+        obj.winner = this.model.getWinner();
+      }
       this.model.save(obj);
     }
   },
@@ -72,7 +75,7 @@ const GameView = Marionette.View.extend({
     const type = this.model.get('type');
     const isPenalty = this.model.get('isPenalty');
     if (isPenalty) {
-      this.el.classList.add('penalty');
+      // this.el.classList.add('penalty');
     }
     this.hostSelectors = [];
     this.guestSelectors = [];
@@ -101,18 +104,14 @@ const GameView = Marionette.View.extend({
   },
 
   setItems() {
-    console.log('setItems');
-    debugger;
     const type = this.model.get('type');
     for (let i = 0; i < type; i++) {
       const hostPlayer = this.model.get(`hostPlayer${i}`);
       if (hostPlayer && this.isHostPlayer(hostPlayer)) {
-        console.log('setItems');
         this.hostSelectors[i].setSelected(this.options.hostPlayers.get(this.model.get(`hostPlayer${i}`)), true);
       }
       const guestPlayer = this.model.get(`guestPlayer${i}`);
       if (guestPlayer && this.isGuestPlayer(guestPlayer)) {
-        console.log('setItems');
         this.guestSelectors[i].setSelected(this.options.guestPlayers.get(this.model.get(`guestPlayer${i}`)), true);
       }
     }
@@ -160,12 +159,18 @@ const ProtocolView = Marionette.View.extend({
   className: 'protocol',
 
   ui: {
-    approve: '.js-approve',
-    admin:'.js-adminMeeting'
+    addPenaltyBtn: '.js-addPenalty',
+    admin:'.js-adminMeeting',
+    hostWon:'.js-hostWon',
+    guestWon:'.js-guestWon',
+    draw:'.js-draw',
   },
 
   events: {
-    'click @ui.approve': 'approveMeeting'
+    'click @ui.addPenaltyBtn': 'addPenalty',
+    'click @ui.hostWon': 'saveMeeting',
+    'click @ui.guestWon': 'saveMeeting',
+    'click @ui.draw': 'saveMeeting'
   },
 
   regions: {
@@ -175,6 +180,24 @@ const ProtocolView = Marionette.View.extend({
 
   initialize(options) {
     this.options = options;
+  },
+
+  saveMeeting(evt){
+    const toSave = {
+      score: this.collection.getScore(),
+      penaltyScore: this.collection.getScore(),
+      approved: true
+    };
+    if(evt.currentTarget === this.el.querySelector('.js-hostWon')){
+      toSave.winner = this.model.get('host');
+    }
+    if(evt.currentTarget === this.el.querySelector('.js-guestWon')){
+      toSave.winner = this.model.get('guest')
+    }
+    if(evt.currentTarget === this.el.querySelector('.js-draw')){
+      toSave.winner = -1
+    }
+    this.model.save(toSave);
   },
 
   onRender() {
@@ -212,6 +235,7 @@ const ProtocolView = Marionette.View.extend({
   },
 
   addPenalty() {
+    console.log('addPenalty');
     const copy = this.collection.at(0).toJSON();
     const penlaty = new this.penaltyCollection.model({
       meeting: copy.meeting,
@@ -220,7 +244,9 @@ const ProtocolView = Marionette.View.extend({
       type: 1,
       isPenalty: true
     });
-    this.penaltyCollection.add(penlaty);
+    penlaty.save().then(() => {
+      this.penaltyCollection.add(penlaty);
+    })
   },
 
   addPenaltyList() {
@@ -231,10 +257,10 @@ const ProtocolView = Marionette.View.extend({
 
   showAdminStuff(user) {
     if (user && user.get('isAdmin')) {
-      this.ui.approve.show();
+      this.ui.addPenaltyBtn.show();
       this.ui.admin.show();
     } else {
-      this.ui.approve.hide();
+      this.ui.addPenaltyBtn.hide();
       this.ui.admin.hide();
     }
   },
@@ -243,8 +269,16 @@ const ProtocolView = Marionette.View.extend({
     this.collection.isGuestFilled();
     const score = this.collection.getScore();
     const errors = this.collection.validateGames();
+    const isGamesEnd = this.collection.isEnd();
     this.el.querySelector('.js-hostScore').textContent = score[0];
     this.el.querySelector('.js-guestScore').textContent = score[1];
+
+    if (isGamesEnd && score[0] === score[1]) {
+      this.el.querySelector('.js-addPenalty').removeAttribute('disabled');
+    } else {
+      this.el.querySelector('.js-addPenalty').setAttribute('disabled', 'true');
+    }
+
     if (errors.length) {
       this.el.querySelector('.js-errors').textContent = errors.join(', ');
     } else {

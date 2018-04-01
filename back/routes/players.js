@@ -8,7 +8,10 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  db.listPlayers(req).then(data => res.send(data));
+  db.listGames(req)
+    .then((games) => {
+      db.listPlayers(req,games).then(data => res.send(data));
+    });
 });
 
 router.post('/', (req, res) => {

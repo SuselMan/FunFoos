@@ -88,7 +88,10 @@ const DivisionsView = Marionette.CollectionView.extend({
   },
 
   onRender() {
-    this.addChildView(new ButtonView(this.options), this.length - 1);
+    this.user = channelGlobal.request('get:user');
+    if(this.user && this.user.get('isAdmin')){
+      this.addChildView(new ButtonView(this.options), this.length - 1);
+    }
   }
 });
 

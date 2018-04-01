@@ -66,7 +66,14 @@ const CitiesLayout = Marionette.View.extend({
     'click @ui.saveBtn': 'save'
   },
 
+  initialize(){
+    this.user = channelGlobal.request('get:user');
+  },
+
   onRender() {
+    if(!this.user || !this.user.get('isAdmin')){
+      this.ui.saveBtn.hide();
+    }
     this.collection.fetch()
       .then(() => {
         this.showChildView('listRegion', new CitiesView({

@@ -24,7 +24,7 @@ const DataSelector = Marionette.View.extend({
 
   onRender() {
     if (!this.options.selectable) {
-      //this.el.querySelector('span.secondName').textContent = '—';
+      this.el.querySelector('span.secondName').textContent = '—';
       this.block();
     }
   },
@@ -34,7 +34,6 @@ const DataSelector = Marionette.View.extend({
   },
 
   setSelected(model, silent) {
-    console.log('setSelected');
     this.current = model;
     // this.el.querySelector('span').innerHTML = `${model.get('firstName')} ${model.get('secondName')}`;
     this.el.querySelector('span.firstName').innerHTML = model.get('firstName');

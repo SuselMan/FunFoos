@@ -57,10 +57,10 @@ const appController = {
     App.mainModule.setView('cities');
   },
 
-  meetingsWindow() {
-    this.checkMainModule();
-    App.mainModule.setView('meetings');
-  },
+  // meetingsWindow() {
+  //   this.checkMainModule();
+  //   App.mainModule.setView('meetings');
+  // },
 
   meetingWindow(id) {
     this.checkMainModule();

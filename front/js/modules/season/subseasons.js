@@ -71,7 +71,10 @@ const SubseasonsView = Marionette.CollectionView.extend({
   },
 
   onRender() {
-    this.addChildView(new ButtonView({ season: this.options.season, cities: this.options.cities }), 0);
+    this.user = channelGlobal.request('get:user');
+    if(this.user && this.user.get('isAdmin')){
+      this.addChildView(new ButtonView({ season: this.options.season, cities: this.options.cities }), 0);
+    }
   }
 });
 

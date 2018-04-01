@@ -22,7 +22,7 @@ import NewPlaceView from '../modals/newPlace';
 import PlayersView from '../players/players';
 import SeasonsView from '../seasons/seasons';
 import UserView from '../user/user';
-import MeetingsView from '../meetings/meetings';
+// import MeetingsView from '../meetings/meetings';
 import MeetingView from '../meeting/meeting';
 import PlayerSelector from '../modals/playerSelector';
 import ScoreSelector from '../modals/scoreSelector';
@@ -72,7 +72,7 @@ const Layout = Marionette.View.extend({
 
   navigateTo(e) {
     const url = e.currentTarget.dataset.url;
-    if (url) {
+    if (url !=='signin') {
       const items = this.el.querySelectorAll('a');
       for (let i = 0; i < items.length; i++) {
         items[i].classList.remove('active');
@@ -192,9 +192,9 @@ const Layout = Marionette.View.extend({
           case 'user':
             this.showChildView('contentRegion', new UserView({ model: this.user }));
             break;
-          case 'meetings':
-            this.showChildView('contentRegion', new MeetingsView());
-            break;
+          // case 'meetings':
+          //   this.showChildView('contentRegion', new MeetingsView());
+          //   break;
           case 'meeting':
             this.el.querySelector('.sign-up').classList.toggle('big-header', true);
             this.showChildView('contentRegion', new MeetingView({ id: option }));
@@ -236,6 +236,7 @@ const Layout = Marionette.View.extend({
     this.user = user;
     this.el.querySelector('.js-login').innerText = user.get('email');
     if (user.get('isAdmin')) {
+      this.el.querySelector('.js-login').classList.remove('admin-login-button');
       this.el.querySelector('.js-login').innerText += ' (администратор)';
     }
     channelGlobal.reply('get:user', this.getUser.bind(this));

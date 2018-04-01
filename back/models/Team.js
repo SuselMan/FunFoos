@@ -12,7 +12,7 @@ const TeamSchema = new Schema({
     owner  : { type: Number, unique: true}, // it is user
     image  : { type: String},
     divisions: {type: Array},
-    division: {type:Number}
+    division: {type: Number}
 });
 TeamSchema.plugin(autoIncrement, 'TeamSchema');
 const Team = mongoose.model('Team', TeamSchema);

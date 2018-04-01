@@ -66,32 +66,6 @@ export function listGames(req, user) {
       })
       .then(([host, guest]) => {
         return Game.find({meeting: req.query.meeting});
-        //TODO: if user is admin return all;
-        // if (user && user._id === host.owner) {
-        //   if (meetingObj.guestApproved) {
-        //     return Game.find({meeting: req.query.meeting});
-        //   } else {
-        //     return Game.find({meeting: req.query.meeting}, {guestPlayer0: 0, guestPlayer1: 0});
-        //   }
-        // }
-        // else if (user && user._id === guest.owner) {
-        //   if (meetingObj.guestApproved && meetingObj.hostApproved) {
-        //     return Game.find({meeting: req.query.meeting});
-        //   } else {
-        //     return Game.find({meeting: req.query.meeting}, {hostPlayer0: 0, hostPlayer1: 0});
-        //   }
-        // } else {
-        //   if (meetingObj.guestApproved && meetingObj.hostApproved) {
-        //     return Game.find({meeting: req.query.meeting});
-        //   } else {
-        //     return Game.find({meeting: req.query.meeting}, {
-        //       hostPlayer0: 0,
-        //       hostPlayer1: 0,
-        //       guestPlayer0: 0,
-        //       guestPlayer1: 0
-        //     });
-        //   }
-        // }
       });
   } else {
     return Game.find();

@@ -7,14 +7,31 @@ import '../models/Team';
 
 const Team = mongoose.model('Team');
 
-export function listTeams(req) {
+export function listTeams(req, meetings) {
   if (req && req.query.owner) {
     return Team.find({owner: req.query.owner})
   }
   if (req && req.query.division) {
     return Team.find({division: req.query.division})
   }
-  return Team.find();
+  return Team.find().then((teams) => {
+    const teamsList = [];
+    teams.forEach((team) => {
+      const paticipate = meetings.filter((meeting) => {
+        return meeting.approved && (meeting.guest === team._id || meeting.host === team._id);
+      });
+      const wins = paticipate.filter((meeting) => meeting.winner === team._id).length;
+      const loses = paticipate.filter((meeting) => (meeting.winner && meeting.winner !== team._id)).length;
+     const stats = {
+       wins,
+       loses,
+       score: wins- loses,
+       winRate: wins ? Math.floor((wins/paticipate.length) * 100) : 0
+     };
+      teamsList.push(Object.assign({}, team.toJSON(), stats));
+    });
+    return teamsList;
+  })
 }
 
 export function getTeam(req) {
@@ -47,7 +64,7 @@ export function createTeam(data) {
   return team.save();
 }
 
-export function changeTeam(req) {
+export function changeTeam(req, user) {
   if (!user.isAdmin) {
     return new Promise(function (resolve, reject) {
       reject({

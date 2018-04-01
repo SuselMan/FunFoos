@@ -13,11 +13,15 @@ const Meeting = Backbone.Model.extend({
     this.options = options;
   },
   defaults: {
-    owner: null,
     date: null,
     place: null,
     host: null,
-    guest: null
+    guest: null,
+    owner: null, //owner is division
+    score: null,
+    penaltyScore: null,
+    approved: false,
+    winner: null,
   },
 
   update() {

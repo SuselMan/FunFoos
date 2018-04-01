@@ -57,6 +57,16 @@ const Game = Backbone.Model.extend({
     return false;
   },
 
+  getWinner(){
+    if (this.get('hostScore0') >= maxScore || this.get('hostScore1') >= maxScore) {
+      return [this.get('hostPlayer0'), this.get('hostPlayer1')];
+    }
+    if (this.get('guestScore0') >= maxScore || this.get('guestScore1') >= maxScore) {
+      return [this.get('guestPlayer0'), this.get('guestPlayer1')];
+    }
+    return null;
+  },
+
   isHostFilled() {
     if (this.get('type') === 1) {
       if (this.get('hostPlayer0')) {

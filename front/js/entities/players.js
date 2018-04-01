@@ -28,7 +28,10 @@ const Player = Backbone.Model.extend({
 
 const Players = Backbone.Collection.extend({
   url: '/api/players',
-  model: Player
+  model: Player,
+  comparator (item){
+    return -1 * item.get('winRate');
+  }
 });
 
 export default Players;

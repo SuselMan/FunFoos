@@ -2,7 +2,7 @@
 .done {
 
   &.sign-up {
-    height: 55px;
+    height: 65px;
   }
   &.big-header {
     height: 140px;
@@ -41,7 +41,7 @@
     background-repeat: no-repeat;
     background-position: 50% bottom;
     width: 40px;
-    height: 60px;
+    height: 65px;
     top: -3px;
     position: relative;
     //TODO: make svg logo and add better styles for it
@@ -118,7 +118,9 @@
       top: 10px;
       left: 30px;
       position: relative;
-      //TODO: make svg logo and add better styles for it
+      background-size: 59px;
+      background-position-y: 19px;
+      //TODO: make svg logo and add more better styles for it
     }
   }
 }

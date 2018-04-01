@@ -8,7 +8,10 @@ import * as db from '../utils/DataBaseUtils';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  db.listTeams(req).then(data => res.send(data));
+  db.listMeetings(req)
+    .then((meetings) => {
+      db.listTeams(req, meetings).then(data => res.send(data));
+    });
 });
 
 router.get('/:id', (req, res) => {
@@ -37,6 +40,7 @@ router.post('/', (req, res) => {
 // });
 
 router.put('/:id', (req, res) => {
+  console.log('put');
   db.checkSession(req.session.user.id)
     .then((user) => {
         return db.changeTeam(req, user)

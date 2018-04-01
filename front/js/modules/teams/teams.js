@@ -72,8 +72,14 @@ const TeamsLayout = Marionette.View.extend({
   events: {
     'click @ui.createTeamBtn': 'createTeam'
   },
+  initialize() {
+    this.user = channelGlobal.request('get:user');
+  },
 
   onRender() {
+    if(!this.user || !this.user.get('isAdmin')){
+      this.ui.createTeamBtn.hide();
+    }
     this.collection.fetch()
       .then(() => {
         this.showChildView('listRegion', new TeamsView({
@@ -87,7 +93,7 @@ const TeamsLayout = Marionette.View.extend({
   },
 
   createTeam() {
-    channelGlobal.trigger('modal:show', { view: 'newTeam', user: this.model });
+    channelGlobal.trigger('modal:show', { view: 'newTeam', user: this.user });
   }
 
 });

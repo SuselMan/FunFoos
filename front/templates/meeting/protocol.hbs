@@ -10,26 +10,26 @@
 <div class="js-gamesRegion protocol"></div>
 <div class="errors js-errors"></div>
 <div class="result">
-    <div class="score js-hostScore">0</div>
-    <button type="button" class="btn btn-lg btn-primary js-approve" disabled>Пенальти</button>
     <div class="score js-guestScore">0</div>
+    <button type="button" class="btn btn-lg btn-primary js-addPenalty" disabled>+ Пенальти</button>
+    <div class="score js-hostScore">0</div>
 </div>
 
 <div class="js-penaltyRegion protocol"></div>
 
 <div class='result admin-meeting js-adminMeeting'}>
-    <div class="score js-hostScore approve">
-        <button class="btn">
+    <div class="score js-hostWon approve">
+        <button class="btn btn-info">
             <span class="checked hidden"}> <span>Победил {{guestName}}
         </button>
     </div>
-    <div class="score js-guestScore approve">
-        <button class="btn">
+    <div class="score js-draw approve">
+        <button class="btn btn-warning">
             <span class="checked hidden"}> <span>Ничья
         </button>
     </div>
-    <div class="score js-guestScore approve">
-        <button class="btn">
+    <div class="score js-guestWon approve">
+        <button class="btn btn-info">
             <span class="checked hidden"}> <span>Победил {{hostName}}
         </button>
     </div>

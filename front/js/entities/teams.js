@@ -31,7 +31,10 @@ const Team = Backbone.Model.extend({
 
 const Teams = Backbone.Collection.extend({
   url: '/api/teams',
-  model: Team
+  model: Team,
+  comparator (item){
+    return -1 * item.get('winRate');
+  }
 });
 
 export default Teams;

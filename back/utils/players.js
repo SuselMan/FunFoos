@@ -42,11 +42,34 @@ export function changePlayer(req, user) {
 }
 
 
-export function listPlayers(req) {
+export function listPlayers(req, games) {
   if (req.query.owner) {
     return Player.find({owner: req.query.owner})
   }
-  return Player.find();
+
+  return Player.find().then((players) => {
+    const playersList = [];
+    players.forEach((player) => {
+      const paticipate = games.filter((game) => {
+        return game.hostPlayer0 === player._id || game.hostPlayer1 === player._id || game.guestPlayer0 === player._id || game.guestPlayer1 === player._id;
+      });
+      const wins = paticipate.filter((game) => {
+          console.log('game', game.winner);
+          return game.winner && (game.winner[0] === player._id || game.winner[1] === player._id)
+      }).length;
+      const loses = paticipate.filter((game) => {
+        return game.winner && game.winner[0] !== player._id && game.winner[1] !== player._id;
+      }).length;
+      const stats = {
+        wins,
+        loses,
+        score: wins- loses,
+        winRate: wins ? Math.floor((wins/paticipate.length) * 100) : 0
+      };
+      playersList.push(Object.assign({}, player.toJSON(), stats));
+    });
+    return playersList;
+  });
 }
 
 export function createPlayer(data, user) {

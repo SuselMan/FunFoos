@@ -35,6 +35,9 @@ export default Marionette.View.extend({
   },
 
   onRender() {
+    if(!this.user || !this.user.get('isAdmin')){
+        this.ui.addTeamBtn.hide();
+    }
     this.registeredTeams.fetch({ data: { division: this.model.id } })
       .then(() => {
         this.showChildView('teamsList', new TeamsView({ collection: this.registeredTeams }));

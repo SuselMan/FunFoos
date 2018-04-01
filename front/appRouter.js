@@ -15,7 +15,7 @@ const routes = {
   'subseason(/:id)': 'subseasonWindow',
   'user(/)': 'userWindow',
   'seasons(/)': 'seasonsWindow',
-  'meetings(/)': 'meetingsWindow',
+  // 'meetings(/)': 'meetingsWindow',
   'meeting(/:id)': 'meetingWindow',
   '(/)': 'index'
 };

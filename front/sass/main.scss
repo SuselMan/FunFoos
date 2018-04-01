@@ -31,10 +31,15 @@ body {
   }
 }
 
-
 @media (min-width: 768px) {
   .container {
     max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
   }
 }
 
@@ -64,7 +69,7 @@ body {
 .nav {
   &.main {
     right: 10px;
-    top: 5px;
+    top: 11px;
     position: absolute;
   }
 }
@@ -170,4 +175,8 @@ body {
 .modal-body {
   height: 80%;
   overflow: scroll;
+}
+
+.admin-login-button{
+  display: none;
 }

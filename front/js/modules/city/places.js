@@ -60,6 +60,7 @@ export default Marionette.CollectionView.extend({
   initialize(options) {
     this.options = options;
     this.childViewOptions = options;
+    this.user = channelGlobal.request('get:user');
     this.render();
   },
 
@@ -68,6 +69,8 @@ export default Marionette.CollectionView.extend({
     channelGlobal.on('place:created', () => {
       this.collection.fetch({ data: { city: this.options.city.id } });
     });
-    this.addChildView(new ButtonView({ city: this.options.city }), 0);
+    if(this.user && this.user.get('isAdmin')){
+      this.addChildView(new ButtonView({ city: this.options.city }), 0);
+    }
   }
 });
