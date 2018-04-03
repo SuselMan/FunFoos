@@ -6,9 +6,13 @@
 @import "./settings.scss";
 @import "./mixins.scss";
 @import "./views/*";
-
+@import "./views/modals/*";
 @import "./widgets/*";
 
+@font-face {
+  font-family: "FuturaBook";
+  src: url(/front/fonts/FuturaBookC.woff) format("woff");
+}
 
 body {
   background-color: $soft-white;
@@ -33,11 +37,7 @@ body {
   }
 }
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
+
 
 .app-contanier, .app {
   position: fixed;
