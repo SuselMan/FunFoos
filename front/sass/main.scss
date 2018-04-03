@@ -4,15 +4,14 @@
 @import "~pikaday/scss/pikaday";
 @import "~flatpickr/dist/flatpickr.min.css";
 @import "./settings.scss";
-//@import "./mixins.scss";
-//@import "./views/*";
-//@import "./views/modals/*";
-//@import "./widgets/*";
-//
-//@font-face {
-//  font-family: "FuturaBook";
-//  src: url(/front/fonts/FuturaBookC.woff) format("woff");
-//}
+@import "./mixins.scss";
+@import "./views/*";
+@import "./widgets/*";
+
+@font-face {
+  font-family: "FuturaBook";
+  src: url(/front/fonts/FuturaBookC.woff) format("woff");
+}
 
 body {
   background-color: $soft-white;
