@@ -34,7 +34,7 @@
     "handlebars-loader": "^1.6.0",
     "import-glob-loader": "^1.1.0",
     "json-loader": "^0.5.7",
-    "node-sass": "^3.13.1",
+    "node-sass": "^4.8.3",
     "resolve-url-loader": "^1.6.0",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.2",
