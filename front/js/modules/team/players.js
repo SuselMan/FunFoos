@@ -75,10 +75,13 @@ const PlayersView = Marionette.CollectionView.extend({
 
   initialize(options) {
     this.options = options;
+    this.user = channelGlobal.request('get:user');
   },
 
   onRender() {
-    this.addChildView(new ButtonView({ team: this.options.team }), 0);
+    if(this.user && this.user.get('isAdmin')){
+      this.addChildView(new ButtonView({ team: this.options.team }), 0);
+    }
   }
 });
 

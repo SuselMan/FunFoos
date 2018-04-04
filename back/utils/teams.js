@@ -46,7 +46,7 @@ export function getTeam(req) {
   });
 }
 
-export function createTeam(data) {
+export function createTeam(data, user) {
   if (!user.isAdmin) {
     return new Promise(function (resolve, reject) {
       reject({

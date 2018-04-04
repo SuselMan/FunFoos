@@ -21,7 +21,7 @@ const TeamLayout = Marionette.View.extend({
   template: require('../../../templates/team/team.hbs'),
 
   ui: {
-    select: 'js-seasonSelector'
+    // select: 'js-seasonSelector'
   },
 
   regions: {
@@ -45,18 +45,7 @@ const TeamLayout = Marionette.View.extend({
       channelGlobal.on('image:selected', this.callImageCropper.bind(this));
     }
     this.players = new Players();
-    this.meetings = new Meetings();
     this.showChildView('playersRegion', new Players({ model: this.model, owner: this.model.id }));
-    this.showChildView('meetingsRegion', new Meetings({
-      owner: this.model.id,
-      teamsCollection: this.options.collection
-    }));
-
-    this.seasons = new Seasons();
-    this.seasons.fetch({ data: { state: 1 } })
-      .then(() => {
-        this.createSeasonSelector();
-      });
   },
 
   callImageCropper(image) {
@@ -69,21 +58,6 @@ const TeamLayout = Marionette.View.extend({
       .then(() => {
         this.showChildView('logoRegion', new LogoView({ model: this.model }));
       });
-  },
-
-  createSeasonSelector() {
-    const options = this.seasons.models;
-    for (let i = 0; i < options.length; i++) {
-      const option = document.createElement('option');
-      option.innerText = options[i].get('name');
-      option.setAttribute('value', options[i].id);
-      document.querySelector('#js-seasonSelector').appendChild(option);
-    }
-    document.querySelector('#js-seasonSelector').onchange = this.selectSeason.bind(this);
-  },
-
-  selectSeason(e) {
-    this.model.save({ season: e.target.value });
   },
 
   showLogo(url) {

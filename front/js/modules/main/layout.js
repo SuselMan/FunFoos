@@ -41,7 +41,7 @@ const channelGlobal = Radio.channel('global');
 
 const Layout = Marionette.View.extend({
   template: require('../../../templates/main/layout.hbs'),
-  className: 'app',
+  className: 'app done',
 
   regions: {
     contentRegion: '.js-contentRegion',
