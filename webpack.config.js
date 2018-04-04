@@ -66,8 +66,7 @@ module.exports = {
                 include: /fonts/,
                 loader: 'url-loader',
                 options: {
-                    limit: 50000,
-                    name: 'resourses/[name].[ext]'
+                    name: '[name].[ext]'
                 }
             },
         ]
