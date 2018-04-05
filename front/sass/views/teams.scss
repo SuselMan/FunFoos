@@ -10,10 +10,10 @@
     border-bottom: 1px $light-gray-shadow solid;
     .image {
       cursor: pointer;
-      flex-basis: 50px;
+      flex-basis: 60px;
       flex-grow:0;
-      width: 50px;
-      min-width: 50px;
+      width: 60px;
+      min-width: 60px;
     }
 
     &:not(.table-header) {
@@ -24,7 +24,7 @@
         }
       }
       .image {
-        height: 50px;
+        height: 60px;
         background-image: url(../images/empty_team.jpg);
         background-size: 100%;
         background-repeat: no-repeat;

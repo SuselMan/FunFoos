@@ -10,9 +10,9 @@
     border-bottom: 1px $light-gray-shadow solid;
     .image {
       cursor: pointer;
-      flex-basis: 50px;
-      width: 50px;
-      min-width: 50px;
+      flex-basis: 60px;
+      flex-grow: 0;
+      min-width: 60px;
     }
 
     &:not(.table-header) {
@@ -23,7 +23,7 @@
         }
       }
       .image {
-        height: 50px;
+        height: 60px;
         background-image: url(../images/empty_avatar.jpg);
         background-size: 100%;
         background-repeat: no-repeat;
@@ -33,62 +33,43 @@
     .name {
       cursor: pointer;
       flex-basis: 140px;
-      width: 140px;
+      flex-grow: 1;
       min-width: 140px;
-      padding-left: 15px;
-
-    }
-    .short-name {
-      flex-basis: 60px;
-      width: 60px;
-      min-width: 60px;
+      padding: 15px;
 
     }
     .wins {
-      flex-basis: 80px;
-      width: 80px;
-      min-width: 80px;
+      flex-basis: 50px;
+      flex-grow: 1;
+      min-width: 50px;
       color: $success-color;
       text-align: center;
+      padding: 15px;
     }
     .fails {
-      flex-basis: 80px;
-      width: 80px;
-      min-width: 80px;
+      flex-basis: 50px;
+      padding: 15px;
+      flex-grow: 1;
+      min-width: 50px;
       color: $dark-color;
       text-align: center;
     }
 
     .win-rate {
-      flex-basis: 80px;
-      width: 80px;
-      min-width: 80px;
+      flex-basis: 50px;
+      padding: 15px;
+      flex-grow: 1;
+      min-width: 50px;
       text-align: center;
     }
 
     .score {
       flex-basis: 50px;
-      width: 50px;
+      flex-grow: 1;
       min-width: 50px;
+      padding: 15px;
       color: $brend-blue-light;
       text-align: center;
-    }
-    .settings{
-      flex-grow: 1;
-      display: flex;
-      justify-content: flex-end;;
-      .icon{
-        background-image: url(../images/settings.png);
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: 50% top;
-        flex-basis: 25px;
-        width: 25px;
-        min-width: 25px;
-        &:hover{
-          background-color: $light-gray-shadow;
-        }
-      }
     }
   }
   .table-header {
@@ -104,6 +85,45 @@
           opacity: 1;
         }
       }
+    }
+  }
+}
+
+@media screen and (min-resolution: 2dppx) {
+  .players {
+    li, .table-header {
+      .image {
+        cursor: pointer;
+        flex-basis: 150px;
+        width: 150px;
+        min-width: 150px;
+      }
+
+      &:not(.table-header) {
+        .image {
+          height: 150px;
+        }
+      }
+    }
+  }
+
+}
+
+@media (max-width: 1000px) {
+  li, .table-header {
+    &:not(.table-header) {
+      .short-name {
+        display: none;
+      }
+      .win-rate {
+        display: none;
+      }
+    }
+    .short-name {
+      display: none;
+    }
+    .win-rate {
+      display: none;
     }
   }
 }
