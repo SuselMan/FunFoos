@@ -1,6 +1,6 @@
 {
-  "apiPrefix": "http://localhost:8080",
-  "serverPort": "8080",
+  "apiPrefix": "foos.live",
+  "serverPort": "80",
   "db":{
     "name": "funfoos",
     "sessions": "sessions",
