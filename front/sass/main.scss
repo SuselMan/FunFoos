@@ -181,3 +181,13 @@ body {
 .admin-login-button{
   display: none;
 }
+
+@media screen and (min-resolution: 2dppx) {
+  .small-header {
+    height: 100px;
+    .nav {
+      top: 10px;
+      position: absolute;
+    }
+  }
+}
