@@ -48,24 +48,24 @@
       min-width: 60px;
     }
     .wins {
-      flex-basis: 80px;
+      flex-basis: 50px;
       flex-grow:1;
-      min-width: 80px;
+      min-width: 50px;
       color: $success-color;
       text-align: left;
     }
     .fails {
-      flex-basis: 80px;
+      flex-basis: 50px;
       flex-grow:1;
-      min-width: 80px;
+      min-width: 50px;
       color: $dark-color;
       text-align: left;
     }
 
     .win-rate {
-      flex-basis: 80px;
+      flex-basis: 50px;
       flex-grow:1;
-      min-width: 80px;
+      min-width: 50px;
       text-align: left;
     }
 
