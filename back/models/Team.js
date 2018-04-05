@@ -9,7 +9,6 @@ const Schema = mongoose.Schema;
 const TeamSchema = new Schema({
     name     : { type: String,required: true, unique: true },
     shortName     : { type: String,required: true },
-    owner  : { type: Number}, // it is user
     image  : { type: String},
     divisions: {type: Array},
     division: {type: Number}
