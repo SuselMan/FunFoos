@@ -39,13 +39,14 @@
       flex-basis: 140px;
       flex-grow:1;
       min-width: 140px;
-      padding-left: 15px;
+      padding: 15px;
 
     }
     .short-name {
       flex-basis: 60px;
       flex-grow:1;
       min-width: 60px;
+      padding: 15px;
     }
     .wins {
       flex-basis: 50px;
@@ -53,6 +54,7 @@
       min-width: 50px;
       color: $success-color;
       text-align: left;
+      padding: 15px;
     }
     .fails {
       flex-basis: 50px;
@@ -60,6 +62,7 @@
       min-width: 50px;
       color: $dark-color;
       text-align: left;
+      padding: 15px;
     }
 
     .win-rate {
@@ -67,6 +70,7 @@
       flex-grow:1;
       min-width: 50px;
       text-align: left;
+      padding: 15px;
     }
 
     .score {
@@ -75,24 +79,7 @@
       min-width: 50px;
       color: $brend-blue-light;
       text-align: left;
-    }
-    .settings{
-      flex-grow: 1;
-      display: flex;
-      justify-content: flex-end;;
-      .icon{
-        display: none;
-        background-image: url(../images/settings.png);
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: 50% top;
-        flex-basis: 25px;
-        flex-grow:0;
-        min-width: 25px;
-        &:hover{
-          background-color: $light-gray-shadow;
-        }
-      }
+      padding: 15px;
     }
   }
   .table-header {
