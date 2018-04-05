@@ -57,8 +57,7 @@ export function createTeam(data, user) {
   }
   const team = new Team({
     name: data.name,
-    shortName: data.shortName,
-    owner: data.owner
+    shortName: data.shortName
   });
 
   return team.save();
