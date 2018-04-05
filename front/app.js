@@ -22,6 +22,7 @@ const App = Marionette.Application.extend({
   },
 
   getCurrentRoute() {
+    console.log('Backbone.history.fragment', Backbone.history.fragment);
     return Backbone.history.fragment;
   }
 
